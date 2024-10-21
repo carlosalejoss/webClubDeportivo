@@ -1,0 +1,14 @@
+model Reserva {
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    precio      Float?
+    fecha       DateTime
+    nombrePista String
+    pista       Pista    @relation(fields: [nombrePista], references: [nombre])
+}
+
+model Pista {
+    nombre String @id
+
+    clasesAsisgnadas Clase[]
+    reservas         Reserva[]
+}
