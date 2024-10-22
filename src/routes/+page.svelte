@@ -1,4 +1,5 @@
-<script lang="ts">
+<script>
+	import Navbar from '$lib/components/navbar.svelte';
 </script>
 
-<button class="btn btn-primary"> Button </button>
+<Navbar />
