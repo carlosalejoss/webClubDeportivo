@@ -1,4 +1,4 @@
 <script lang="ts">
 </script>
 
-<h1>Test</h1>
+<button class="btn btn-primary"> Button </button>
