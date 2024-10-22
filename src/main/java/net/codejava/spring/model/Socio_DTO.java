@@ -23,6 +23,7 @@ public class Socio_DTO {
         this.correo = correo;
         this.IBAN = iban;
         this.CP = cp;
+        this.userId = null;
     }
 
     public void setNombre(String n){

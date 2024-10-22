@@ -7,9 +7,7 @@ import net.codejava.spring.exceptions.*;
 
 public interface Admin_iDao {
 
-    public void insertar (Admin_DTO u) throws dataAccessExceptions;
-
-    public void modificar (Admin_DTO u) throws dataAccessExceptions;
+    public void insertarOactualizar (Admin_DTO u) throws dataAccessExceptions;
 
     public void eliminar (Admin_DTO u) throws dataAccessExceptions;
     

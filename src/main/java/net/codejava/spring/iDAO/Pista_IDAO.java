@@ -1,7 +1,6 @@
 package net.codejava.spring.iDAO;
 
 import java.util.List;
-import java.util.UUID;
 
 import net.codejava.spring.model.*;
 import net.codejava.spring.exceptions.*;

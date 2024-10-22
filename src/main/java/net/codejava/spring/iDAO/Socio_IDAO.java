@@ -7,9 +7,7 @@ import net.codejava.spring.exceptions.*;
 
 public interface Socio_IDAO {
 
-    void insertar (Socio_DTO u) throws dataAccessExceptions;
-
-    void modificar (Socio_DTO u) throws dataAccessExceptions;
+    void insertarOactualizar (Socio_DTO u) throws dataAccessExceptions;
 
     void eliminar (Socio_DTO u) throws dataAccessExceptions;
 

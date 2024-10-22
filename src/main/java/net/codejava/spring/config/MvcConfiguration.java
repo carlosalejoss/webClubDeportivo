@@ -1,12 +1,16 @@
 package net.codejava.spring.config;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.validation.Validator;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -20,6 +24,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import net.codejava.spring.dao.Admin_DAO;
+
 @Configuration
 @ComponentScan(basePackages = "net.codejava.spring")
 @EnableWebMvc
@@ -32,11 +38,27 @@ public class MvcConfiguration implements WebMvcConfigurer {
         resolver.setSuffix(".jsp");
         return resolver;
     }
-
+    
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
+    
+	@Bean
+	public DataSource getDataSource() {
+	    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	    dataSource.setDriverClassName("org.postgresql.Driver");  // Driver para PostgreSQL
+	    dataSource.setUrl("jdbc:postgresql://localhost:5432/clubesDeportivosDB");  // URL para PostgreSQL
+	    dataSource.setUsername("diegovalenzuela");  // Usuario de PostgreSQL (cámbialo si es necesario)
+	    //dataSource.setPassword("P@ssw0rd");  // Contraseña de PostgreSQL
+
+	    return dataSource;
+	}
+	
+	@Bean
+	public Admin_DAO getContactDAO() throws SQLException {
+		return new Admin_DAO(getDataSource());
+	}
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {

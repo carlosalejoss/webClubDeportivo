@@ -1,7 +1,5 @@
 package net.codejava.spring.model;
 
-import java.util.UUID;
-
 public class Pista_DTO {
     private String idenPista;
     private String tipo;
