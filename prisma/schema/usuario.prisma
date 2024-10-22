@@ -22,7 +22,7 @@ enum Rol {
 
 model Credencial {
     userId   String @id @db.Uuid
-    dni      String
+    dni      String @unique
     password String @db.VarChar(1023)
 
     usuario Usuario @relation(fields: [userId], references: [id])
