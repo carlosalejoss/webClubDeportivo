@@ -56,9 +56,8 @@ export const actions = {
 
         } catch (error) {
             if (error instanceof ZodError) {
-                // TODO: proper error handeling
                 return {
-                    error: "ZodError: " + error.toString()
+                    error: error.issues[0].message
                 }
             }
             else if (error instanceof ErrorString) {

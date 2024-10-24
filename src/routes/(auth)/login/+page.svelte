@@ -1,5 +1,8 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
+	import { CircleX } from 'lucide-svelte';
+	import type { ActionData } from './$types';
+	export let form: ActionData;
 </script>
 
 <Navbar />
@@ -13,7 +16,13 @@
 			</p>
 		</div>
 		<div class="card w-full max-w-sm shrink-0 bg-base-100 shadow-2xl">
-			<form class="card-body">
+			<form class="card-body" method="POST">
+				{#if form?.error}
+					<div class="card flex flex-row items-center gap-3 bg-rose-700 px-6 py-4 font-bold">
+						<CircleX />
+						{form.error}
+					</div>
+				{/if}
 				<div class="form-control">
 					<label class="label" for="DNI">
 						<span class="label-text">DNI</span>
@@ -38,7 +47,7 @@
 					</div>
 				</div>
 				<div class="form-control mt-6">
-					<button class="btn btn-secondary">Acceder</button>
+					<button type="submit" class="btn btn-secondary">Acceder</button>
 				</div>
 				<div class="mt-2 flex flex-col items-center">
 					<p>
