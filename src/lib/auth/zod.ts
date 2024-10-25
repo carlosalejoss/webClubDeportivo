@@ -1,5 +1,6 @@
 import { object, string } from 'zod';
 
+const TOO_SMALL_NAME = "El nombre debe contener al menos letras."
 const TOO_SMALL_PASSWORD = "La contraseña debe contener al menos 8 caracteres."
 const TOO_BIG_PASSWORD = "La contraseña no puede exceder los 128 caracteres."
 const INVALID_PHONE_NUMBER = "El numero de telefono introducido no es valido."
@@ -14,6 +15,11 @@ export const authSchema = object({
         .max(128, TOO_BIG_PASSWORD)
 }).required()
 
+export const registerSchema = object({
+    nombre: string()
+        .min(3, TOO_SMALL_NAME),
+    credentials: authSchema
+}).required()
 
 export const userSchema = object({
     nombre: string(),

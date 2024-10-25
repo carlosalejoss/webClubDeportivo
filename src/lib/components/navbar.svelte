@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Volleyball } from 'lucide-svelte';
+
+	export let account;
 </script>
 
 <div class="navbar bg-base-100 px-6">
@@ -23,6 +25,8 @@
 				</details>
 			</li> -->
 		</ul>
-		<a href="/login" class="btn btn-secondary ml-3 text-lg">Iniciar Sesión</a>
+		{#if !account}
+			<a href="/login" class="btn btn-secondary ml-3 text-lg">Iniciar Sesión</a>
+		{/if}
 	</div>
 </div>

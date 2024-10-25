@@ -4,7 +4,7 @@
 
 import { authSchema } from "$lib/auth/zod";
 import { prisma } from "$lib/db.server";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import argon from 'argon2';
 import { ZodError } from "zod";
 
@@ -16,8 +16,16 @@ class InvalidCredentialsError extends ErrorString {
     cause = "Credenciales invalidas."
 }
 
+class InvalidSessionError extends ErrorString {
+    cause = "La sesión es erronea. Por favor, actualize la pagina."
+}
+
+export const load = async ({ locals }) => {
+    return locals
+}
+
 export const actions = {
-    default: async ({ request, locals }) => {
+    default: async ({ request, cookies }) => {
         try {
             const formData = await request.formData()
 
@@ -47,14 +55,38 @@ export const actions = {
                 throw new InvalidCredentialsError();
             }
 
+            const session = cookies.get("SESSION");
+
+            if (!session) {
+                throw new InvalidSessionError();
+            }
+
             // User authenticated.
-            locals.user.id = user.userId
+            // TODO: check if this fails. It should not fail under normal circunstances
+
+            const dateToExpire = new Date(Date.now() + /* 1 hour */ 1 * 60 * 60 * 1000)
+            await prisma.session.upsert({
+                where: {
+                    sessionId: session,
+                },
+                create: {
+                    sessionId: session,
+                    usuarioId: user.userId,
+                    onboard: false, // FIXME (TODO)
+                    expiresAt: dateToExpire,
+                },
+                update: {
+                    usuarioId: user.userId,
+                    onboard: false // FIXME (TODO)
+                }
+            })
 
             return {
                 error: null
             }
 
         } catch (error) {
+            console.error(error)
             if (error instanceof ZodError) {
                 return {
                     error: error.issues[0].message

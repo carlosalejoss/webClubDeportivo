@@ -4,8 +4,9 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: {
+			user?: {
 				id: string,
+				onboarded: bool
 			}
 		}
 		// interface PageData {}

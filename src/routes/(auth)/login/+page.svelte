@@ -1,11 +1,23 @@
 <script lang="ts">
 	import Navbar from '$lib/components/navbar.svelte';
-	import { CircleX } from 'lucide-svelte';
-	import type { ActionData } from './$types';
+	import { CircleX, CircleCheck } from 'lucide-svelte';
+	import type { ActionData, PageData } from './$types';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
 	export let form: ActionData;
+	export let data: PageData;
+
+	onMount(() => {
+		if (form?.error === null) {
+			setInterval(() => {
+				goto('/');
+			}, 2000);
+		}
+	});
 </script>
 
-<Navbar />
+<Navbar account={data.user} />
 
 <div class="hero min-h-screen bg-base-200">
 	<div class="hero-content flex-col 2xl:w-full 2xl:flex-row-reverse">
@@ -21,6 +33,12 @@
 					<div class="card flex flex-row items-center gap-3 bg-rose-700 px-6 py-4 font-bold">
 						<CircleX />
 						{form.error}
+					</div>
+				{/if}
+				{#if form?.error === null}
+					<div class="card flex flex-row items-center gap-3 bg-green-700 px-6 py-4 font-bold">
+						<CircleCheck />
+						Exito. Redirigiendo a la pagina principal...
 					</div>
 				{/if}
 				<div class="form-control">

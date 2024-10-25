@@ -1,0 +1,10 @@
+model Session {
+    sessionId String   @id @db.Uuid
+    usuarioId String   @db.Uuid
+    onboard   Boolean?
+
+    createdAt DateTime @default(now())
+    expiresAt DateTime @default(now())
+
+    user Usuario @relation(fields: [usuarioId], references: [id])
+}

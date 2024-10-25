@@ -10,6 +10,7 @@ model Usuario {
     datosSocio     SocioDatos?
     clasesCreadas  Clase[]     @relation("creador")
     clasesApuntado Clase[]     @relation("alumnos")
+    sesiones       Session[]
 
     @@unique([id, dni])
 }
