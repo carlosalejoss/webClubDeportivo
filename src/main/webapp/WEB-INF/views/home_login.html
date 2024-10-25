@@ -114,13 +114,12 @@
                 
                         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Clases</a>
                         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
-                        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Hazte Socio</a> 
                     </div>
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                         <div class="flex -space-x-2">
                             <div x-data="{ openUser: false }" class="relative inline-block text-left">
-                                <button @click="openUser = !openUser" type="button" class="inline-flex justify-center rounded-full gap-x-1.5 bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100" id="user-button" aria-expanded="true" aria-haspopup="true">
-                                    <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
+                                <button @click="openUser = !openUser" type="button" class="inline-flex justify-center rounded-full gap-x-1.5 bg-white px-3 py-0 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100" id="user-button" aria-expanded="true" aria-haspopup="true">
+                                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
                                 </button>
                                 <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1">
@@ -130,7 +129,7 @@
                                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis clases</a>
                                     </div>
                                     <div class="py-1">
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                                        <a href="./home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +175,6 @@
                                     </div>
                                     <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Clases</a>
                                     <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
-                                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Hazte Socio</a>
                                 </div>
                                 <div class="py-6">
                                     <div x-data="{ openUserMov: false }" class="">
@@ -187,7 +185,7 @@
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis clases</a>
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                            <a href="./home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                         </div>
                                     </div>
                                 </div>
