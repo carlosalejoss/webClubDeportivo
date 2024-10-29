@@ -7,7 +7,6 @@ model Usuario {
     rol      Rol     @default(Usuario)
 
     credencial     Credencial?
-    datosSocio     SocioDatos?
     clasesCreadas  Clase[]     @relation("creador")
     clasesApuntado Clase[]     @relation("alumnos")
     sesiones       Session[]

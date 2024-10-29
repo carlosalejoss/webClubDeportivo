@@ -1,8 +1,0 @@
-model SocioDatos {
-    userId       String  @id @db.Uuid
-    numeroSocio  Int     @unique
-    codigoPostal String?
-    iban         String?
-
-    usuario Usuario @relation(fields: [userId], references: [id])
-}
