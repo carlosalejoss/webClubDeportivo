@@ -38,8 +38,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         }
 
         event.locals.user = {
-            id: sessionDB.usuarioId,
-            onboarded: sessionDB.onboard
+            id: sessionDB.socioId,
         }
     }();
 

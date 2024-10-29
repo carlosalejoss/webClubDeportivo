@@ -19,7 +19,7 @@ enum Rol {
 }
 
 model Credencial {
-    socioId   String @id @db.Uuid
+    socioId  String @id @db.Uuid
     dni      String @unique
     password String @db.VarChar(1023)
 

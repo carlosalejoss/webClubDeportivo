@@ -1,5 +1,5 @@
-// 1. Buscar si existe un usuario con ese DNI. => Error
-// 2. Añadir usuario
+// 1. Buscar si existe un socio con ese DNI. => Error
+// 2. Añadir socio
 // 3. onboarding?
 // Devolver error o ok.
 
@@ -17,8 +17,8 @@ class DNIExistenteError extends ErrorString {
     cause = "El DNI ya esta registrado."
 }
 
-class CrearUsuarioError extends ErrorString {
-    cause = "Se ha producido un error en la base de datos al crear el usuario. Contacte con soporte."
+class CrearSocioError extends ErrorString {
+    cause = "Se ha producido un error en la base de datos al crear el socio. Contacte con soporte."
 }
 
 export const load = async ({ locals }) => {
@@ -38,25 +38,25 @@ export const actions = {
                 })
             })
 
-            let user = await prisma.credencial.findUnique({
+            let socio = await prisma.credencial.findUnique({
                 where: {
                     dni: registerProvided.credentials.dni
                 },
                 select: {
-                    userId: false,
+                    socioId: false,
                     dni: true,
                     password: false
                 }
             })
 
-            if (user) {
+            if (socio) {
                 throw new DNIExistenteError();
             }
 
-            // Creamos usuario
+            // Creamos socio
             const passwordHash = await argon.hash(registerProvided.credentials.password)
 
-            let newUser = await prisma.usuario.create({
+            let newsocio = await prisma.socio.create({
                 data: {
                     nombre: registerProvided.nombre,
                     dni: registerProvided.credentials.dni,
@@ -69,8 +69,8 @@ export const actions = {
                 }
             })
 
-            if (!newUser) {
-                throw new CrearUsuarioError()
+            if (!newsocio) {
+                throw new CrearSocioError()
             }
 
             const session = cookies.get("SESSION");
@@ -79,19 +79,17 @@ export const actions = {
                 return redirect(302, '/login');
             }
 
-            // User created.
+            // socio created.
             await prisma.session.upsert({
                 where: {
                     sessionId: session,
                 },
                 create: {
                     sessionId: session,
-                    usuarioId: newUser.id,
-                    onboard: false
+                    socioId: newsocio.id,
                 },
                 update: {
-                    usuarioId: newUser.id,
-                    onboard: false
+                    socioId: newsocio.id,
                 }
             })
 

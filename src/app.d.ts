@@ -6,7 +6,6 @@ declare global {
 		interface Locals {
 			user?: {
 				id: string,
-				onboarded: bool
 			}
 		}
 		// interface PageData {}

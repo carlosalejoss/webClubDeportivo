@@ -1,4 +1,4 @@
-// 1. Buscar si existe un usuario con ese DNI.
+// 1. Buscar si existe un socio con ese DNI.
 // 2. Comparar contraseñas
 // Devolver error o ok.
 
@@ -34,22 +34,22 @@ export const actions = {
                 password: formData.get("password"),
             })
 
-            const user = await prisma.credencial.findUnique({
+            const socio = await prisma.credencial.findUnique({
                 where: {
                     dni: credentialsProvided.dni
                 },
                 select: {
-                    userId: true,
+                    socioId: true,
                     dni: true,
                     password: true
                 }
             })
 
-            if (!user) {
+            if (!socio) {
                 throw new InvalidCredentialsError();
             }
 
-            const samePassword = await argon.verify(user.password, credentialsProvided.password);
+            const samePassword = await argon.verify(socio.password, credentialsProvided.password);
 
             if (!samePassword) {
                 throw new InvalidCredentialsError();
@@ -61,7 +61,7 @@ export const actions = {
                 throw new InvalidSessionError();
             }
 
-            // User authenticated.
+            // socio authenticated.
             // TODO: check if this fails. It should not fail under normal circunstances
 
             const dateToExpire = new Date(Date.now() + /* 1 hour */ 1 * 60 * 60 * 1000)
@@ -71,13 +71,11 @@ export const actions = {
                 },
                 create: {
                     sessionId: session,
-                    usuarioId: user.userId,
-                    onboard: false, // FIXME (TODO)
+                    socioId: socio.socioId,
                     expiresAt: dateToExpire,
                 },
                 update: {
-                    usuarioId: user.userId,
-                    onboard: false // FIXME (TODO)
+                    socioId: socio.socioId,
                 }
             })
 
