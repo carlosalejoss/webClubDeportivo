@@ -1,10 +1,9 @@
 model Session {
     sessionId String   @id @db.Uuid
-    usuarioId String   @db.Uuid
-    onboard   Boolean?
+    socioId String   @db.Uuid
 
     createdAt DateTime @default(now())
     expiresAt DateTime @default(now())
 
-    user Usuario @relation(fields: [usuarioId], references: [id])
+    socio Socio @relation(fields: [socioId], references: [id])
 }

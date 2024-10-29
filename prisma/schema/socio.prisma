@@ -1,29 +1,27 @@
-model Usuario {
+model Socio {
     id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     nombre   String
     dni      String
     email    String?
     telefono String?
-    rol      Rol     @default(Usuario)
+    rol      Rol     @default(Socio)
 
     credencial     Credencial?
-    clasesCreadas  Clase[]     @relation("creador")
-    clasesApuntado Clase[]     @relation("alumnos")
     sesiones       Session[]
 
     @@unique([id, dni])
+    Reserva Reserva[]
 }
 
 enum Rol {
     Administrador
     Socio
-    Usuario
 }
 
 model Credencial {
-    userId   String @id @db.Uuid
+    socioId   String @id @db.Uuid
     dni      String @unique
     password String @db.VarChar(1023)
 
-    usuario Usuario @relation(fields: [userId], references: [id])
+    socio Socio @relation(fields: [socioId], references: [id])
 }
