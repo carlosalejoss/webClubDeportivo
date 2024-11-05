@@ -8,6 +8,40 @@
         <title>Sports Center Aragon</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <style>
+            .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .day {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .time-slot {
+            background-color: #e7f3fe;
+            border: 1px solid #c1e1f4;
+            border-radius: 4px;
+            margin: 5px 0;
+            padding: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .time-slot:hover {
+            background-color: #d0e7ff;
+        }
+        .reserved {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        </style>
+
     </head>
     <body>
         <!-- Cabecera -->
@@ -192,25 +226,6 @@
                     </div>
                 </div>
             </header>  
-        </div>
-
-        <div class="flex h-screen">
-            <!-- Sección izquierda con imagen -->
-            <div class="w-1/3 flex items-center justify-center">
-                <img src="./images/campof11.png" alt="Campo" class="max-h-auto max-w-40 object-cover">
-            </div>
-            
-            <!-- Sección derecha (contenido adicional) -->
-            <div class="w-1/3 flex items-center justify-center">
-                <!-- Aquí puedes agregar contenido para la parte derecha -->
-                <h2 class="text-2xl font-semibold text-gray-800">Contenido en la margen central</h2>
-            </div>
-
-            <!-- Sección derecha (contenido adicional) -->
-            <div class="w-1/3 flex items-center justify-center">
-                <!-- Aquí puedes agregar contenido para la parte derecha -->
-                <h2 class="text-2xl font-semibold text-gray-800">Contenido en la margen derecha</h2>
-            </div>
         </div>
         
 
