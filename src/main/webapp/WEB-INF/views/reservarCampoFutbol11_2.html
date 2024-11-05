@@ -229,10 +229,82 @@
         </div>
         
 
-        <!-- Contenido -->
+        <!-- Calendario -->
         <div>
-            
+            <div class="calendar pt-[250px]">
+                <div class="day">
+                    <h2>Lunes</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Martes</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Miércoles</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Jueves</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Viernes</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Sábado</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+                <div class="day">
+                    <h2>Domingo</h2>
+                    <div class="time-slot" data-time="09:00">09:00</div>
+                    <div class="time-slot" data-time="10:00">10:00</div>
+                    <div class="time-slot" data-time="11:00">11:00</div>
+                    <div class="time-slot" data-time="12:00">12:00</div>
+                    <div class="time-slot" data-time="13:00">13:00</div>
+                </div>
+            </div>
         </div>
+
+        <!-- Alerta reservas -->
+
+        <script>
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.addEventListener('click', function() {
+                    if (!this.classList.contains('reserved')) {
+                        alert('Reservaste la hora: ' + this.getAttribute('data-time'));
+                        this.classList.add('reserved');
+                    } else {
+                        alert('Esta hora ya está reservada.');
+                    }
+                });
+            });
+        </script>
         
         <!-- Pie de Pagina -->
         <footer class="bg-gray-800 text-white py-8 mt-20">
