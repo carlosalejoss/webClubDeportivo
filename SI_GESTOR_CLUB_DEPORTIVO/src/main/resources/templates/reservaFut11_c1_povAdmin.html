@@ -55,9 +55,66 @@
                 background-color: #cce5ff;  /* Azul claro para horas seleccionadas */
                 border-color: #80b3ff;
             }
+            .calendar-icon {
+                font-size: 2rem;
+                color: #4f46e5;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                justify-content: center;
+                align-items: center;
+            }
+            .modal-content {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                max-width: 400px;
+                width: 100%;
+                text-align: center;
+                font-family: Arial, sans-serif;
+            }
+            .week-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                border-bottom: 1px solid #e0e0e0;
+                font-size: 1rem;
+            }
+            .close-modal {
+                cursor: pointer;
+                background-color: #4f46e5;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
         </style>
     </head>
     <body>
+
+        <!-- Ícono de calendario -->
+        <div class="calendar-icon" onclick="openModal()" style="position: absolute; top: 80px; right: 20px;">
+            📅
+        </div>
+
+        <!-- Modal del calendario de semanas -->
+        <div class="modal" id="weekModal">
+            <div class="modal-content">
+                <h2>Semanas del Mes</h2>
+                <div id="weeks"></div>
+                <button class="close-modal" onclick="closeModal()">Cerrar</button>
+            </div>
+        </div>
         
         <!-- Cabecera -->
         <div x-data="{ isOpen: false }">
@@ -361,6 +418,58 @@
         <script>
             let selectedSlot = null;  // Variable para almacenar la franja horaria seleccionada
 
+            function openModal() {
+        document.getElementById("weekModal").style.display = "flex";
+        generateWeeks();
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        document.getElementById("weekModal").style.display = "none";
+    }
+
+    // Función para generar las semanas del mes actual
+    function generateWeeks() {
+        const weeksContainer = document.getElementById("weeks");
+        weeksContainer.innerHTML = ""; // Limpia el contenido previo
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let currentDay = 1;
+
+        // Generar semanas hasta cubrir todos los días del mes
+        while (currentDay <= daysInMonth) {
+            const startOfWeek = new Date(year, month, currentDay);
+
+            // Calcular el fin de semana (domingo)
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            // Asegurarnos de que el fin de la semana no exceda el último día del mes
+            if (endOfWeek.getDate() > daysInMonth) {
+                endOfWeek.setDate(daysInMonth);
+            }
+
+            // Formatear las fechas
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const startFormatted = startOfWeek.toLocaleDateString('es-ES', options);
+            const endFormatted = endOfWeek.toLocaleDateString('es-ES', options);
+
+            // Crear una fila de semana
+            const weekRow = document.createElement("div");
+            weekRow.classList.add("week-row");
+            weekRow.textContent = `Del ${startFormatted} al ${endFormatted}`;
+
+            // Agregar la fila al contenedor de semanas
+            weeksContainer.appendChild(weekRow);
+
+            // Avanzar al siguiente lunes
+            currentDay += 7;
+        }
+    }
             // Seleccionar las franjas horarias
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.addEventListener('click', function() {
