@@ -112,7 +112,7 @@
                             </div>
                         </div>
                 
-                        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
+                        <a href="sobreNosotros_povUser.html" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
                     </div>
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                         <div class="flex -space-x-2">
@@ -125,7 +125,7 @@
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                                         <a href="datosCuenta_povUser.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
                                         <a href="misReservas_povUser.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
-                                        <a href="home_admin_povadmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cambiar a Admin</a>
+                                        <a href="home_povAdmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cambiar a Admin</a>
                                     </div>
                                     <div class="py-1">
                                         <a href="/src/main/webapp/WEB-INF/views/user/home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
@@ -172,7 +172,7 @@
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
                                         </div>
                                     </div>
-                                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                    <a href="sobreNosotros_povUser.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
                                 </div>
                                 <div class="py-6">
                                     <div x-data="{ openUserMov: false }" class="">
@@ -180,10 +180,10 @@
                                             <img class="h-7 w-7 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
                                         </button>
                                         <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2" id="disclosure-2">
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
-                                            <a href="./home_admin_povadmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Admin</a>
-                                            <a href="./home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                            <a href="datosCuenta_povUser.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="misReservas_povUser.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="home_povAdmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Admin</a>
+                                            <a href="../user/home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                         </div>
                                     </div>
                                 </div>
