@@ -24,7 +24,7 @@
         }
         .day h2 {
             font-size: 1.2em;
-            margin-bottom: 15px; /* Aumenta este valor según sea necesario */
+            margin-bottom: 20px; /* Aumenta este valor según sea necesario */
             text-align: center;
         }
         .time-slot {
@@ -233,17 +233,22 @@
             </header>  
         </div>
         
-        <!-- Foto y bienvenida -->
-        <div class="flex flex-col justify-center px-6 py-4 lg:px-8 pt-[120px]">
-            <h2 class="mt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Reservas Fútbol 11 - Campo 1</h2>
+        <!-- Campo a reservar -->
+        <div class="flex flex-col justify-center px-6 py-4 lg:px-8 pt-[100px]">
+            <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Fútbol 11 - Campo 1</h2>
         </div>
         <div class="flex flex-col justify-center px-6 py-4 lg:px-96 ">
-            <div class="mx-auto mt-6 grid grid-cols-4 gap-0 border-t border-gray-300 pt-4 sm:mx-0 sm:max-w-full lg:grid-cols-4"></div>
+            <div class="mx-auto mt-1 grid grid-cols-4 gap-0 border-t border-gray-300 pt-2 sm:mx-0 sm:max-w-full lg:grid-cols-4"></div>
+        </div>
+
+        <!-- Texto selccionar hora -->
+        <div class="flex flex-col justify-center px-6 py-4 lg:px-8 ">
+            <h2 class="mt-auto text-center text-xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Seleccione la hora que quiere reservar</h2>
         </div>
 
         <!-- Calendario -->
         <div>
-            <div class="calendar pt-[250px]">
+            <div class="calendar">
                 <div class="day">
                     <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
                     <div class="time-slot" data-time="09:00">09:00</div>
