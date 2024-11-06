@@ -9,70 +9,69 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <style>
-        .calendar-container {
-            max-width: 1300px; /* Ajusta este valor según el tamaño deseado */
-            margin: 0 auto; /* Centra el contenedor en la página */
-            padding: 20px; /* Añade espacio alrededor del calendario */
-        }
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-top: 20px;
-        }
-        .day {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .day h2 {
-            font-size: 1.2em;
-            margin-bottom: 20px; /* Aumenta este valor según sea necesario */
-            text-align: center;
-        }
-        .time-slot {
-            background-color: #e7f3fe;
-            border: 1px solid #c1e1f4;
-            border-radius: 4px;
-            margin: 2px 0;
-            padding: 3px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .time-slot:hover {
-            background-color: #d0e7ff;
-        }
-        .reserved {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        .time-slot.selected {
-            background-color: #cce5ff;  /* Azul claro para horas seleccionadas */
-            border-color: #80b3ff;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #218838;
-        }
+            .calendar-container {
+                max-width: 1300px; /* Ajusta este valor según el tamaño deseado */
+                margin: 0 auto; /* Centra el contenedor en la página */
+                padding: 20px; /* Añade espacio alrededor del calendario */
+            }
+            .calendar {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+                margin-top: 20px;
+            }
+            .day {
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .day h2 {
+                font-size: 1.2em;
+                margin-bottom: 20px; /* Aumenta este valor según sea necesario */
+                text-align: center;
+            }
+            .time-slot {
+                background-color: #e7f3fe;
+                border: 1px solid #c1e1f4;
+                border-radius: 4px;
+                margin: 2px 0;
+                padding: 3px 5px;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .time-slot:hover {
+                background-color: #d0e7ff;
+            }
+            .reserved {
+                background-color: #f8d7da;
+                border: 1px solid #f5c6cb;
+                color: #721c24;
+            }
+            .time-slot.selected {
+                background-color: #cce5ff;  /* Azul claro para horas seleccionadas */
+                border-color: #80b3ff;
+            }
+            button {
+                padding: 10px 20px;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #218838;
+            }
 
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
+            button:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
         </style>
-
     </head>
     <body>
         <!-- Cabecera -->
@@ -188,12 +187,12 @@
                                 <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
-                                        <a href="./home_admin_povadmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin</a>
+                                        <a href="misReservas_povAdmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
+                                        <a href="datosCuenta_povAdmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
+                                        <a href="home_povUser.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cambiar a User</a>
                                     </div>
                                     <div class="py-1">
-                                        <a href="./home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                                        <a href="../user/home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                                     </div>
                                 </div>
                             </div>
@@ -245,10 +244,10 @@
                                             <img class="h-7 w-7 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
                                         </button>
                                         <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2" id="disclosure-2">
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
-                                            <a href="./home_admin_povadmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Admin</a>
-                                            <a href="./home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                            <a href="datosCuenta_povAdmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="misReservas_povAdmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="home_povUser.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a User</a>
+                                            <a href="../user/home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                         </div>
                                     </div>
                                 </div>
@@ -258,7 +257,7 @@
                 </div>
             </header>  
         </div>
-        
+
         <!-- Campo a reservar -->
         <div class="flex flex-col justify-center px-6 py-4 lg:px-8 pt-[100px]">
             <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Fútbol 11 - Campo 1</h2>
