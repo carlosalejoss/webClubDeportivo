@@ -123,12 +123,12 @@
                                 <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
-                                        <a href="./home_povUser.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">User</a>
+                                        <a href="misReservas_povAdmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
+                                        <a href="datosCuenta_povAdmin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
+                                        <a href="home_povUser.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cambiar a User</a>
                                     </div>
                                     <div class="py-1">
-                                        <a href="/src/main/webapp/WEB-INF/views/user/home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                                        <a href="../user/home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
                                     </div>
                                 </div>
                             </div>
@@ -180,10 +180,10 @@
                                             <img class="h-7 w-7 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
                                         </button>
                                         <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2" id="disclosure-2">
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
-                                            <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
-                                            <a href="./home_povUser.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">User</a>
-                                            <a href="src/main/webapp/WEB-INF/views/admin/images" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                            <a href="datosCuenta_povAdmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="misReservas_povAdmin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="home_povUser.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a User</a>
+                                            <a href="../user/home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                         </div>
                                     </div>
                                 </div>
