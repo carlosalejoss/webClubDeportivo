@@ -194,10 +194,53 @@
             </header>  
         </div>
 
+        <!-- Contenido -->
+        <div class="pt-16 pb-20">
+            <div class="container mx-auto px-6 py-10 max-w-3xl">
+                <h1 class="text-2xl font-semibold mb-4">Mis Reservas</h1>
+                
+                <!-- Contenedor de Reservas -->
+                <div id="reservas-container">
+                    <!-- Plantilla de reserva -->
+                    <!-- Esta sección se llenará dinámicamente -->
+                </div>
+        
+                <!-- Mensaje en caso de no tener reservas -->
+                <p id="no-reservas" class="text-center text-gray-500 hidden">No tienes reservas futuras.</p>
+            </div>
+        </div>
 
-
-
-
+        <script>
+            // Ejemplo de datos de reservas (Esto normalmente vendría de una API o base de datos)
+            const reservas = [
+                { id: 1, fecha: "2024-12-05", hora: "12:00 - 13:00", actividad: "Fútbol 11", ubicacion: "Campo 1" },
+                { id: 2, fecha: "2024-11-20", hora: "12:00 - 13:00", actividad: "Baloncesto", ubicacion: "Cancha 2" },
+                { id: 3, fecha: "2023-10-10", hora: "12:00 - 13:00", actividad: "Padel", ubicacion: "Cancha 4" }
+            ];
+        
+            const reservasContainer = document.getElementById("reservas-container");
+            const noReservas = document.getElementById("no-reservas");
+            const today = new Date().toISOString().split('T')[0];  // Fecha actual
+        
+            // Filtrar reservas futuras y del usuario actual
+            const reservasFuturas = reservas.filter(reserva => reserva.fecha > today);
+        
+            if (reservasFuturas.length > 0) {
+                reservasFuturas.forEach(reserva => {
+                    const reservaElement = document.createElement("div");
+                    reservaElement.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "mb-4");
+                    reservaElement.innerHTML = `
+                        <h2 class="text-xl font-semibold">${reserva.actividad}</h2>
+                        <p class="text-gray-600">Fecha: ${reserva.fecha}</p>
+                        <p class="text-gray-600">Hora: ${reserva.hora}</p>
+                        <p class="text-gray-600">Ubicación: ${reserva.ubicacion}</p>
+                    `;
+                    reservasContainer.appendChild(reservaElement);
+                });
+            } else {
+                noReservas.classList.remove("hidden");
+            }
+        </script>
 
         <!-- Pie de Pagina -->
         <footer class="bg-gray-800 text-white py-8 mt-20">
