@@ -10,12 +10,13 @@
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
     <body>
+        
         <!-- Cabecera -->
         <div x-data="{ isOpen: false }">
             <header class="bg-white fixed top-0 w-full z-10 shadow-lg">
                 <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div class="flex lg:flex-1">
-                        <a href="#" class="-m-1.5 p-1.5">
+                        <a href="home_login.html" class="-m-1.5 p-1.5">
                             <span class="sr-only">Your Company</span>
                             <img class="transform scale-150 h-8 w-auto" src="./images/logo.png" alt="">
                         </a>
@@ -112,7 +113,7 @@
                             </div>
                         </div>
                 
-                        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
+                        <a href="sobreNosotros_login.html" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
                     </div>
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                         <div class="flex -space-x-2">
@@ -123,7 +124,7 @@
                                 <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <a href="datosUsuario.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
+                                        <a href="datosCuenta.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
                                         <a href="misReservas.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
                                     </div>
                                     <div class="py-1">
@@ -141,7 +142,7 @@
                     <div x-show="isOpen" class="fixed inset-0 z-10" @click="isOpen = false"></div>
                     <div x-show="isOpen" x-transition class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                         <div class="flex items-center justify-between">
-                            <a href="#" class="-m-1.5 p-1.5">
+                            <a href="home_login.html" class="-m-1.5 p-1.5">
                                 <span class="sr-only">Your Company</span>
                                 <img class="transform scale-150 h-8 w-auto" src="./images/logo.png" alt="">
                             </a>
@@ -171,7 +172,7 @@
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
                                         </div>
                                     </div>
-                                    <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                    <a href="sobreNosotros_login.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
                                 </div>
                                 <div class="py-6">
                                     <div x-data="{ openUserMov: false }" class="">
@@ -179,7 +180,7 @@
                                             <img class="h-7 w-7 rounded-full ring-2 ring-white" src="./images/icon.png" alt="">
                                         </button>
                                         <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2" id="disclosure-2">
-                                            <a href="datosUsuario.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="datosCuenta.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
                                             <a href="misReservas.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
                                             <a href="home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                         </div>
