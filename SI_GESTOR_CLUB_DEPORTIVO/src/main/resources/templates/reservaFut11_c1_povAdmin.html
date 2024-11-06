@@ -103,7 +103,7 @@
     <body>
 
         <!-- Ícono de calendario -->
-        <div class="calendar-icon" onclick="openModal()" style="position: absolute; top: 80px; right: 20px;">
+        <div class="calendar-icon" onclick="openModal()" style="position: absolute; top: 120px; right: 40px;">
             📅
         </div>
 
@@ -318,6 +318,9 @@
 
         <!-- Calendario -->
         <div class="calendar-container">
+            <div class="week-indicator text-center font-semibold text-gray-700 mt-4">
+                Semana Actual: Semana <span id="current-week"></span>
+            </div>
             <div>
                 <div class="calendar">
                     <div class="day">
@@ -519,6 +522,19 @@
                     messageBox.textContent = 'Esta hora ya está reservada.';
                     messageBox.style.color = '#dc3545';  // Rojo para error
                 }
+            });
+
+            function getCurrentWeek() {
+                const now = new Date();
+                const start = new Date(now.getFullYear(), 0, 1);
+                const diff = (now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60000));
+                const oneWeek = 604800000; // Milisegundos en una semana
+                const week = Math.floor(diff / oneWeek);
+                return week + 1; // Sumamos 1 para que empiece en 1, no en 0
+            }
+    
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('current-week').innerText = getCurrentWeek();
             });
         </script>
         
