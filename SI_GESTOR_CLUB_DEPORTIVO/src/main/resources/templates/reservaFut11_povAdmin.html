@@ -10,7 +10,7 @@
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <style>
             .calendar-container {
-                max-width: 1300px; /* Ajusta este valor según el tamaño deseado */
+                max-width: 1400px; /* Ajusta este valor según el tamaño deseado */
                 margin: 0 auto; /* Centra el contenedor en la página */
                 padding: 20px; /* Añade espacio alrededor del calendario */
             }
@@ -281,7 +281,8 @@
                 <div class="calendar">
                     <div class="day">
                         <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
-                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="07:00">07:00 - 08:30</div>
+                        <div class="time-slot" data-time="09:00">08:30</div>
                         <div class="time-slot" data-time="10:00">10:00</div>
                         <div class="time-slot" data-time="11:00">11:00</div>
                         <div class="time-slot" data-time="12:00">12:00</div>
@@ -340,8 +341,14 @@
         </div>
 
         <!-- Botón de confirmación de reserva -->
-        <div style="text-align: center; margin-top: 20px;">
+        <!--<div style="text-align: center; margin-top: 20px;">
             <button id="confirm-btn" style="display: none;">Confirmar Reserva</button>
+        </div> -->
+
+        <div class="text-center">   
+            <div class="mt-10 flex items-center justify-center gap-x-6" style="text-align: center; margin-top: 20px;">
+                <button id="confirm-btn" href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="display: none;">Confirmar Reserva</button>
+            </div>
         </div>
 
         <!-- Alerta reservas -->
