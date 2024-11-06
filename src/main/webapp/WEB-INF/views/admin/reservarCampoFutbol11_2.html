@@ -9,10 +9,15 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <style>
+        .calendar-container {
+            max-width: 1300px; /* Ajusta este valor según el tamaño deseado */
+            margin: 0 auto; /* Centra el contenedor en la página */
+            padding: 20px; /* Añade espacio alrededor del calendario */
+        }
         .calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+            gap: 5px;
             margin-top: 20px;
         }
         .day {
@@ -31,8 +36,8 @@
             background-color: #e7f3fe;
             border: 1px solid #c1e1f4;
             border-radius: 4px;
-            margin: 5px 0;
-            padding: 5px;
+            margin: 2px 0;
+            padding: 3px 5px;
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -271,69 +276,72 @@
         <div id="message" style="text-align: center; color: #28a745; margin-top: 20px;"></div>
 
         <!-- Calendario -->
-        <div>
-            <div class="calendar">
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Martes</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Miércoles</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Jueves</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Viernes</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Sábado</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
-                </div>
-                <div class="day">
-                    <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Domingo</h2>
-                    <div class="time-slot" data-time="09:00">09:00</div>
-                    <div class="time-slot" data-time="10:00">10:00</div>
-                    <div class="time-slot" data-time="11:00">11:00</div>
-                    <div class="time-slot" data-time="12:00">12:00</div>
-                    <div class="time-slot" data-time="13:00">13:00</div>
+         <div class="calendar-container">
+            <div>
+                <div class="calendar">
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Martes</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Miércoles</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Jueves</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Viernes</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Sábado</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
+                    <div class="day">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Domingo</h2>
+                        <div class="time-slot" data-time="09:00">09:00</div>
+                        <div class="time-slot" data-time="10:00">10:00</div>
+                        <div class="time-slot" data-time="11:00">11:00</div>
+                        <div class="time-slot" data-time="12:00">12:00</div>
+                        <div class="time-slot" data-time="13:00">13:00</div>
+                    </div>
                 </div>
             </div>
-        </div>
+         </div>
+        
 
-         <!-- Botón de confirmación de reserva -->
-         <div style="text-align: center; margin-top: 20px;">
+        <!-- Botón de confirmación de reserva -->
+        <div style="text-align: center; margin-top: 20px;">
             <button id="confirm-btn" style="display: none;">Confirmar Reserva</button>
         </div>
 
