@@ -1,5 +1,5 @@
 -- Tabla principal de usuarios, que incluye los identificadores únicos
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS usuario (
     id SERIAL PRIMARY KEY
 );
 
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS socio (
     dni VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     contraseña VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
 -- Tabla para los administradores
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS administrador (
     dni VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     contraseña VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
 -- Tabla para las pistas
@@ -42,18 +42,18 @@ CREATE TABLE IF NOT EXISTS reserva (
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE,
     FOREIGN KEY (pista_id) REFERENCES pista (id) ON DELETE CASCADE
 );
 
 -- Insertar administradores iniciales
-INSERT INTO user DEFAULT VALUES;
+INSERT INTO usuario DEFAULT VALUES;
 INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, contraseña)
-VALUES ((SELECT MAX(id) FROM user), 'Carlos', 'Alejos Fumanal', '123456789', '11111111A', 'admin1@club.com', 'adminpass1');
+VALUES ((SELECT MAX(id) FROM usuario), 'Carlos', 'Alejos Fumanal', '123456789', '11111111A', 'admin1@club.com', 'adminpass1');
 
-INSERT INTO user DEFAULT VALUES;
+INSERT INTO usuario DEFAULT VALUES;
 INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, contraseña)
-VALUES ((SELECT MAX(id) FROM user), 'Diego', 'Valenzuela Saz', '987654321', '22222222B', 'admin2@club.com', 'adminpass2');
+VALUES ((SELECT MAX(id) FROM usuario), 'Diego', 'Valenzuela Saz', '987654321', '22222222B', 'admin2@club.com', 'adminpass2');
 
 -- Insertar pistas
 INSERT INTO pista (nombre, tipo) VALUES ('Pista 1 Baloncesto', 'Baloncesto');
