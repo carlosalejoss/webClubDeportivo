@@ -23,7 +23,7 @@ public class RegistrarseController {
 	@GetMapping("/")
 	public String homeNoLogin() {
 		// Retornar la vista donde se mostrará la noticia con las imágenes
-		return "homeNoLogin";  // Vista que mostrará la noticia con las imágenes
+		return "home_nologin";  // Vista que mostrará la noticia con las imágenes
 	}
 
 	@RequestMapping(value = "/newSocio", method = RequestMethod.GET)
