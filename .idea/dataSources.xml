@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="sisinf@localhost" uuid="e6be39ad-8479-4d76-af1d-7d996634e976">
+    <data-source source="LOCAL" name="sca@localhost" uuid="20afaa6e-e40b-4821-bf5b-bb511a5fecdb">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/sisinf</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/sca</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
