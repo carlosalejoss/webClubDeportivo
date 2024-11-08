@@ -1,23 +1,36 @@
 package org.example.si_gestor_club_deportivo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Constructor vacío para JPA
-    public Usuario() {}
+    @Column(nullable = false)
+    private String nombre;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private String apellidos;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String telefono;
+
+    @Column(unique = true, nullable = false)
+    private String dni;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(name = "es_admin", nullable = false)
+    private boolean esAdmin;
+
+    // Getters y Setters
 }

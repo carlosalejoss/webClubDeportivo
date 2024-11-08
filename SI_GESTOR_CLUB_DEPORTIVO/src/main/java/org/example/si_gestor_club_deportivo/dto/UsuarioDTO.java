@@ -1,15 +1,14 @@
 package org.example.si_gestor_club_deportivo.dto;
 
 public class UsuarioDTO {
-    private Long userId;
 
-    public UsuarioDTO() {}
+    private Long id;
+    private String nombre;
+    private String apellidos;
+    private String telefono;
+    private String dni;
+    private String email;
+    private boolean esAdmin;
 
-    public UsuarioDTO(Long userId) {
-        this.userId = userId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
+    // Getters y Setters
 }
