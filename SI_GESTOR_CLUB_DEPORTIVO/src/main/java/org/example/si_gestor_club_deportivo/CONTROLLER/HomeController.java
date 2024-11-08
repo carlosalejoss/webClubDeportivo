@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "home_nologin"; // Asegúrate de tener un archivo `index.html` en `src/main/resources/templates`
+        return "home"; // Asegúrate de tener un archivo `index.html` en `src/main/resources/templates`
     }
 }
 
