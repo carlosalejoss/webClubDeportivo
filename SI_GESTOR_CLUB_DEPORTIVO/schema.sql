@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     dni VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
-    es_admin BOOLEAN NOT NULL
+    esAdmin BOOLEAN NOT NULL
 );
 
 -- Tabla para las pistas
