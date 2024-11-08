@@ -13,11 +13,22 @@ public class Socio {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Usuario usuario;
 
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private String apellidos;
+
+    @Column(unique = true, nullable = false)
     private String telefono;
+
+    @Column(unique = true, nullable = false)
     private String dni;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     // Constructor vacío para JPA

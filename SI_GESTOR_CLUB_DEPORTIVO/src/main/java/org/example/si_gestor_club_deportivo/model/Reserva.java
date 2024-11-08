@@ -17,7 +17,7 @@ public class Reserva {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "pista_id", referencedColumnName = "id")
+    @JoinColumn(name = "pista_nombre", referencedColumnName = "nombre")
     private Pista pista;
 
     private LocalDate fecha;

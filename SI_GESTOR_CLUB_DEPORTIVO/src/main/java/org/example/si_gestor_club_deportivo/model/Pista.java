@@ -6,7 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "pista")
 public class Pista {
 
+    @Id
+    @Column(nullable = false, unique = true)
     private String nombre;
+
+    @Column(nullable = false)
     private String tipo;
 
     // Constructor vacío para JPA
