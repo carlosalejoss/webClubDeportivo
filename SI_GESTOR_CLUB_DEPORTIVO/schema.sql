@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS socio (
     telefono VARCHAR(15),
     dni VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    contraseña VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
@@ -23,14 +23,13 @@ CREATE TABLE IF NOT EXISTS administrador (
     telefono VARCHAR(15),
     dni VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    contraseña VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
 -- Tabla para las pistas
 CREATE TABLE IF NOT EXISTS pista (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(100) PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL
 );
 
@@ -38,21 +37,21 @@ CREATE TABLE IF NOT EXISTS pista (
 CREATE TABLE IF NOT EXISTS reserva (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    pista_id INT NOT NULL,
+    pista_nombre INT NOT NULL,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE,
-    FOREIGN KEY (pista_id) REFERENCES pista (id) ON DELETE CASCADE
+    FOREIGN KEY (pista_nombre) REFERENCES pista (nombre) ON DELETE CASCADE
 );
 
 -- Insertar administradores iniciales
 INSERT INTO usuario DEFAULT VALUES;
-INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, contraseña)
+INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, password)
 VALUES ((SELECT MAX(id) FROM usuario), 'Carlos', 'Alejos Fumanal', '123456789', '11111111A', 'admin1@club.com', 'adminpass1');
 
 INSERT INTO usuario DEFAULT VALUES;
-INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, contraseña)
+INSERT INTO administrador (user_id, nombre, apellidos, telefono, dni, email, password)
 VALUES ((SELECT MAX(id) FROM usuario), 'Diego', 'Valenzuela Saz', '987654321', '22222222B', 'admin2@club.com', 'adminpass2');
 
 -- Insertar pistas
