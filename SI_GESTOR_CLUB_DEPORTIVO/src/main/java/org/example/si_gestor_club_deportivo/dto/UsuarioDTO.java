@@ -5,8 +5,8 @@ public class UsuarioDTO {
 
     public UsuarioDTO() {}
 
-    public UsuarioDTO(Long id) {
-        this.userId = id;
+    public UsuarioDTO(Long userId) {
+        this.userId = userId;
     }
 
     public long getUserId() {
