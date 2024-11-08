@@ -1,18 +1,18 @@
-package org.example.si_gestor_club_deportivo.CONTROLLER;
+package org.example.si_gestor_club_deportivo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.example.si_gestor_club_deportivo.DAO.Socio_DAO;
-import org.example.si_gestor_club_deportivo.DTO.Socio_DTO;
+import org.example.si_gestor_club_deportivo.repository.SocioRepository;
+import org.example.si_gestor_club_deportivo.dto.SocioDTO;
 
 @Controller
 public class RegistrarseController {
 
 	@Autowired
-	private Socio_DAO socioDAO;
+	private SocioRepository socioDAO;
 
 	/*@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView homeNoLogin(ModelAndView model) {
@@ -28,14 +28,14 @@ public class RegistrarseController {
 
 	@RequestMapping(value = "/newSocio", method = RequestMethod.GET)
 	public ModelAndView newSocio(ModelAndView model) {
-		Socio_DTO newSocio = new Socio_DTO();
+		SocioDTO newSocio = new SocioDTO();
 		model.addObject("socio", newSocio);
 		model.setViewName("home_login");
 		return model;
 	}
 
 	@RequestMapping(value = "/saveSocio", method = RequestMethod.POST)
-	public ModelAndView saveSocio(@ModelAttribute("socio") Socio_DTO socio) {
+	public ModelAndView saveSocio(@ModelAttribute("socio") SocioDTO socio) {
 		socioDAO.insertarOactualizar(socio);
 		return new ModelAndView("redirect:/home_login");
 	}
