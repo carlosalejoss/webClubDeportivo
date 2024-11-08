@@ -41,8 +41,13 @@ public class UsuarioService {
         return usuarioRepository.findAllByEsAdmin(false);
     }
 
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
     // Getter for usuarioRepository
     public UsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
+
 }
