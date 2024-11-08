@@ -118,7 +118,7 @@
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                         <div class="flex -space-x-2">
                             <div x-data="{ openUser: false }" class="relative inline-block text-left">
-                                <button @click="openUser = !openUser" type="button" class="inline-flex justify-center rounded-full gap-x-1.5 bg-white px-3 py-0 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100" id="user-button" aria-expanded="true" aria-haspopup="true">
+                                <button @click="openUser = !openUser" type="button" class="inline-flex justify-center rounded-full gap-x-1.5 bg-white px-3 py-0 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100">
                                     <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="/icon.png" alt="">
                                 </button>
                                 <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -164,7 +164,7 @@
                                             </svg>
                                         </button>
                                         <!-- 'Product' sub-menu, show/hide based on menu state. -->
-                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" id="disclosure-1">
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" >
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
