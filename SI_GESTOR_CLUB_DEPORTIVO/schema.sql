@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS reserva (
 );
 
 -- Insertar administradores iniciales
-INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, es_admin)
+INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, esAdmin)
 VALUES ('Carlos', 'Alejos Fumanal', '123456789', '11111111A', 'admin1@club.com', 'adminpass1', TRUE);
 
-INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, es_admin)
+INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, esAdmin)
 VALUES ('Diego', 'Valenzuela Saz', '987654321', '22222222B', 'admin2@club.com', 'adminpass2', TRUE);
 
-INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, es_admin)
+INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, esAdmin)
 VALUES ('Victor', 'Martinez Paramo', '123123123', '33333333C', 'socio1@club.com', 'sociopass1', FALSE);
 
 -- Insertar pistas
