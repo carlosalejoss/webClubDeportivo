@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "administrador")
-public class Admin {
+public class Administrador {
 
     @Id
     private Long userId;
@@ -21,7 +21,7 @@ public class Admin {
     private String password;
 
     // Constructor vacío para JPA
-    public Admin() {}
+    public Administrador() {}
 
     // Getters y Setters
     public Long getUserId() {
@@ -80,11 +80,11 @@ public class Admin {
         this.email = email;
     }
 
-    public String getpassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setpassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
