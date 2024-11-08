@@ -40,4 +40,9 @@ public class UsuarioService {
     public List<Usuario> obtenerUsuariosNormales() {
         return usuarioRepository.findAllByEsAdmin(false);
     }
+
+    // Getter for usuarioRepository
+    public UsuarioRepository getUsuarioRepository() {
+        return usuarioRepository;
+    }
 }
