@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String home() {
         return "home"; // Asegúrate de tener un archivo `index.html` en `src/main/resources/templates`
-    }
+    }*/
 }
 
