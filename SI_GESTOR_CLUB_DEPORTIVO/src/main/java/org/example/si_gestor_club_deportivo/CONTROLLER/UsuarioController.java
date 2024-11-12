@@ -1,9 +1,11 @@
 package org.example.si_gestor_club_deportivo.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.si_gestor_club_deportivo.dto.UsuarioDTO;
 import org.example.si_gestor_club_deportivo.model.Usuario;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,4 +50,6 @@ public class UsuarioController {
     public List<Usuario> obtenerUsuariosNormales() {
         return usuarioService.obtenerUsuariosNormales();
     }
+
+
 }
