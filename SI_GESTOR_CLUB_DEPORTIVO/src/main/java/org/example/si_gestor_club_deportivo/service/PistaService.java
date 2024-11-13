@@ -50,6 +50,6 @@ public class PistaService {
 
 
     public List<Pista> obtenerPistasPorTipo(String tipo) {
-        return pistaRepository.findById(tipo);
+        return pistaRepository.findByTipo(tipo);
     }
 }
