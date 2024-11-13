@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pistas")
@@ -65,7 +66,7 @@ public class PistaController {
 
     @GetMapping("/eleccion")
     public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        Optional<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
         model.addAttribute("pistas", pistas);
         model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
         return "eleccionCampo";
