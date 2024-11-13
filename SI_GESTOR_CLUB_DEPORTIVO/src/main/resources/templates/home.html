@@ -32,7 +32,7 @@
                 </div>
 
                 <!-- Mostrar opciones para usuarios no logueados -->
-                <div th:if="${session.loggedUser == null}" class="hidden lg:flex-1 lg:gap-x-12 lg:justify-center">
+                <div th:if="${session.loggedUser == null}" class="hidden lg:flex lg:gap-x-12 lg:justify-center">
                     <div x-data="{ openReserva: false }" class="relative">
                         <button @click="openReserva = !openReserva" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
                             Reservar
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <a href="/sobreNosotros" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
-                    <a hret="/registrarse" class="text-sm font-semibold leading-6 text-gray-900">Hazte Socio</a>
+                    <a href="/registrarse" class="text-sm font-semibold leading-6 text-gray-900">Hazte Socio</a>
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                         <a href="/iniciar_sesion" class="text-sm font-semibold leading-6 text-gray-900">Log In <span aria-hidden="true">&rarr;</span></a>
                     </div>
