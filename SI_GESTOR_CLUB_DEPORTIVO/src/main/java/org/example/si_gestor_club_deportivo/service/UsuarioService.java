@@ -12,9 +12,14 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
+    }
+
+    public void registrarUsuario(Usuario usuario) {
+        usuarioRepository.save(usuario);
     }
 
     public List<Usuario> obtenerTodosLosUsuarios() {

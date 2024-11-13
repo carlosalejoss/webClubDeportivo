@@ -5,7 +5,9 @@ import org.example.si_gestor_club_deportivo.model.Usuario;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -102,6 +104,42 @@ public class HomeController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @PostMapping("/registrarse")
+    public String registrarse(
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam String nombre,
+            @RequestParam String apellidos,
+            @RequestParam String telefono,
+            @RequestParam String dni,
+            HttpSession session,
+            Model model) {
+
+        // Verificar si el usuario ya existe
+        if (usuarioService.findByEmail(email) != null) {
+            model.addAttribute("error", "El email ya está registrado.");
+            return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        // Crear el nuevo usuario
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setEmail(email);
+        nuevoUsuario.setPassword(password); // Asegúrate de encriptar la contraseña antes de guardarla
+        nuevoUsuario.setNombre(nombre != null ? nombre : ""); // Valores opcionales o vacíos
+        nuevoUsuario.setApellidos(apellidos != null ? apellidos : "");
+        nuevoUsuario.setTelefono(telefono != null ? telefono : "");
+        nuevoUsuario.setDni(dni != null ? dni : "");
+        nuevoUsuario.setEsAdmin(false); // Por defecto, no es administrador
+
+        // Guardar el usuario en la base de datos
+        usuarioService.registrarUsuario(nuevoUsuario);
+
+        // Iniciar sesión para el usuario recién registrado
+        session.setAttribute("usuario", nuevoUsuario);
+
+        return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
 }
