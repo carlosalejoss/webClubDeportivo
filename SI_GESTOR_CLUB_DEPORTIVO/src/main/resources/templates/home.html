@@ -17,7 +17,7 @@
                 <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <!-- Logo -->
                     <div class="flex lg:flex-1">
-                        <a href="/home" class="-m-1.5 p-1.5">
+                        <a href="/inicio" class="-m-1.5 p-1.5">
                             <span class="sr-only">Your Company</span>
                             <img class="transform scale-150 h-8 w-auto" src="/logo.png" alt="Logo">
                         </a>
@@ -49,7 +49,7 @@
                                             </svg>
                                         </div>
                                         <div class="flex-auto">
-                                            <a href="/reservar" class="block font-semibold text-gray-900">
+                                            <a href="/eleccionCampo" class="block font-semibold text-gray-900">
                                                 Futbol 11
                                                 <span class="absolute inset-0"></span>
                                             </a>
@@ -455,6 +455,160 @@
                         </div>
                     </div>
                 </nav>
+
+                <!-- Mobile menu, show/hide based on menu open state. -->
+                <div class="lg:hidden" role="dialog" aria-modal="true">
+                    <!-- Background backdrop, show/hide based on slide-over state. -->
+                    <div x-show="isOpen" class="fixed inset-0 z-10" @click="isOpen = false"></div>
+                    <div x-show="isOpen" x-transition class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                        <div class="flex items-center justify-between">
+                            <a href="/inicio" class="-m-1.5 p-1.5">
+                                <span class="sr-only">Your Company</span>
+                                <img class="transform scale-150 h-8 w-auto" src="../static/logo.png" alt="">
+                            </a>
+                            <button @click="isOpen = false" type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                                <span class="sr-only">Close menu</span>
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="mt-6 flow-root">
+
+                            <div th:if="${session.loggedUser == null}" class="-my-6 divide-y divide-gray-500/10">
+                                <div class="space-y-2 py-6">
+                                    <div x-data="{ openResMov: true }" class="-mx-3">
+                                        <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
+                                            Reservar
+                                            <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2">
+                                            <a href="/eleccionCampoFut11" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
+                                            <a href="/eleccionCampoFut7" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
+                                            <a href="/eleccionCampoBasket" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
+                                            <a href="/eleccionCampoTenis" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tenis</a>
+                                            <a href="/eleccionCampoPadel" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
+                                        </div>
+                                    </div>
+                                    <a href="sobreNosotros_nologin.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                    <a href="registrarse.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Hazte Socio</a>
+                                </div>
+                                <div class="py-6">
+                                    <a href="iniciarSesion.html" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
+                                </div>
+                            </div>
+
+                            <div th:if="${session.loggedUser != null && session.isAdmin == null}" class="-my-6 divide-y divide-gray-500/10">
+                                <div class="space-y-2 py-6">
+                                    <div x-data="{ openResMov: true }" class="-mx-3">
+                                        <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
+                                            Reservar
+                                            <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" >
+                                            <a href="/eleccionCampoFut11" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
+                                            <a href="/eleccionCampoFut7" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
+                                            <a href="/eleccionCampoBasket" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
+                                            <a href="/eleccionCampoTenis" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tenis</a>
+                                            <a href="/eleccionCampoPadel" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
+                                        </div>
+                                    </div>
+                                    <a href="/sobreNosotros" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                </div>
+                                <div class="py-6">
+                                    <div x-data="{ openUserMov: false }" class="">
+                                        <button @click="openUserMov = !openUserMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-2" aria-expanded="false">
+                                            <img class="h-7 w-7 rounded-full ring-2 ring-white" src="/icon.png" alt="">
+                                        </button>
+                                        <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2">
+                                            <a href="/datosCuenta" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="/misReservas" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="/logout" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${session.loggedUser != null && session.viewAsAdmin != null}" class="-my-6 divide-y divide-gray-500/10">
+                                <div class="space-y-2 py-6">
+                                    <div x-data="{ openResMov: true }" class="-mx-3">
+                                        <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
+                                            Reservar
+                                            <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" >
+                                            <a href="/eleccionCampoFut11" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
+                                            <a href="/eleccionCampoFut7" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
+                                            <a href="/eleccionCampoBasket" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
+                                            <a href="/eleccionCampoTenis" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tenis</a>
+                                            <a href="/eleccionCampoPadel" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
+                                        </div>
+                                    </div>
+                                    <a href="/sobreNosotros" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                </div>
+                                <div class="py-6">
+                                    <div x-data="{ openUserMov: false }" class="">
+                                        <button @click="openUserMov = !openUserMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-2" aria-expanded="false">
+                                            <img class="h-7 w-7 rounded-full ring-2 ring-white" src="/icon.png" alt="">
+                                        </button>
+                                        <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2">
+                                            <a href="/datosCuenta" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="/misReservas" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="/inicio" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">PovAdmin</a>
+                                            <a href="/logout" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${session.loggedUser != null && session.viewAsAdmin != null}" class="-my-6 divide-y divide-gray-500/10">
+                                <div class="space-y-2 py-6">
+                                    <div x-data="{ openResMov: true }" class="-mx-3">
+                                        <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
+                                            Reservar
+                                            <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" >
+                                            <a href="/eleccionCampoFut11" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
+                                            <a href="/eleccionCampoFut7" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
+                                            <a href="/eleccionCampoBasket" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
+                                            <a href="/eleccionCampoTenis" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Tenis</a>
+                                            <a href="/eleccionCampoPadel" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
+                                        </div>
+                                    </div>
+                                    <a href="/sobreNosotros" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
+                                </div>
+                                <div class="py-6">
+                                    <div x-data="{ openUserMov: false }" class="">
+                                        <button @click="openUserMov = !openUserMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-2" aria-expanded="false">
+                                            <img class="h-7 w-7 rounded-full ring-2 ring-white" src="/icon.png" alt="">
+                                        </button>
+                                        <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2">
+                                            <a href="/datosCuenta" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="/misReservas" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="/inicio" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">PovUser</a>
+                                            <a href="/logout" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </header>
         </div>
 
