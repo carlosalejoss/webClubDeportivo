@@ -4,14 +4,16 @@ public class PistaDTO {
 
     private String nombre;
     private String tipo;
+    private int numero_pista;
 
     // Constructor vacío
     public PistaDTO() {}
 
     // Constructor con todos los campos
-    public PistaDTO(String nombre, String tipo) {
+    public PistaDTO(String nombre, String tipo, int numero_pista) {
         this.nombre = nombre;
         this.tipo = tipo;
+        this.numero_pista = numero_pista;
     }
 
     // Getters y Setters
@@ -30,6 +32,14 @@ public class PistaDTO {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public int getNumero_pista() {
+        return numero_pista;
+    }
+
+    public void setNumero_pista(int numero_pista) {
+        this.numero_pista = numero_pista;
     }
 
     @Override
