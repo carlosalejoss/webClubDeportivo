@@ -47,4 +47,9 @@ public class PistaService {
     public void eliminarPista(String nombre) {
         pistaRepository.deleteById(nombre);
     }
+
+
+    public List<Pista> obtenerPistasPorTipo(String tipo) {
+        return pistaRepository.findById(tipo);
+    }
 }
