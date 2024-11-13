@@ -66,7 +66,7 @@ public class PistaController {
 
     @GetMapping("/eleccion")
     public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        Optional<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
         model.addAttribute("pistas", pistas);
         model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
         return "eleccionCampo";
