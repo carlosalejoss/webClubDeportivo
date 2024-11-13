@@ -67,6 +67,11 @@ public class HomeController {
         return "reservar";
     }
 
+    @GetMapping("/sobreNosotros")
+    public String sobreNosotros(HttpSession session) {
+        return "sobreNosotros";
+    }
+
     @GetMapping("/login")
     public String login(@RequestParam String email, HttpSession session) {
         try {
