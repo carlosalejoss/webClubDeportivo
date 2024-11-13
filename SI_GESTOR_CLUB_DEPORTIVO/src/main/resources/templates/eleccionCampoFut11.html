@@ -16,7 +16,7 @@
             <header class="bg-white fixed top-0 w-full z-10 shadow-lg">
                 <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div class="flex lg:flex-1">
-                        <a href="home_nologin.html" class="-m-1.5 p-1.5">
+                        <a href="home_login.html" class="-m-1.5 p-1.5">
                             <span class="sr-only">Your Company</span>
                             <img class="transform scale-150 h-8 w-auto" src="../static/logo.png" alt="">
                         </a>
@@ -70,7 +70,7 @@
                                     <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
                                         <div class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                             <svg class="h-7 w-7 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="0.75" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                                <path d="M3 12C3 10.0017 3.65127 8.15549 4.75313 6.66208M3 12C3 13.9931 3.64785 15.8348 4.74444 17.3261M3 12H21M4.75313 6.66208C6.39201 4.4408 9.02775 3 12 3M4.75313 6.66208C5.97869 7.42812 6.97956 8.34298 7.54328 9.70393C7.84481 10.4319 8 11.2121 8 12C8 12.788 7.84481 13.5682 7.54328 14.2961C6.96816 15.6846 5.96869 16.5246 4.74444 17.3261M12 3C14.9786 3 17.6192 4.44695 19.2573 6.6763M12 3V21M12 21C9.02249 21 6.38269 19.5541 4.74444 17.3261M12 21C14.9665 21 17.5977 19.5648 19.2373 17.3509M19.2573 6.6763C20.3529 8.1672 21 10.008 21 12M19.2573 6.6763C18.0306 7.47481 17.0319 8.31521 16.4567 9.70387C16.1552 10.4318 16 11.212 16 12C16 12.7879 16.1552 13.5681 16.4567 14.2961C17.0356 15.6937 18.0451 16.4972 19.2373 17.3509M21 12C21 14.0041 20.345 15.8552 19.2373 17.3509" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M3 12C3 10.0017 3.65127 8.15549 4.75313 6.66208M3 12C3 13.9931 3.64785 15.8348 4.74444 17.3261M3 12H21M4.75313 6.66208C6.39201 4.4408 9.02775 3 12 3M4.75313 6.66208C5.97869 7.42812 6.97956 8.34298 7.54328 9.70393C7.84481 10.4319 8 11.2121 8 12C8 12.788 7.84481 13.5682 7.54328 14.2961C6.96816 15.6846 5.96869 16.5246 4.74444 17.3261M12 3C14.9786 3 17.6192 4.44695 19.2573 6.6763M12 3V21M12 21C9.02249 21 6.38269 19.5541 4.74444 17.3261M12 21C14.9665 21 17.5977 19.5648 19.2373 17.3509M19.2573 6.6763C20.3529 8.1672 21 10.008 21 12M19.2573 6.6763C18.0306 7.47481 17.0319 8.31521 16.4567 9.70387C16.1552 10.4318 16 11.212 16 12C16 12.7879 16.1552 13.5681 16.4567 14.2961C17.0356 15.6937 18.0451 16.4972 19.2373 17.3509M21 12C21 14.0041 20.345 15.8552 19.2373 17.3509" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                             </svg>
                                         </div>
                                         <div class="flex-auto">
@@ -112,12 +112,27 @@
                                 </div>
                             </div>
                         </div>
-
-                        <a href="sobreNosotros_nologin.html" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
-                        <a href="registrarse.html" class="text-sm font-semibold leading-6 text-gray-900">Hazte Socio</a>
+                
+                        <a href="sobreNosotros_login.html" class="text-sm font-semibold leading-6 text-gray-900">Sobre Nosotros</a>
                     </div>
                     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="iniciarSesion.html" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+                        <div class="flex -space-x-2">
+                            <div x-data="{ openUser: false }" class="relative inline-block text-left">
+                                <button @click="openUser = !openUser" type="button" class="inline-flex justify-center rounded-full gap-x-1.5 bg-white px-3 py-0 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100">
+                                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="../static/icon.png" alt="">
+                                </button>
+                                <div x-show="openUser" @click.outside="openUser = false" x-transition class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-200" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                    <div class="py-1">
+                                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                        <a href="datosCuenta.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ajustes de cuenta</a>
+                                        <a href="misReservas.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mis reservas</a>
+                                    </div>
+                                    <div class="py-1">
+                                        <a href="home_nologin.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar Sesión</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>           
                     </div>
                 </nav>
 
@@ -127,7 +142,7 @@
                     <div x-show="isOpen" class="fixed inset-0 z-10" @click="isOpen = false"></div>
                     <div x-show="isOpen" x-transition class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                         <div class="flex items-center justify-between">
-                            <a href="home_nologin.html" class="-m-1.5 p-1.5">
+                            <a href="home_login.html" class="-m-1.5 p-1.5">
                                 <span class="sr-only">Your Company</span>
                                 <img class="transform scale-150 h-8 w-auto" src="../static/logo.png" alt="">
                             </a>
@@ -149,7 +164,7 @@
                                             </svg>
                                         </button>
                                         <!-- 'Product' sub-menu, show/hide based on menu state. -->
-                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" id="disclosure-1">
+                                        <div x-show="openResMov" @click="openResMov = false" x-transition class="mt-2 space-y-2" >
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 11</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Futbol 7</a>
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Baloncesto</a>
@@ -157,104 +172,55 @@
                                             <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Padel</a>
                                         </div>
                                     </div>
-                                    <a href="sobreNosotros_nologin.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
-                                    <a href="registrarse.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Hazte Socio</a>
+                                    <a href="sobreNosotros_login.html" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sobre Nosotros</a>
                                 </div>
                                 <div class="py-6">
-                                    <a href="iniciarSesion.html" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
+                                    <div x-data="{ openUserMov: false }" class="">
+                                        <button @click="openUserMov = !openUserMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-2" aria-expanded="false">
+                                            <img class="h-7 w-7 rounded-full ring-2 ring-white" src="../static/icon.png" alt="">
+                                        </button>
+                                        <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2" id="disclosure-2">
+                                            <a href="datosCuenta.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
+                                            <a href="misReservas.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
+                                            <a href="home_nologin.html" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </header>
+            </header>  
         </div>
 
-        <!-- Mapa Club -->
-        <div class="flex flex-col justify-center px-6 py-12 lg:px-8 w-full h-screen pt-[150px]">
-            <div class="sm:mx-auto sm:w-full sm:max-w-none max-h-[90vh] flex items-center justify-center">
-                <img class="h-full w-auto" src="../static/mapa.png" alt="Map">
-            </div>
-        </div>
-
-        <!-- Imagenes Deportes -->
-        <div class="bg-white pt-[60px]">
-            <div class="mx-auto max-w-full px-0 lg:px-0">
-                <div class="mx-auto w-full lg:mx-0 -mt-10 flex justify-center">
-                    <img src="../static/logo.png" alt="" class="h-80 w-auto">
+        <!-- Contenido-->
+        <div class="bg-white pt-[100px]">
+            <div class="mx-auto max-w-2xl px-4 lg:px-6">
+                <div class="mx-auto w-full flex justify-center">
+                    <img src="../static/logo.png" alt="Logo" class="h-40 w-auto">   
                 </div>
-                <div class="mx-auto w-full lg:mx-0 -mt-10 flex justify-center">
-                    <h2 class="text-center text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-4xl">CLUB DE FUTBOL, TENIS, PADEL, FITNESS ... Y MUCHO MÁS</h2>
+                <div class="mx-auto w-full -mt-50 flex-col items-center mb-12 text-center">
+                    <h3 class="text-4xl font-semibold text-gray-900">Campos fútbol 11</h3>
+                    <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">Selecciona uno de los campos</p>
                 </div>
-                <div x-show="!isOpen" class="mx-auto mt-10 grid grid-cols-4 gap-0 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-full lg:grid-cols-4">
-                    <article class="flex flex-col items-center justify-center">
-                        <div class="group relative">
-                            <div class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <img src="/futbol.jpg" alt="" class="w-full">
-                            </div>
-                        </div>
-                        <div class="group relative flex justify-center items-center">
-                            <div class="mt-3 text-center text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600" style="font-family: 'Copperplate', 'Copperplate Gothic Light', sans-serif;">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    FUTBOL
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="flex flex-col items-center justify-center">
-                        <div class="group relative">
-                            <div class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <img src="../static/tenis.png" alt="" class="w-full">
-                            </div>
-                        </div>
-                        <div class="group relative flex justify-center items-center">
-                            <div class="mt-3 text-center text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600" style="font-family: 'Copperplate', 'Copperplate Gothic Light', sans-serif;">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    TENIS
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="flex flex-col items-center justify-center">
-                        <div class="group relative">
-                            <div class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <img src="../static/padel.png" alt="" class="w-full">
-                            </div>
-                        </div>
-                        <div class="group relative flex justify-center items-center">
-                            <div class="mt-3 text-center text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600" style="font-family: 'Copperplate', 'Copperplate Gothic Light', sans-serif;">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    PADEL
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="flex flex-col items-center justify-center">
-                        <div class="group relative">
-                            <div class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                <img src="../static/fitness.png" alt="" class="w-full">
-                            </div>
-                        </div>
-                        <div class="group relative flex justify-center items-center">
-                            <div class="mt-3 text-center text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600" style="font-family: 'Copperplate', 'Copperplate Gothic Light', sans-serif;">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    FITNESS
-                                </a>
-                            </div>
-                        </div>
-                    </article>
+                <div class="flex justify-center w-full space-x-6 mt-20">
+                    <div class="flex flex-col items-center flex-grow">
+                        <img src="../static/campof11.png" alt="Campo" class="h-40 w-auto">
+                        <button type="submit" class="flex w-full justify-center mt-6 rounded-md bg-indigo-600 px-3 py-1.5 text-lg font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Campo 1</button>
+                    </div>
+                    <div class="flex flex-col items-center flex-grow">
+                        <img src="../static/campof11.png" alt="Campo" class="h-40 w-auto">
+                        <button type="submit" class="flex w-full justify-center mt-6 rounded-md bg-indigo-600 px-3 py-1.5 text-lg font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Campo 2</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Pie de Pagina -->
-        <footer class="bg-gray-800 text-white py-8 mt-20">
+
+         <!-- Pie de Pagina -->
+         <footer class="bg-gray-800 text-white py-8 mt-20">
             <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-
+                
                 <div class="flex items-center">
                     <!-- Logo -->
                     <img src="../static/logo.png" alt="Logo" class="w-32">
@@ -276,9 +242,10 @@
                             <path d="M19.7828 3.91825C20.1313 3.83565 20.3743 3.75444 20.5734 3.66915C20.8524 3.54961 21.0837 3.40641 21.4492 3.16524C21.7563 2.96255 22.1499 2.9449 22.4739 3.11928C22.7979 3.29366 23 3.6319 23 3.99986C23 5.08079 22.8653 5.96673 22.5535 6.7464C22.2911 7.40221 21.9225 7.93487 21.4816 8.41968C21.2954 11.7828 20.3219 14.4239 18.8336 16.4248C17.291 18.4987 15.2386 19.8268 13.0751 20.5706C10.9179 21.3121 8.63863 21.4778 6.5967 21.2267C4.56816 20.9773 2.69304 20.3057 1.38605 19.2892C1.02813 19.0108 0.902313 18.5264 1.07951 18.109C1.25671 17.6916 1.69256 17.4457 2.14144 17.5099C3.42741 17.6936 4.6653 17.4012 5.6832 16.9832C5.48282 16.8742 5.29389 16.7562 5.11828 16.6346C4.19075 15.9925 3.4424 15.1208 3.10557 14.4471C2.96618 14.1684 2.96474 13.8405 3.10168 13.5606C3.17232 13.4161 3.27562 13.293 3.40104 13.1991C2.04677 12.0814 1.49999 10.5355 1.49999 9.49986C1.49999 9.19192 1.64187 8.90115 1.88459 8.71165C1.98665 8.63197 2.10175 8.57392 2.22308 8.53896C2.12174 8.24222 2.0431 7.94241 1.98316 7.65216C1.71739 6.3653 1.74098 4.91284 2.02985 3.75733C2.1287 3.36191 2.45764 3.06606 2.86129 3.00952C3.26493 2.95299 3.6625 3.14709 3.86618 3.50014C4.94369 5.36782 6.93116 6.50943 8.78086 7.18568C9.6505 7.50362 10.4559 7.70622 11.0596 7.83078C11.1899 6.61019 11.5307 5.6036 12.0538 4.80411C12.7439 3.74932 13.7064 3.12525 14.74 2.84698C16.5227 2.36708 18.5008 2.91382 19.7828 3.91825ZM10.7484 9.80845C10.0633 9.67087 9.12171 9.43976 8.09412 9.06408C6.7369 8.56789 5.16088 7.79418 3.84072 6.59571C3.86435 6.81625 3.89789 7.03492 3.94183 7.24766C4.16308 8.31899 4.5742 8.91899 4.94721 9.10549C5.40342 9.3336 5.61484 9.8685 5.43787 10.3469C5.19827 10.9946 4.56809 11.0477 3.99551 10.9046C4.45603 11.595 5.28377 12.2834 6.66439 12.5135C7.14057 12.5929 7.49208 13.0011 7.49986 13.4838C7.50765 13.9665 7.16949 14.3858 6.69611 14.4805L5.82565 14.6546C5.95881 14.7703 6.103 14.8838 6.2567 14.9902C6.95362 15.4727 7.65336 15.6808 8.25746 15.5298C8.70991 15.4167 9.18047 15.6313 9.39163 16.0472C9.60278 16.463 9.49846 16.9696 9.14018 17.2681C8.49626 17.8041 7.74425 18.2342 6.99057 18.5911C6.63675 18.7587 6.24134 18.9241 5.8119 19.0697C6.14218 19.1402 6.48586 19.198 6.84078 19.2417C8.61136 19.4594 10.5821 19.3126 12.4249 18.6792C14.2614 18.0479 15.9589 16.9385 17.2289 15.2312C18.497 13.5262 19.382 11.1667 19.5007 7.96291C19.51 7.71067 19.6144 7.47129 19.7929 7.29281C20.2425 6.84316 20.6141 6.32777 20.7969 5.7143C20.477 5.81403 20.1168 5.90035 19.6878 5.98237C19.3623 6.04459 19.0272 5.94156 18.7929 5.70727C18.0284 4.94274 16.5164 4.43998 15.2599 4.77822C14.6686 4.93741 14.1311 5.28203 13.7274 5.89906C13.3153 6.52904 13 7.51045 13 8.9999C13 9.28288 12.8801 9.5526 12.6701 9.74221C12.1721 10.1917 11.334 9.92603 10.7484 9.80845Z" fill="gray-400"/>
                         </svg>
                         <a href="#" class="text-gray-400 hover:text-white">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M12 2.03998C6.5 2.03998 2 6.52998 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.84998C10.44 7.33998 11.93 5.95998 14.22 5.95998C15.31 5.95998 16.45 6.14998 16.45 6.14998V8.61998H15.19C13.95 8.61998 13.56 9.38998 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C15.9164 21.5878 18.0622 20.3855 19.6099 18.57C21.1576 16.7546 22.0054 14.4456 22 12.06C22 6.52998 17.5 2.03998 12 2.03998Z" fill="gray-400"/>
-                        </svg>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2.03998C6.5 2.03998 2 6.52998 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.84998C10.44 7.33998 11.93 5.95998 14.22 5.95998C15.31 5.95998 16.45 6.14998 16.45 6.14998V8.61998H15.19C13.95 8.61998 13.56 9.38998 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C15.9164 21.5878 18.0622 20.3855 19.6099 18.57C21.1576 16.7546 22.0054 14.4456 22 12.06C22 6.52998 17.5 2.03998 12 2.03998Z" fill="gray-400"/>
+                            </svg>
+                        </a>
                     </a>
                     <a href="#" class="text-gray-400 hover:text-white">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

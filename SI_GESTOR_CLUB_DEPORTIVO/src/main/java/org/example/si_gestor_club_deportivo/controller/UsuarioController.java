@@ -1,10 +1,10 @@
 package org.example.si_gestor_club_deportivo.controller;
 
-import org.example.si_gestor_club_deportivo.dto.UsuarioDTO;
 import org.example.si_gestor_club_deportivo.model.Usuario;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -47,5 +47,12 @@ public class UsuarioController {
     @GetMapping("/usuarios")
     public List<Usuario> obtenerUsuariosNormales() {
         return usuarioService.obtenerUsuariosNormales();
+    }
+
+    @GetMapping("/detalle/{id}")
+    public String obtenerDatosUsuario(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.obtenerUsuarioPorId(id);
+        model.addAttribute("usuario", usuario);  // Añade el usuario al modelo
+        return "datosCuenta";  //Lo mandamos al html
     }
 }
