@@ -22,7 +22,27 @@ public class HomeController {
 
     @GetMapping
     public String home(HttpSession session) {
-        return "home"; // Redirige a la plantilla de inicio para usuarios logeados
+        return "home";
+    }
+
+    @GetMapping("/inicio")
+    public String inicio(HttpSession session) {
+        return "home";
+    }
+
+    @GetMapping("/iniciarSesion")
+    public String iniciarsesion(HttpSession session) {
+        return "iniciarSesion";
+    }
+
+    @GetMapping("/registrarse")
+    public String registrarse(HttpSession session) {
+        return "registrarse";
+    }
+
+    @GetMapping("/eleccionCampo")
+    public String reservar(HttpSession session) {
+        return "eleccionCampo";
     }
 
     @GetMapping("/login")
@@ -64,18 +84,4 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/iniciarSesion")
-    public String iniciarsesion(HttpSession session) {
-        return "iniciarSesion";
-    }
-
-    @GetMapping("/registrarse")
-    public String registrarse(HttpSession session) {
-        return "registrarse";
-    }
-
-    @GetMapping("/reservar")
-    public String reservar() {
-        return "reservar"; // La vista correspondiente a la pantalla de reservas
-    }
 }
