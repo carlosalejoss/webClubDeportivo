@@ -3,6 +3,10 @@ package org.example.si_gestor_club_deportivo.controller;
 import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +61,13 @@ public class PistaController {
     public ResponseEntity<Void> eliminarPista(@PathVariable String nombre) {
         pistaService.eliminarPista(nombre);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/eleccion")
+    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
+        return "eleccionCampo";
     }
 }
