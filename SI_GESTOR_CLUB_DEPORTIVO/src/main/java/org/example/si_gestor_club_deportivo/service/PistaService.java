@@ -49,7 +49,7 @@ public class PistaService {
     }
 
 
-    public Optional<Pista> obtenerPistasPorTipo(String tipo) {
-        return pistaRepository.findById(tipo);
+    public List<Pista> obtenerPistasPorTipo(String tipo) {
+        return pistaRepository.findByTipo(tipo);
     }
 }
