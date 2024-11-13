@@ -25,7 +25,7 @@ public class HomeController {
         return "home"; // Redirige a la plantilla de inicio para usuarios logeados
     }
 
-    @GetMapping("/iniciarSesion")
+    @GetMapping("/login")
     public String login(@RequestParam String email, HttpSession session) {
         try {
             Usuario usuario = usuarioService.findByEmail(email);
@@ -62,5 +62,20 @@ public class HomeController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/iniciarSesion")
+    public String iniciarsesion(HttpSession session) {
+        return "iniciarSesion";
+    }
+
+    @GetMapping("/registrarse")
+    public String registrarse(HttpSession session) {
+        return "registrarse";
+    }
+
+    @GetMapping("/reservar")
+    public String reservar() {
+        return "reservar"; // La vista correspondiente a la pantalla de reservas
     }
 }
