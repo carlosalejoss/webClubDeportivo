@@ -40,9 +40,29 @@ public class HomeController {
         return "registrarse";
     }
 
-    @GetMapping("/eleccionCampo")
-    public String reservar(HttpSession session) {
-        return "eleccionCampo";
+    @GetMapping("/eleccionCampoFut11")
+    public String eleccionCamopFut11(HttpSession session) {
+        return "reservar";
+    }
+
+    @GetMapping("/eleccionCampoFut7")
+    public String eleccionCampoFut7(HttpSession session) {
+        return "reservar";
+    }
+
+    @GetMapping("/eleccionCampoBasket")
+    public String eleccionCampoBasket(HttpSession session) {
+        return "reservar";
+    }
+
+    @GetMapping("/eleccionCampoTenis")
+    public String eleccionCampoTenis(HttpSession session) {
+        return "reservar";
+    }
+
+    @GetMapping("/eleccionCampoPadel")
+    public String eleccionCampoPadel(HttpSession session) {
+        return "reservar";
     }
 
     @GetMapping("/login")
