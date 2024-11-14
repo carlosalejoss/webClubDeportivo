@@ -72,7 +72,7 @@ public class HomeController {
         return "sobreNosotros";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestParam String email, HttpSession session) {
         try {
             Usuario usuario = usuarioService.findByEmail(email);
