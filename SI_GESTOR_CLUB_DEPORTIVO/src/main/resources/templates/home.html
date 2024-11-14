@@ -122,7 +122,7 @@
                 </div>
 
                 <!-- Mostrar opciones para socios logueados -->
-                <div th:if="${session.loggedUser != null && session.isAdmin == null}" class="hidden lg:flex lg:gap-x-12">
+                <div th:if="${session.loggedUser != null && session.loggedUser == true && session.isAdmin == null}" class="hidden lg:flex lg:gap-x-12">
                     <!-- Menú Reservar -->
                     <div class="hidden lg:flex lg:gap-x-12">
                         <div x-data="{ openReserva: false }" class="relative">
@@ -232,7 +232,7 @@
                 </div>
 
                 <!-- Mostrar opciones para administradores logueados (vista de user) -->
-                <div th:if="${session.loggedUser != null && session.viewAsAdmin == null}" class="hidden lg:flex lg:gap-x-12">
+                <div th:if="${session.loggedUser != null && session.loggedUser == true && session.viewAsAdmin == null}" class="hidden lg:flex lg:gap-x-12">
                     <!-- Menú Reservar -->
                     <div class="hidden lg:flex lg:gap-x-12">
                         <div x-data="{ openReserva: false }" class="relative">

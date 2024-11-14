@@ -144,6 +144,14 @@ public class HomeController {
         // Iniciar sesión para el usuario recién registrado
         session.setAttribute("usuario", nuevoUsuario);
 
+        // Establece los atributos de sesión en función del rol del usuario
+        session.setAttribute("loggedUser", true);
+        session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
+
+        if (nuevoUsuario.isEsAdmin()) {
+            session.setAttribute("viewAsAdmin", true);
+        }
+
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
