@@ -691,17 +691,39 @@
     <!-- Calendario -->
     <div class="calendar-container">
         <div>
+            <!--<div th:each="reserva : ${reservasSemana}">
+                <div th:class="${reserva.reservada} ? 'time-slot reserved' : 'time-slot'">
+                    <h2 th:text="${#dates.format(reserva.fecha, 'EEEE, MMMM d')}"></h2>
+                    <p th:text="${reserva.hora}"></p>
+                </div>
+            </div>-->
             <div class="calendar-container">
                 <div class="calendar">
-                    <div th:each="reserva : ${reservasSemana}">
-                        <div th:class="${reserva.reservada} ? 'time-slot reserved' : 'time-slot'">
-                            <h2 th:text="${#dates.format(reserva.fecha, 'EEEE, MMMM d')}"></h2>
-                            <p th:text="${reserva.hora}"></p>
+                    <!-- Días de la semana -->
+                    <div class="day" th:each="dia, i : ${#dates.arrayOf(#dates.createNow('MONDAY'), #dates.createNow('SUNDAY'))}">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
+                            th:text="${#dates.format(dia, 'EEEE')}">
+                        </h2>
+                        <!-- Slots de tiempo -->
+                        <div th:each="hora : ${#arrays.asList('08:00 - 09:30', '09:30 - 11:00', '11:00 - 12:30', '12:30 - 14:00', '14:00 - 15:30', '15:30 - 17:00', '17:00 - 18:30', '18:30 - 20:00', '20:00 - 21:30')}">
+
+                            <!-- Slot reservado -->
+                            <div th:if="${reservasSemana.?[r -> r.fecha == fecha and r.hora == hora] != null}"
+                                 class="time-slot reserved cursor-not-allowed text-red-500">
+                                <span th:text="${hora}"></span> (Reservado)
+                            </div>
+
+                            <!-- Slot disponible -->
+                            <div th:if="${reservasSemana.?[r -> r.fecha == fecha and r.hora == hora] == null}"
+                                 class="time-slot cursor-pointer hover:bg-blue-200">
+                                <span th:text="${hora}"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="calendar">
+
+            <!--<div class="calendar">
                 <div class="day">
                     <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
                     <div class="time-slot">08:00 - 09:30</div>
@@ -786,7 +808,7 @@
                     <div class="time-slot">18:30 - 20:00</div>
                     <div class="time-slot">20:00 - 21:30</div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 

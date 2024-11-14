@@ -2,6 +2,7 @@ package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.si_gestor_club_deportivo.model.Pista;
+import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.Usuario;
 import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.example.si_gestor_club_deportivo.service.ReservaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -21,14 +24,16 @@ public class HomeController {
 
     private final UsuarioService usuarioService;
     private final PistaService pistaService;
+    private final ReservaService reservaService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService, PistaService pistaService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService) {
         this.usuarioService = usuarioService;
         this.pistaService = pistaService;
+        this.reservaService = reservaService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String home(HttpSession session) {
         return "home";
     }
@@ -172,4 +177,26 @@ public class HomeController {
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
+    @GetMapping("/reservar")
+    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
+        // Verifica si el usuario está autenticado en la sesión
+        if (session.getAttribute("loggedUser") == null) {
+            return "redirect:/iniciarSesion";
+        }
+
+        // Obtener las fechas de inicio y fin de la semana actual
+        LocalDate hoy = LocalDate.now();
+        LocalDate inicioSemana = hoy.minusDays(hoy.getDayOfWeek().getValue() - 1);
+        LocalDate finSemana = inicioSemana.plusDays(6);
+
+        // Obtener las reservas de la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, finSemana);
+
+        // Agregar atributos al modelo para la vista
+        model.addAttribute("reservasSemana", reservasSemana);
+        model.addAttribute("inicioSemana", inicioSemana);
+        model.addAttribute("finSemana", finSemana);
+
+        return "reservar"; // Renderiza la vista `reservar.html`
+    }
 }
