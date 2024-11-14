@@ -28,7 +28,7 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "esadmin")
+    @Column(name = "esadmin", nullable = false)
     private boolean esAdmin;
 
     // Getters y Setters

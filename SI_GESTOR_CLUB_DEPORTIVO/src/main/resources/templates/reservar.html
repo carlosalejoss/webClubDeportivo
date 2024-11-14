@@ -180,7 +180,7 @@
                 </div>
 
                 <!-- Mostrar opciones para socios logueados -->
-                <div th:if="${session.loggedUser != null && session.isAdmin == null}" class="hidden lg:flex lg:gap-x-12">
+                <div th:if="${session.loggedUser} and (${session.isAdmin} == false)" class="hidden lg:flex lg:gap-x-12">
                     <!-- Menú Reservar -->
                     <div class="hidden lg:flex lg:gap-x-12">
                         <div x-data="{ openReserva: false }" class="relative">
@@ -290,7 +290,7 @@
                 </div>
 
                 <!-- Mostrar opciones para administradores logueados (vista de user) -->
-                <div th:if="${session.loggedUser != null && session.viewAsAdmin == false}" class="hidden lg:flex lg:gap-x-12">
+                <div th:if="${session.loggedUser} and (${session.viewAsAdmin == false})" class="hidden lg:flex lg:gap-x-12">
                     <!-- Menú Reservar -->
                     <div class="hidden lg:flex lg:gap-x-12">
                         <div x-data="{ openReserva: false }" class="relative">
@@ -401,7 +401,7 @@
                 </div>
 
                 <!-- Mostrar opciones para administradores logueados (vista de admin) -->
-                <div th:if="${session.loggedUser != null && session.viewAsAdmin == true}" class="hidden lg:flex lg:gap-x-12">
+                <div th:if="${session.loggedUser} and ${session.viewAsAdmin}" class="hidden lg:flex lg:gap-x-12">
                     <!-- Menú Reservar -->
                     <div class="hidden lg:flex lg:gap-x-12">
                         <div x-data="{ openReserva: false }" class="relative">
@@ -559,7 +559,7 @@
                             </div>
                         </div>
 
-                        <div th:if="${session.loggedUser != null && session.isAdmin == null}" class="-my-6 divide-y divide-gray-500/10">
+                        <div th:if="${session.loggedUser} and (${session.isAdmin} == false)" class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
                                 <div x-data="{ openResMov: true }" class="-mx-3">
                                     <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
@@ -593,7 +593,7 @@
                             </div>
                         </div>
 
-                        <div th:if="${session.loggedUser != null && session.viewAsAdmin == false}" class="-my-6 divide-y divide-gray-500/10">
+                        <div th:if="${session.loggedUser} and (${session.viewAsAdmin == false})" class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
                                 <div x-data="{ openResMov: true }" class="-mx-3">
                                     <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
@@ -628,7 +628,7 @@
                             </div>
                         </div>
 
-                        <div th:if="${session.loggedUser != null && session.viewAsAdmin == true}" class="-my-6 divide-y divide-gray-500/10">
+                        <div th:if="${session.loggedUser} and ${session.viewAsAdmin}" class="-my-6 divide-y divide-gray-500/10">
                             <div class="space-y-2 py-6">
                                 <div x-data="{ openResMov: true }" class="-mx-3">
                                     <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
