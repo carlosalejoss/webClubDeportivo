@@ -88,6 +88,7 @@ public class HomeController {
 
             if (usuario != null) {
                 // Establece los atributos de sesión en función del rol del usuario
+                session.setAttribute("usuario", usuario);
                 session.setAttribute("loggedUser", true);
                 session.setAttribute("isAdmin", usuario.isEsAdmin());
 
@@ -121,19 +122,38 @@ public class HomeController {
     }
 
     @PostMapping("/registrarse")
-    public String registrarse(
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String nombre,
-            @RequestParam String apellidos,
-            @RequestParam String telefono,
-            @RequestParam String dni,
-            HttpSession session,
-            Model model) {
+    public String registrarse(@RequestParam String email,
+                              @RequestParam String password,
+                              @RequestParam String nombre,
+                              @RequestParam String apellidos,
+                              @RequestParam String telefono,
+                              @RequestParam String dni,
+                              HttpSession session,
+                              Model model) {
 
-        // Verificar si el usuario ya existe
+        if (email == null || email.trim().isEmpty() ||
+            password == null || password.trim().isEmpty() ||
+            nombre == null || nombre.trim().isEmpty() ||
+            apellidos == null || apellidos.trim().isEmpty() ||
+            telefono == null || telefono.trim().isEmpty() ||
+            dni == null || dni.trim().isEmpty()) {
+
+            model.addAttribute("error", "Todos los campos son obligatorios.");
+            return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
         if (usuarioService.findByEmail(email) != null) {
             model.addAttribute("error", "El email ya está registrado.");
+            return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        if (usuarioService.findByDni(dni) != null) {
+            model.addAttribute("error", "El dni ya está registrado.");
+            return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        if (usuarioService.findByTelefono(telefono) != null) {
+            model.addAttribute("error", "El telefono ya está registrado.");
             return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
         }
 
@@ -156,10 +176,6 @@ public class HomeController {
         // Establece los atributos de sesión en función del rol del usuario
         session.setAttribute("loggedUser", true);
         session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
-
-        if (nuevoUsuario.isEsAdmin()) {
-            session.setAttribute("viewAsAdmin", true);
-        }
 
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
