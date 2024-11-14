@@ -48,11 +48,4 @@ public class UsuarioController {
     public List<Usuario> obtenerUsuariosNormales() {
         return usuarioService.obtenerUsuariosNormales();
     }
-
-    @GetMapping("/detalle/{id}")
-    public String obtenerDatosUsuario(@PathVariable Long id, Model model) {
-        Usuario usuario = usuarioService.obtenerUsuarioPorId(id);
-        model.addAttribute("usuario", usuario);  // Añade el usuario al modelo
-        return "datosCuenta";  //Lo mandamos al html
-    }
 }
