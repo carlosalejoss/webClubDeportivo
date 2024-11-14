@@ -85,30 +85,27 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-        try {
-            Usuario usuario = usuarioService.findByEmail(email);
 
-            if (usuario != null) {
-                if (password.equals(usuario.getPassword())) {
-                    // Establece los atributos de sesión en función del rol del usuario
-                    session.setAttribute("usuario", usuario);
-                    session.setAttribute("loggedUser", true);
-                    session.setAttribute("isAdmin", usuario.isEsAdmin());
+        Usuario usuario = usuarioService.findByEmail(email);
 
-                    if (usuario.isEsAdmin()) {
-                        session.setAttribute("viewAsAdmin", true);
-                    }
-                } else {
-                    return "iniciarSesion";
+        if (usuario != null) {
+            if (password.equals(usuario.getPassword())) {
+                // Establece los atributos de sesión en función del rol del usuario
+                session.setAttribute("usuario", usuario);
+                session.setAttribute("loggedUser", true);
+                session.setAttribute("isAdmin", usuario.isEsAdmin());
+
+                if (usuario.isEsAdmin()) {
+                    session.setAttribute("viewAsAdmin", true);
                 }
             } else {
-                System.out.println("Usuario no encontrado para el email: " + email);
-                return "redirect:/";
+                return "iniciarSesion";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/";
+        } else {
+            System.out.println("Usuario no encontrado para el email: " + email);
+            return "iniciarSesion";
         }
+
         return "redirect:/";
     }
 
