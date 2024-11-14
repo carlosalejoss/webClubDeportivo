@@ -39,7 +39,8 @@ public class ReservaService {
         return reservaRepository.findById(id)
                 .map(reserva -> {
                     reserva.setFecha(reservaActualizada.getFecha());
-                    reserva.setHora(reservaActualizada.getHora());
+                    reserva.setHoraInicio(reservaActualizada.getHoraInicio());
+                    reserva.setHoraFin(reservaActualizada.getHoraFin());
                     reserva.setPrecio(reservaActualizada.getPrecio());
                     reserva.setUsuario(reservaActualizada.getUsuario());
                     reserva.setPista(reservaActualizada.getPista());
