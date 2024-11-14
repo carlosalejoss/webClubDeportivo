@@ -43,6 +43,21 @@ public class HomeController {
         return "registrarse";
     }
 
+    @GetMapping("/datosCuenta")
+    public String datosCuenta(HttpSession session) {
+        return "datosCuenta";
+    }
+
+    @GetMapping("/sobreNosotros")
+    public String sobreNosotros(HttpSession session) {
+        return "sobreNosotros";
+    }
+
+    @GetMapping("/misReservas")
+    public String misReservas(HttpSession session) {
+        return "misReservas";
+    }
+
     @GetMapping("/eleccionCampoFut11")
     public String eleccionCamopFut11(HttpSession session) {
         return "reservar";
@@ -68,24 +83,23 @@ public class HomeController {
         return "reservar";
     }
 
-    @GetMapping("/sobreNosotros")
-    public String sobreNosotros(HttpSession session) {
-        return "sobreNosotros";
-    }
-
     @PostMapping("/login")
-    public String login(@RequestParam String email, HttpSession session) {
+    public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
         try {
             Usuario usuario = usuarioService.findByEmail(email);
 
             if (usuario != null) {
-                // Establece los atributos de sesión en función del rol del usuario
-                session.setAttribute("usuario", usuario);
-                session.setAttribute("loggedUser", true);
-                session.setAttribute("isAdmin", usuario.isEsAdmin());
+                if (password.equals(usuario.getPassword())) {
+                    // Establece los atributos de sesión en función del rol del usuario
+                    session.setAttribute("usuario", usuario);
+                    session.setAttribute("loggedUser", true);
+                    session.setAttribute("isAdmin", usuario.isEsAdmin());
 
-                if (usuario.isEsAdmin()) {
-                    session.setAttribute("viewAsAdmin", true);
+                    if (usuario.isEsAdmin()) {
+                        session.setAttribute("viewAsAdmin", true);
+                    }
+                } else {
+                    return "iniciarSesion";
                 }
             } else {
                 System.out.println("Usuario no encontrado para el email: " + email);
@@ -98,8 +112,8 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @PostMapping("/registrarse")
-    public String registrarse(@RequestParam String email,
+    @PostMapping("/signUp")
+    public String signUp(@RequestParam String email,
                               @RequestParam String password,
                               @RequestParam String nombre,
                               @RequestParam String apellidos,
