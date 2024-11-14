@@ -89,7 +89,6 @@ public class HomeController {
             if (usuario != null) {
                 // Establece los atributos de sesión en función del rol del usuario
                 session.setAttribute("loggedUser", true);
-                System.out.println("loggedUser attribute set to: " + session.getAttribute("loggedUser"));
                 session.setAttribute("isAdmin", usuario.isEsAdmin());
 
                 if (usuario.isEsAdmin()) {
