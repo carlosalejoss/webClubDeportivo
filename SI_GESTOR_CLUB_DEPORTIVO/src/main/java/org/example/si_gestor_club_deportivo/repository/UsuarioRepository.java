@@ -12,4 +12,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     // Método para obtener un usuario por su email (útil para autenticación)
     Usuario findByEmail(String email);
+
+    Usuario findByDni(String dni);
+
+    Usuario findByTelefono(String telefono);
 }

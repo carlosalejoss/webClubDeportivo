@@ -50,11 +50,17 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
+    public Usuario findByDni(String dni) {
+        return usuarioRepository.findByDni(dni);
+    }
+
+    public Usuario findByTelefono(String telefono) {
+        return usuarioRepository.findByTelefono(telefono);
+    }
+
     // Getter for usuarioRepository
     public UsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
-
-
 
 }

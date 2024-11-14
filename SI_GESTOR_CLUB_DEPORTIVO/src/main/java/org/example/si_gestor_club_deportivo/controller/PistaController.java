@@ -63,12 +63,4 @@ public class PistaController {
         pistaService.eliminarPista(nombre);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/eleccion")
-    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
-        model.addAttribute("pistas", pistas);
-        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
-        return "eleccionCampo";
-    }
 }

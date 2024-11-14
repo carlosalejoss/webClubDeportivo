@@ -1,7 +1,9 @@
 package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.model.Usuario;
+import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,17 +13,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
     private final UsuarioService usuarioService;
+    private final PistaService pistaService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService) {
         this.usuarioService = usuarioService;
+        this.pistaService = pistaService;
     }
 
     @GetMapping
@@ -72,6 +76,14 @@ public class HomeController {
     @GetMapping("/sobreNosotros")
     public String sobreNosotros(HttpSession session) {
         return "sobreNosotros";
+    }
+
+    @GetMapping("/eleccion")
+    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
+        return "eleccionCampo";
     }
 
     @PostMapping("/login")
@@ -129,6 +141,14 @@ public class HomeController {
             model.addAttribute("error", "El email ya está registrado.");
             return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
         }
+        if (usuarioService.findByDni(dni) != null) {
+            model.addAttribute("error", "El dni ya está registrado.");
+            return "registrarse";
+        }
+        if (usuarioService.findByTelefono(telefono) != null) {
+            model.addAttribute("error", "El telefono ya está registrado.");
+            return "registrarse";
+        }
 
         // Crear el nuevo usuario
         Usuario nuevoUsuario = new Usuario();
@@ -148,35 +168,8 @@ public class HomeController {
 
         // Establece los atributos de sesión en función del rol del usuario
         session.setAttribute("loggedUser", true);
-        session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
-
-        if (nuevoUsuario.isEsAdmin()) {
-            session.setAttribute("viewAsAdmin", true);
-        }
 
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
-    @GetMapping("/reservar")
-    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
-        // Verifica si el usuario está autenticado en la sesión
-        if (session.getAttribute("loggedUser") == null) {
-            return "redirect:/iniciarSesion";
-        }
-
-        // Obtener las fechas de inicio y fin de la semana actual
-        LocalDate hoy = LocalDate.now();
-        LocalDate inicioSemana = hoy.minusDays(hoy.getDayOfWeek().getValue() - 1);
-        LocalDate finSemana = inicioSemana.plusDays(6);
-
-        // Obtener las reservas de la semana actual
-        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, finSemana);
-
-        // Agregar atributos al modelo para la vista
-        model.addAttribute("reservasSemana", reservasSemana);
-        model.addAttribute("inicioSemana", inicioSemana);
-        model.addAttribute("finSemana", finSemana);
-
-        return "reservar"; // Renderiza la vista `reservar.html`
-    }
 }
