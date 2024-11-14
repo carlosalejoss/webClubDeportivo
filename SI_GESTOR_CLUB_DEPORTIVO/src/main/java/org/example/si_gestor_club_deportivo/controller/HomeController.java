@@ -78,6 +78,7 @@ public class HomeController {
         return "sobreNosotros";
     }
 
+<<<<<<< HEAD
     @GetMapping("/eleccion")
     public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
         List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
@@ -86,7 +87,10 @@ public class HomeController {
         return "eleccionCampo";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
+=======
+    @PostMapping("/login")
+>>>>>>> f8930b6cdb535b9ea55d5bfa9d5d2a5e621f18e0
     public String login(@RequestParam String email, HttpSession session) {
         try {
             Usuario usuario = usuarioService.findByEmail(email);
@@ -157,6 +161,14 @@ public class HomeController {
 
         // Iniciar sesión para el usuario recién registrado
         session.setAttribute("usuario", nuevoUsuario);
+
+        // Establece los atributos de sesión en función del rol del usuario
+        session.setAttribute("loggedUser", true);
+        session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
+
+        if (nuevoUsuario.isEsAdmin()) {
+            session.setAttribute("viewAsAdmin", true);
+        }
 
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
