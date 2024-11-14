@@ -60,27 +60,27 @@ public class HomeController {
 
     @GetMapping("/eleccionCampoFut11")
     public String eleccionCamopFut11(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoFut7")
     public String eleccionCampoFut7(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoBasket")
     public String eleccionCampoBasket(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoTenis")
     public String eleccionCampoTenis(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoPadel")
     public String eleccionCampoPadel(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @PostMapping("/login")
