@@ -8,10 +8,7 @@ import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,11 +38,6 @@ public class HomeController {
     @GetMapping("/registrarse")
     public String registrarse(HttpSession session) {
         return "registrarse";
-    }
-
-    @GetMapping("/datosCuenta")
-    public String datosCuenta(HttpSession session) {
-        return "datosCuenta";
     }
 
     @GetMapping("/sobreNosotros")
@@ -149,10 +141,10 @@ public class HomeController {
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setPassword(password); // Asegúrate de encriptar la contraseña antes de guardarla
-        nuevoUsuario.setNombre(nombre != null ? nombre : ""); // Valores opcionales o vacíos
-        nuevoUsuario.setApellidos(apellidos != null ? apellidos : "");
-        nuevoUsuario.setTelefono(telefono != null ? telefono : "");
-        nuevoUsuario.setDni(dni != null ? dni : "");
+        nuevoUsuario.setNombre(nombre); // Valores opcionales o vacíos
+        nuevoUsuario.setApellidos(apellidos);
+        nuevoUsuario.setTelefono(telefono);
+        nuevoUsuario.setDni(dni);
         nuevoUsuario.setEsAdmin(false); // Por defecto, no es administrador
 
         // Guardar el usuario en la base de datos
@@ -180,6 +172,59 @@ public class HomeController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
+        return "redirect:/";
+    }
+
+    @GetMapping("/datosCuenta")
+    public String datosCuenta(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("nombre", usuario.getNombre());
+        model.addAttribute("apellidos", usuario.getApellidos());
+        model.addAttribute("dni", usuario.getDni());
+        model.addAttribute("email", usuario.getEmail());
+        model.addAttribute("telefono", usuario.getTelefono());
+
+        return "datosCuenta";  //Lo mandamos al html
+    }
+
+    @PostMapping("/actualizarDatos")
+    public String actualizarDatos(
+            @RequestParam(value = "nombre", required = false) String nombre,
+            @RequestParam(value = "apellidos", required = false) String apellidos,
+            @RequestParam(value = "dni", required = false) String dni,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "telefono", required = false) String telefono,
+            HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (!nombre.isEmpty()) {
+            usuario.setNombre(nombre);
+        } else {
+            usuario.setNombre((String) session.getAttribute("nombre"));
+        }
+        if (!apellidos.isEmpty()) {
+            usuario.setApellidos(apellidos);
+        } else {
+            usuario.setApellidos((String) session.getAttribute("apellidos"));
+        }
+        if (!dni.isEmpty()) {
+            usuario.setDni(dni);
+        } else {
+            usuario.setDni((String) session.getAttribute("dni"));
+        }
+        if (!email.isEmpty()) {
+            usuario.setEmail(email);
+        } else {
+            usuario.setEmail((String) session.getAttribute("email"));
+        }
+        if (!telefono.isEmpty()) {
+            usuario.setTelefono(telefono);
+        } else {
+            usuario.setTelefono((String) session.getAttribute("telefono"));
+        }
+
+        usuarioService.guardarUsuario(usuario);
+
         return "redirect:/";
     }
 
