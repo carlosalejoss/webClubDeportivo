@@ -78,7 +78,6 @@ public class HomeController {
         return "sobreNosotros";
     }
 
-<<<<<<< HEAD
     @GetMapping("/eleccion")
     public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
         List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
@@ -88,9 +87,6 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-=======
-    @PostMapping("/login")
->>>>>>> f8930b6cdb535b9ea55d5bfa9d5d2a5e621f18e0
     public String login(@RequestParam String email, HttpSession session) {
         try {
             Usuario usuario = usuarioService.findByEmail(email);
