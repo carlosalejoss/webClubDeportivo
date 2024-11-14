@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -155,4 +157,26 @@ public class HomeController {
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
+    @GetMapping("/reservar")
+    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
+        // Verifica si el usuario está autenticado en la sesión
+        if (session.getAttribute("loggedUser") == null) {
+            return "redirect:/iniciarSesion";
+        }
+
+        // Obtener las fechas de inicio y fin de la semana actual
+        LocalDate hoy = LocalDate.now();
+        LocalDate inicioSemana = hoy.minusDays(hoy.getDayOfWeek().getValue() - 1);
+        LocalDate finSemana = inicioSemana.plusDays(6);
+
+        // Obtener las reservas de la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, finSemana);
+
+        // Agregar atributos al modelo para la vista
+        model.addAttribute("reservasSemana", reservasSemana);
+        model.addAttribute("inicioSemana", inicioSemana);
+        model.addAttribute("finSemana", finSemana);
+
+        return "reservar"; // Renderiza la vista `reservar.html`
+    }
 }

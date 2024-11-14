@@ -691,6 +691,16 @@
     <!-- Calendario -->
     <div class="calendar-container">
         <div>
+            <div class="calendar-container">
+                <div class="calendar">
+                    <div th:each="reserva : ${reservasSemana}">
+                        <div th:class="${reserva.reservada} ? 'time-slot reserved' : 'time-slot'">
+                            <h2 th:text="${#dates.format(reserva.fecha, 'EEEE, MMMM d')}"></h2>
+                            <p th:text="${reserva.hora}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="calendar">
                 <div class="day">
                     <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
