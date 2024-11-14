@@ -141,6 +141,14 @@ public class HomeController {
             model.addAttribute("error", "El email ya está registrado.");
             return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
         }
+        if (usuarioService.findByDni(dni) != null) {
+            model.addAttribute("error", "El dni ya está registrado.");
+            return "registrarse";
+        }
+        if (usuarioService.findByTelefono(telefono) != null) {
+            model.addAttribute("error", "El telefono ya está registrado.");
+            return "registrarse";
+        }
 
         // Crear el nuevo usuario
         Usuario nuevoUsuario = new Usuario();
@@ -160,11 +168,6 @@ public class HomeController {
 
         // Establece los atributos de sesión en función del rol del usuario
         session.setAttribute("loggedUser", true);
-        session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
-
-        if (nuevoUsuario.isEsAdmin()) {
-            session.setAttribute("viewAsAdmin", true);
-        }
 
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
