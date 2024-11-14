@@ -71,35 +71,37 @@ public class HomeController {
 
     @GetMapping("/eleccionCampoFut11")
     public String eleccionCamopFut11(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoFut7")
     public String eleccionCampoFut7(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoBasket")
     public String eleccionCampoBasket(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoTenis")
     public String eleccionCampoTenis(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @GetMapping("/eleccionCampoPadel")
     public String eleccionCampoPadel(HttpSession session) {
-        return "reservar";
+        return "eleccionCampo";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-
+    public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         Usuario usuario = usuarioService.findByEmail(email);
 
-        if (usuario != null) {
+        if (usuario == null) {
+            model.addAttribute("error", "El correo ingresado no está registrado.");
+            return "iniciarSesion";
+        } else {
             if (password.equals(usuario.getPassword())) {
                 // Establece los atributos de sesión en función del rol del usuario
                 session.setAttribute("usuario", usuario);
@@ -110,11 +112,9 @@ public class HomeController {
                     session.setAttribute("viewAsAdmin", true);
                 }
             } else {
+                model.addAttribute("error", "La contraseña ingresada es incorrecta.");
                 return "iniciarSesion";
             }
-        } else {
-            System.out.println("Usuario no encontrado para el email: " + email);
-            return "iniciarSesion";
         }
 
         return "redirect:/";
