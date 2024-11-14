@@ -1,7 +1,9 @@
 package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.model.Usuario;
+import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +13,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
     private final UsuarioService usuarioService;
+    private final PistaService pistaService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService) {
         this.usuarioService = usuarioService;
+        this.pistaService = pistaService;
     }
 
     @GetMapping
@@ -70,6 +76,14 @@ public class HomeController {
     @GetMapping("/sobreNosotros")
     public String sobreNosotros(HttpSession session) {
         return "sobreNosotros";
+    }
+
+    @GetMapping("/eleccion")
+    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
+        return "eleccionCampo";
     }
 
     @GetMapping("/login")
