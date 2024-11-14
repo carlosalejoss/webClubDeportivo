@@ -114,12 +114,7 @@ public class HomeController {
     public String toggleView(HttpSession session) {
         if (Boolean.TRUE.equals(session.getAttribute("isAdmin"))) {
             Boolean viewAsAdmin = (Boolean) session.getAttribute("viewAsAdmin");
-            if (viewAsAdmin) {
-                session.setAttribute("viewAsAdmin", null);
-            } else {
-                session.setAttribute("viewAsAdmin", true);
-            }
-            
+            session.setAttribute("viewAsAdmin", !viewAsAdmin);
         }
         return "redirect:/";
     }
