@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS reserva (
     user_id INT NOT NULL,
     pista_nombre VARCHAR(100) NOT NULL,
     fecha DATE NOT NULL,
-    hora TIME NOT NULL,
+    horaInicio TIME NOT NULL,
+    horaFin TIME NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES usuario (id) ON DELETE CASCADE,
     FOREIGN KEY (pista_nombre) REFERENCES pista (nombre) ON DELETE CASCADE

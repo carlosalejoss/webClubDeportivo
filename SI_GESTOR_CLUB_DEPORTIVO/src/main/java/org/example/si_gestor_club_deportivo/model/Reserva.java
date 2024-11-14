@@ -3,6 +3,7 @@ package org.example.si_gestor_club_deportivo.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "reserva")
@@ -21,7 +22,8 @@ public class Reserva {
     private Pista pista;
 
     private LocalDate fecha;
-    private LocalTime hora;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private Double precio;
 
     // Constructor vacío para JPA
@@ -60,12 +62,28 @@ public class Reserva {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public String getHora() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return horaInicio.format(formatter) + " - " + horaFin.format(formatter);
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setHoraFin(LocalTime horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraInicio(LocalTime horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public LocalTime getHoraInicio() {return horaInicio;}
+
+    public void setHora(LocalTime horaInicio, LocalTime horaFin) {
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
     }
 
     public Double getPrecio() {

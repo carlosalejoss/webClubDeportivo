@@ -2,15 +2,24 @@ package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.si_gestor_club_deportivo.model.Pista;
+import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.Usuario;
 import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
+import org.example.si_gestor_club_deportivo.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -18,11 +27,13 @@ public class HomeController {
 
     private final UsuarioService usuarioService;
     private final PistaService pistaService;
+    private final ReservaService reservaService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService, PistaService pistaService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService) {
         this.usuarioService = usuarioService;
         this.pistaService = pistaService;
+        this.reservaService = reservaService;
     }
 
     @GetMapping("/")
@@ -235,5 +246,39 @@ public class HomeController {
         model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
         return "eleccionCampo";
     }
+
+    @GetMapping("/reservar")
+    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
+        if (session.getAttribute("loggedUser") == null) {
+            return "redirect:/iniciarSesion";
+        }
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
+        List<LocalDate> diasSemana = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            diasSemana.add(inicioSemana.plusDays(i));
+        }
+
+        List<String> horas = List.of(
+                "08:00 - 09:30", "09:30 - 11:00", "11:00 - 12:30", "12:30 - 14:00",
+                "14:00 - 15:30", "15:30 - 17:00", "17:00 - 18:30", "18:30 - 20:00", "20:00 - 21:30"
+        );
+
+        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6));
+        Map<LocalDate, List<String>> reservasMap = new HashMap<>();
+
+        for (Reserva reserva : reservasSemana) {
+            reservasMap.computeIfAbsent(reserva.getFecha(), k -> new ArrayList<>()).add(reserva.getHora());
+        }
+
+        model.addAttribute("diasSemana", diasSemana);
+        model.addAttribute("horas", horas);
+        model.addAttribute("reservasMap", reservasMap);
+
+        return "reservar";
+    }
+
+
 
 }
