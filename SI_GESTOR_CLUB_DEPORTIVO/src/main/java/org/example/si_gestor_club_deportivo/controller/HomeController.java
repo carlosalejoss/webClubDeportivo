@@ -73,14 +73,6 @@ public class HomeController {
         return "sobreNosotros";
     }
 
-    @GetMapping("/eleccion")
-    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
-        model.addAttribute("pistas", pistas);
-        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
-        return "eleccionCampo";
-    }
-
     @PostMapping("/login")
     public String login(@RequestParam String email, HttpSession session) {
         try {
@@ -106,21 +98,6 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/toggleView")
-    public String toggleView(HttpSession session) {
-        if (Boolean.TRUE.equals(session.getAttribute("isAdmin"))) {
-            Boolean viewAsAdmin = (Boolean) session.getAttribute("viewAsAdmin");
-            session.setAttribute("viewAsAdmin", !viewAsAdmin);
-        }
-        return "redirect:/";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
-
     @PostMapping("/registrarse")
     public String registrarse(@RequestParam String email,
                               @RequestParam String password,
@@ -132,11 +109,11 @@ public class HomeController {
                               Model model) {
 
         if (email == null || email.trim().isEmpty() ||
-            password == null || password.trim().isEmpty() ||
-            nombre == null || nombre.trim().isEmpty() ||
-            apellidos == null || apellidos.trim().isEmpty() ||
-            telefono == null || telefono.trim().isEmpty() ||
-            dni == null || dni.trim().isEmpty()) {
+                password == null || password.trim().isEmpty() ||
+                nombre == null || nombre.trim().isEmpty() ||
+                apellidos == null || apellidos.trim().isEmpty() ||
+                telefono == null || telefono.trim().isEmpty() ||
+                dni == null || dni.trim().isEmpty()) {
 
             model.addAttribute("error", "Todos los campos son obligatorios.");
             return "registrarse"; // Redirige de nuevo a la página de registro en caso de error
@@ -178,6 +155,29 @@ public class HomeController {
         session.setAttribute("isAdmin", nuevoUsuario.isEsAdmin());
 
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
+    }
+
+    @GetMapping("/toggleView")
+    public String toggleView(HttpSession session) {
+        if (Boolean.TRUE.equals(session.getAttribute("isAdmin"))) {
+            Boolean viewAsAdmin = (Boolean) session.getAttribute("viewAsAdmin");
+            session.setAttribute("viewAsAdmin", !viewAsAdmin);
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @GetMapping("/eleccion")
+    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
+        return "eleccionCampo";
     }
 
 }
