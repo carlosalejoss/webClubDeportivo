@@ -625,9 +625,9 @@
                 <div th:each="pista, iterStat : ${pistas}" class="flex flex-col items-center flex-grow">
                     <img th:src="${tipo == 'futbol11' ? '/campof11.png'
                             : (tipo == 'futbol7' ? '/campof7.png'
-                            : (tipo == 'baloncesto' ? '/campo_basket.png'
-                            : (tipo == 'tenis' ? '/campo_tenis.png'
-                            : '/campo_padel.png')))}"
+                            : (tipo == 'baloncesto' ? '/pistBaloncesto.png'
+                            : (tipo == 'tenis' ? '/pistaTenis.png'
+                            : (tipo == 'padel' ? '/pistaPadel.png'))))}"
                          alt="Campo" class="h-40 w-auto">
                     <!-- Texto dinámico del botón según el número de campo -->
                     <button type="submit"
