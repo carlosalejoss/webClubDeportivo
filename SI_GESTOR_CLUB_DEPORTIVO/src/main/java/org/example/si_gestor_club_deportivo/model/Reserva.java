@@ -21,9 +21,16 @@ public class Reserva {
     @JoinColumn(name = "pista_nombre", referencedColumnName = "nombre")
     private Pista pista;
 
+    @Column(name = "fecha")
     private LocalDate fecha;
+
+    @Column(name = "horainicio")
     private LocalTime horaInicio;
+
+    @Column(name = "horafin")
     private LocalTime horaFin;
+
+    @Column(name = "precio")
     private Double precio;
 
     // Constructor vacío para JPA

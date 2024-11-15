@@ -76,7 +76,7 @@
                 <div class="flex lg:flex-1">
                     <a href="/" class="-m-1.5 p-1.5">
                         <span class="sr-only">Your Company</span>
-                        <img class="transform scale-150 h-8 w-auto" src="/logo.png" alt="Logo">
+                        <img class="transform scale-150 h-8 w-auto" src="/logo.png" alt="logo">
                     </a>
                 </div>
                 <div class="flex lg:hidden">
@@ -688,53 +688,48 @@
     <!-- Indicador de la semana del año -->
     <div id="week-info" class="week-display">Semana actual: Cargando...</div>
 
-    <!-- Calendario -->
+    <!-- CALENDAR -->
     <div class="calendar-container">
         <div class="calendar">
-            <!-- Iterar sobre los días de la semana -->
-            <div class="day" th:each="dia : ${diasSemana}">
+            <!-- Iterar sobre los días -->
+            <div class="day" th:each="dia : ${dias}">
+                <!-- Nombre del día -->
                 <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
-                    th:text="${#dates.format(dia, 'EEEE')}">
+                    th:text="${dia}">
                 </h2>
 
-                <!-- Iterar sobre los slots de tiempo -->
-                <div th:each="hora : ${horas}">
-                    <!-- Verificar si el slot de tiempo está reservado -->
-                    <div th:if="${reservasMap[dia] != null}"> <!-- Solo entra si existen reservas para el día -->
-                        <div th:each="horaReservada : ${reservasMap[dia]}">
-                            <div th:if="${hora == horaReservada}"
-                                 class="time-slot reserved cursor-not-allowed bg-red-500 text-white">
-                                <span th:text="${hora}"></span>
-                            </div>
-                        </div>
+                <!-- Si no hay reservas -->
+                <div th:if="${diasConHoras.isEmpty()} == false">
+                    <div class="time-slot" th:each="hora : ${horas}">
+                            <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
+                                th:text="${hora}">
+                            </h2>
                     </div>
+                </div>
 
-                    <!-- Mostrar slot como disponible si no está reservado -->
-                    <div th:if="${reservasMap[dia] == null}">
+                <!-- Si hay reservas -->
+                <div th:if="${diasConHoras.isEmpty()} == true">
+                    <div class="time-slot" th:each="hora : ${horas}">
+                        <div th:each="reserva : ${diasConHoras}">
+                            <!-- Si no está reservada -->
+                            <div th:if="${reserva.get('reservada')} == false and ${hora} == ${reserva.get('hora')} and ${dia} == ${reserva.get('dia')}">
+                                <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
+                                    th:text="${hora}">
+                                </h2>
+                            </div>
 
-                        <div class="time-slot cursor-pointer hover:bg-blue-200 bg-blue-500 text-white">
-                            <span th:text="${hora}"></span>
+                            <!-- Si está reservada -->
+                            <div th:if="${reserva.get('reservada')} == true and ${hora} == ${reserva.get('hora')} and ${dia} == ${reserva.get('dia')}">
+                                <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
+                                    th:text="${hora}">
+                                </h2>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <!--<div class="day">
-        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
-        <div class="time-slot">08:00 - 09:30</div>
-        <div class="time-slot">09:30 - 11:00</div>
-        <div class="time-slot">11:00 - 12:30</div>
-        <div class="time-slot">12:30 - 14:00</div>
-        <div class="time-slot">14:00 - 15:30</div>
-        <div class="time-slot">15:30 - 17:00</div>
-        <div class="time-slot">17:00 - 18:30</div>
-        <div class="time-slot">18:30 - 20:00</div>
-        <div class="time-slot">20:00 - 21:30</div>
-    </div>-->
 
     <div class="text-center">
         <div class="mt-10 flex items-center justify-center gap-x-6" style="text-align: center; margin-top: 20px;">

@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	// Puedes definir métodos personalizados aquí si es necesario
-    List<Reserva> findByFechaBetween(LocalDate inicio, LocalDate fin);
+    List<Reserva> findByFechaBetweenAndPistaNombre(LocalDate inicio, LocalDate fin, String pistaNombre);
+
 }

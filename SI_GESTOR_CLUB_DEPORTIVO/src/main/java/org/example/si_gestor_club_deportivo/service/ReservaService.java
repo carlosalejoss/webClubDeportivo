@@ -54,8 +54,8 @@ public class ReservaService {
         reservaRepository.deleteById(id);
     }
 
-    public List<Reserva> obtenerReservasEntreFechas(LocalDate inicio, LocalDate fin) {
-        return reservaRepository.findByFechaBetween(inicio, fin);
+    public List<Reserva> obtenerReservasEntreFechas(LocalDate inicio, LocalDate fin, String campo) {
+        return reservaRepository.findByFechaBetweenAndPistaNombre(inicio, fin, campo);
     }
 
     public void guardarReserva(Reserva reserva) {

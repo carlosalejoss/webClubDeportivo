@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -69,29 +67,54 @@ public class HomeController {
         return "misReservas";
     }
 
-    @GetMapping("/eleccionCampoFut11")
-    public String eleccionCamopFut11(HttpSession session) {
+    @GetMapping("/eleccionCampo")
+    public String eleccionCampo(@RequestParam("tipo") String tipo, Model model) {
+        // Mapear tipo a su imagen correspondiente
+        String imagenCampo = switch (tipo) {
+            case "Futbol 11" -> "/campof11.png";
+            case "Futbol 7" -> "/campoFut7.png";
+            case "Baloncesto" -> "/pistBaloncesto.png";
+            case "Tenis" -> "/tenis.png";
+            case "Padel" -> "/padel.png";
+            default -> "/campo_default.png"; // Imagen por defecto
+        };
+
+        // Obtener pistas según el tipo
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+
+        // Pasar datos al modelo
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo);
+        model.addAttribute("imagenCampo", imagenCampo);
+
         return "eleccionCampo";
     }
 
+
+    @GetMapping("/eleccionCampoFut11")
+    public String eleccionCampoFut11(Model model) {
+        return "redirect:/eleccionCampo?tipo=Futbol 11";
+    }
+
+
     @GetMapping("/eleccionCampoFut7")
     public String eleccionCampoFut7(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Futbol 7";
     }
 
     @GetMapping("/eleccionCampoBasket")
     public String eleccionCampoBasket(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Baloncesto";
     }
 
     @GetMapping("/eleccionCampoTenis")
     public String eleccionCampoTenis(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Tenis";
     }
 
     @GetMapping("/eleccionCampoPadel")
     public String eleccionCampoPadel(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Padel";
     }
 
     @PostMapping("/login")
@@ -194,46 +217,56 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/eleccion")
-    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
-        model.addAttribute("pistas", pistas);
-        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
-        return "eleccionCampo";
-    }
-
     @GetMapping("/reservar")
-    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
+    public String mostrarReservasSemanaActual(@RequestParam String campo, Model model, HttpSession session) {
         if (session.getAttribute("loggedUser") == null) {
             return "redirect:/iniciarSesion";
         }
 
+        // Obtener la semana actual
         LocalDate hoy = LocalDate.now();
         LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
-        List<LocalDate> diasSemana = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            diasSemana.add(inicioSemana.plusDays(i));
-        }
+        List<Map<String, Object>> diasConHoras = new ArrayList<>();
 
+        // Lista de horas
         List<String> horas = List.of(
                 "08:00 - 09:30", "09:30 - 11:00", "11:00 - 12:30", "12:30 - 14:00",
                 "14:00 - 15:30", "15:30 - 17:00", "17:00 - 18:30", "18:30 - 20:00", "20:00 - 21:30"
         );
 
-        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6));
-        Map<LocalDate, List<String>> reservasMap = new HashMap<>();
+        List<String> Dias = List.of(
+                "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
+        );
 
-        for (Reserva reserva : reservasSemana) {
-            reservasMap.computeIfAbsent(reserva.getFecha(), k -> new ArrayList<>()).add(reserva.getHora());
+        // Obtener las reservas de la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6), campo);
+
+        for (int i = 0; i < 7; i++) {
+            LocalDate dia = inicioSemana.plusDays(i);
+            Map<String, Object> diaConHoras = new HashMap<>();
+            diaConHoras.put("nombreDia", dia.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            diaConHoras.put("fecha", dia);
+
+            List<Map<String, Object>> horasDelDia = new ArrayList<>();
+            for (String hora : horas) {
+                boolean reservada = reservasSemana.stream()
+                        .anyMatch(reserva -> reserva.getFecha().equals(dia) && reserva.getHora().equals(hora));
+                Map<String, Object> horaEstado = new HashMap<>();
+                horaEstado.put("hora", hora);
+                horaEstado.put("reservada", reservada);
+                horasDelDia.add(horaEstado);
+            }
+
+            diaConHoras.put("horas", horasDelDia);
+            diasConHoras.add(diaConHoras);
         }
 
-        model.addAttribute("diasSemana", diasSemana);
+        // Pasar los datos al modelo
+        model.addAttribute("dias", Dias);
         model.addAttribute("horas", horas);
-        model.addAttribute("reservasMap", reservasMap);
+        model.addAttribute("diasConHoras", diasConHoras);
 
         return "reservar";
     }
-
-
 
 }
