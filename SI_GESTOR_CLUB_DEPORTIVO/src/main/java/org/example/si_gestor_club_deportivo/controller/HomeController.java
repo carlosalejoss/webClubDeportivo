@@ -75,8 +75,8 @@ public class HomeController {
             case "Futbol 11" -> "/campof11.png";
             case "Futbol 7" -> "/campoFut7.png";
             case "Baloncesto" -> "/pistBaloncesto.png";
-            case "Tenis" -> "/tenis.png";
-            case "Padel" -> "/padel.png";
+            case "Tenis" -> "/pistaTenis.png";
+            case "Padel" -> "/pistaPadel.png";
             default -> "/campo_default.png"; // Imagen por defecto
         };
 
@@ -273,6 +273,30 @@ public class HomeController {
         return "reservar";
     }
 
+    private Double calculatePrice(String pista){
+        Double price = 20.0;
+
+        switch (pista) {
+            case "Futbol 11":
+                price = 50.0;
+                break;
+            case "Futbol 7":
+                price = 30.0;
+                break;
+            case "Baloncesto":
+                price = 35.0;
+                break;
+            case "Tenis":
+                price = 29.0;
+                break;
+            case "Padel":
+                price = 25.0;
+                break;
+        }
+
+        return price;
+    }
+
     @PostMapping("/nueva")
     public String crearReserva(
             @RequestParam String pistaNombre,
@@ -286,7 +310,7 @@ public class HomeController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             model.addAttribute("error", "Usuario no autenticado.");
-            return "redirect:/iniciarSesion";
+            return "redirect:/";
         }
 
         // Crear nueva reserva
@@ -311,7 +335,7 @@ public class HomeController {
         nuevaReserva.setFecha(parsedFecha);
         nuevaReserva.setHoraInicio(LocalTime.parse(horaInicio));
         nuevaReserva.setHoraFin(LocalTime.parse(horaFin));
-        nuevaReserva.setPrecio(20.0);
+        nuevaReserva.setPrecio(calculatePrice(pistaNombre));
 
         // Guardar reserva
         reservaService.crearReserva(nuevaReserva);
