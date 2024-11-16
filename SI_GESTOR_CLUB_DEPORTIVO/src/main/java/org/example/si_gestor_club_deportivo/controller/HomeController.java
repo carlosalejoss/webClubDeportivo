@@ -1,6 +1,7 @@
 package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.si_gestor_club_deportivo.dto.ReservaDTO;
 import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.Usuario;
@@ -8,14 +9,14 @@ import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.example.si_gestor_club_deportivo.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -218,15 +219,17 @@ public class HomeController {
     }
 
     @GetMapping("/reservar")
-    public String mostrarReservasSemanaActual(@RequestParam String campo, Model model, HttpSession session) {
-        if (session.getAttribute("loggedUser") == null) {
+    public String mostrarReservasSemanaActual(@RequestParam("campo") String campo, Model model, HttpSession session) {
+        // Verifica que el usuario esté logueado
+        Object loggedUser = session.getAttribute("loggedUser");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (loggedUser == null) {
             return "redirect:/iniciarSesion";
         }
-
         // Obtener la semana actual
         LocalDate hoy = LocalDate.now();
         LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
-        List<Map<String, Object>> diasConHoras = new ArrayList<>();
 
         // Lista de horas
         List<String> horas = List.of(
@@ -234,39 +237,87 @@ public class HomeController {
                 "14:00 - 15:30", "15:30 - 17:00", "17:00 - 18:30", "18:30 - 20:00", "20:00 - 21:30"
         );
 
-        List<String> Dias = List.of(
-                "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
-        );
+        List<Map<String, Object>> diasSemanaConFechas = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            LocalDate dia = inicioSemana.plusDays(i);
+            Map<String, Object> diasSemFecha = new HashMap<>();
+            diasSemFecha.put("diaSem", dia.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            diasSemFecha.put("fecha", dia);
+            diasSemanaConFechas.add(diasSemFecha);
+        }
 
         // Obtener las reservas de la semana actual
         List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6), campo);
 
-        for (int i = 0; i < 7; i++) {
-            LocalDate dia = inicioSemana.plusDays(i);
-            Map<String, Object> diaConHoras = new HashMap<>();
-            diaConHoras.put("nombreDia", dia.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
-            diaConHoras.put("fecha", dia);
+        List<Map<String, Object>> horariosConReservas = new ArrayList<>();
 
-            List<Map<String, Object>> horasDelDia = new ArrayList<>();
+        for (Map<String, Object> diaFecha : diasSemanaConFechas) {
             for (String hora : horas) {
-                boolean reservada = reservasSemana.stream()
-                        .anyMatch(reserva -> reserva.getFecha().equals(dia) && reserva.getHora().equals(hora));
-                Map<String, Object> horaEstado = new HashMap<>();
-                horaEstado.put("hora", hora);
-                horaEstado.put("reservada", reservada);
-                horasDelDia.add(horaEstado);
-            }
+                Map<String, Object> horario = new HashMap<>();
+                horario.put("fecha", diaFecha.get("fecha"));
+                horario.put("hora", hora);
+                boolean reservado = reservasSemana.stream().anyMatch(reserva ->
+                        reserva.getFecha().equals(diaFecha.get("fecha")) && reserva.getHora().equals(hora)
+                );
 
-            diaConHoras.put("horas", horasDelDia);
-            diasConHoras.add(diaConHoras);
+                horario.put("reservado", reservado);
+                horariosConReservas.add(horario);
+            }
         }
 
-        // Pasar los datos al modelo
-        model.addAttribute("dias", Dias);
-        model.addAttribute("horas", horas);
-        model.addAttribute("diasConHoras", diasConHoras);
+        model.addAttribute("horariosConReservas", horariosConReservas);
+        model.addAttribute("userId", usuario.getId());
+        model.addAttribute("pistaNombre", campo);
+        model.addAttribute("diasSemanaConFechas", diasSemanaConFechas);
 
         return "reservar";
+    }
+
+    @PostMapping("/nueva")
+    public String crearReserva(
+            @RequestParam String pistaNombre,
+            @RequestParam String fecha,
+            @RequestParam String horaInicio,
+            @RequestParam String horaFin,
+            HttpSession session,
+            Model model) {
+
+        // Validar que el usuario esté logueado
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no autenticado.");
+            return "redirect:/iniciarSesion";
+        }
+
+        // Crear nueva reserva
+        Reserva nuevaReserva = new Reserva();
+        nuevaReserva.setUsuario(usuario);
+
+        // Validar pista
+        Optional<Pista> pista = pistaService.obtenerPistaPorNombre(pistaNombre);
+
+        if (pista.isEmpty()) {
+            model.addAttribute("error", "La pista no existe.");
+            return "redirect:/reservar";
+        }
+        nuevaReserva.setPista(pista.get());
+
+        // Validar y asignar fecha y horas
+        LocalDate parsedFecha = LocalDate.parse(fecha);
+        if (parsedFecha.isBefore(LocalDate.now())) {
+            model.addAttribute("error", "La fecha no puede ser anterior a la actual.");
+            return "redirect:/iniciarSesion";
+        }
+        nuevaReserva.setFecha(parsedFecha);
+        nuevaReserva.setHoraInicio(LocalTime.parse(horaInicio));
+        nuevaReserva.setHoraFin(LocalTime.parse(horaFin));
+        nuevaReserva.setPrecio(20.0);
+
+        // Guardar reserva
+        reservaService.crearReserva(nuevaReserva);
+
+        model.addAttribute("success", "Reserva creada con éxito.");
+        return "redirect:/";
     }
 
 }
