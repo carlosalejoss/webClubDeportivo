@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -384,11 +385,74 @@ public class HomeController {
         return "misReservas";
     }
 
-    @PostMapping("/eliminarReserva")
+    @PostMapping("/eliminarReservad")
     public String eliminarReserva(Model model, HttpSession session, @RequestParam("reservaId") Long pista) {
         reservaService.eliminarReserva(pista);
 
         return "redirect:/misReservas";
+    }
+
+    @GetMapping("/gestionarPistas")
+    public String mostrarGestionPistas(Model model, HttpSession session) {
+
+        // Obtener todas las pistas
+        List<Pista> pistas = pistaService.obtenerTodasLasPistas();
+
+        // Agrupar las pistas por tipo
+        Map<String, List<Pista>> pistasPorTipo = pistas.stream()
+                .collect(Collectors.groupingBy(Pista::getTipo));
+
+        // Obtener todos los tipos de pista (sin duplicados)
+        List<String> tiposDePistas = pistasPorTipo.keySet().stream().sorted().collect(Collectors.toList());
+
+        // Pasar los datos a la vista
+        model.addAttribute("tiposDePistas", tiposDePistas);
+        model.addAttribute("pistasPorTipo", pistasPorTipo);
+
+        return "gestionarPistasAdmin"; // Nombre de la plantilla Thymeleaf
+    }
+
+    @PostMapping("/gestionarPistas")
+    public String eliminarCampo(Model model, HttpSession session, @RequestParam("campoId") String nombrePista) {
+
+        pistaService.eliminarPista(nombrePista);
+        return("redirect:/gestionarPistas");
+    }
+
+    @GetMapping("/newCampo")
+    public String newCampo(Model model, HttpSession session) {
+        // Obtener todas las pistas
+        List<Pista> pistas = pistaService.obtenerTodasLasPistas();
+
+        // Agrupar las pistas por tipo
+        Map<String, List<Pista>> pistasPorTipo = pistas.stream()
+                .collect(Collectors.groupingBy(Pista::getTipo));
+
+        // Obtener todos los tipos de pista (sin duplicados)
+        List<String> tiposDePistas = pistasPorTipo.keySet().stream().sorted().collect(Collectors.toList());
+
+        // Pasar los datos a la vista
+        model.addAttribute("tiposDePistas", tiposDePistas);
+        return "newCampo";
+    }
+
+    @PostMapping("/newCampo")
+    public String guardarCampo(@RequestParam String nombre, @RequestParam String tipo,  Model model, HttpSession session) {
+
+        Pista newPista = new Pista();
+        newPista.setNombre(nombre);
+        newPista.setTipo(tipo);
+        Pista auxPista = pistaService.obtenerUltimaPistaPorTipo(tipo);
+
+        if(auxPista == null){
+            newPista.setNumero_pista(1);
+        }
+        else {
+            newPista.setNumero_pista(auxPista.getNumero_pista() + 1);
+        }
+
+        pistaService.crearPista(newPista);
+        return "redirect:/gestionarPistas";
     }
 
 }

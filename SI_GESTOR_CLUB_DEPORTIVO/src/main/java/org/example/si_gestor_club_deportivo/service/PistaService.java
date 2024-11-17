@@ -48,8 +48,11 @@ public class PistaService {
         pistaRepository.deleteById(nombre);
     }
 
-
     public List<Pista> obtenerPistasPorTipo(String tipo) {
         return pistaRepository.findByTipo(tipo);
+    }
+
+    public Pista obtenerUltimaPistaPorTipo(String tipo) {
+        return pistaRepository.findByTipoOnly(tipo);
     }
 }
