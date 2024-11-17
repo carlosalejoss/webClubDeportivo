@@ -633,16 +633,16 @@
                         <dl class="divide-y divide-gray-100">
                             <form class="space-y-4" action="/actualizarDatos" method="POST">
                                 <div class="px-4 py-6 sm:flex sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <p><strong>Nombre completo: </strong><span th:text="${nombre} + ' ' + ${apellidos}">Nombre Apellidos</span></p>
+                                    <p><strong>Nombre completo: </strong><span th:text="${session.usuario.getNombre()} + ' ' + ${session.usuario.getApellidos()}">Nombre Apellidos</span></p>
                                 </div>
                                 <div class="px-4 py-6 sm:flex sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <p><strong>DNI:</strong> <span th:text="${dni}">DNI</span></p>
+                                    <p><strong>DNI:</strong> <span th:text="${session.usuario.getDni()}">DNI</span></p>
                                 </div>
                                 <div class="px-4 py-6 sm:flex sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <p><strong>Email:</strong> <span th:text="${email}">Email</span></p>
+                                    <p><strong>Email:</strong> <span th:text="${session.usuario.getEmail()}">Email</span></p>
                                 </div>
                                 <div class="px-4 py-6 sm:flex sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <p><strong>Telefono:</strong> <span th:text="${telefono}">Telefono</span></p>
+                                    <p><strong>Telefono:</strong> <span th:text="${session.usuario.getTelefono()}">Telefono</span></p>
                                 </div>
                             </form>
                         </dl>
