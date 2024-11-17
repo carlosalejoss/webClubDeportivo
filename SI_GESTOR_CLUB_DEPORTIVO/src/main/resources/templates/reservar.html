@@ -746,11 +746,19 @@
             // Obtener la fecha actual
             const today = new Date();
 
-            // Calcular el inicio (lunes) y el final (domingo) de la semana
+            // Calcular el día de la semana (0 = domingo, 1 = lunes, ..., 6 = sábado)
+            const dayOfWeek = today.getDay();
+
+            // Ajustar el día de la semana para que 0 sea lunes (en lugar de domingo)
+            const adjustedDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1;
+
+            // Calcular el inicio de la semana (lunes)
             const startOfWeek = new Date(today);
-            startOfWeek.setDate(today.getDate() - today.getDay() + 1); // lunes
-            const endOfWeek = new Date(today);
-            endOfWeek.setDate(today.getDate() - today.getDay() + 7); // domingo
+            startOfWeek.setDate(today.getDate() - adjustedDay);
+
+            // Calcular el final de la semana (domingo)
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
 
             // Formatear las fechas al formato deseado (por ejemplo, dd/mm/yyyy)
             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
