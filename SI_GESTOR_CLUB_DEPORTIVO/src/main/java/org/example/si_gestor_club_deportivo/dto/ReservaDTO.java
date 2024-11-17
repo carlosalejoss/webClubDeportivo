@@ -9,19 +9,21 @@ public class ReservaDTO {
     private Long userId;
     private String pistaNombre;
     private LocalDate fecha;
-    private LocalTime hora;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private Double precio;
 
     // Constructor vacío
     public ReservaDTO() {}
 
     // Constructor con todos los campos
-    public ReservaDTO(Long id, Long userId, String pistaNombre, LocalDate fecha, LocalTime hora, Double precio) {
+    public ReservaDTO(Long id, Long userId, String pistaNombre, LocalDate fecha, LocalTime horaInicio, LocalTime horaFin, Double precio) {
         this.id = id;
         this.userId = userId;
         this.pistaNombre = pistaNombre;
         this.fecha = fecha;
-        this.hora = hora;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
         this.precio = precio;
     }
 
@@ -59,13 +61,17 @@ public class ReservaDTO {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalTime getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setHoraInicio(LocalTime horaInicio) {
+        this.horaInicio = horaInicio;
     }
+
+    public LocalTime getHoraFin() {return horaFin;}
+
+    public void setHoraFin(LocalTime horaFin) {this.horaFin = horaFin;}
 
     public Double getPrecio() {
         return precio;
@@ -82,7 +88,7 @@ public class ReservaDTO {
                 ", userId=" + userId +
                 ", pistaNombre='" + pistaNombre + '\'' +
                 ", fecha=" + fecha +
-                ", hora=" + hora +
+                ", hora=" + horaInicio + " - " + horaFin +
                 ", precio=" + precio +
                 '}';
     }

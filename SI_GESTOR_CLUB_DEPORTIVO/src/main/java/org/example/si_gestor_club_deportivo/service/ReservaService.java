@@ -54,11 +54,20 @@ public class ReservaService {
         reservaRepository.deleteById(id);
     }
 
-    public List<Reserva> obtenerReservasEntreFechas(LocalDate inicio, LocalDate fin) {
-        return reservaRepository.findByFechaBetween(inicio, fin);
+    public List<Reserva> obtenerReservasEntreFechas(LocalDate inicio, LocalDate fin, String campo) {
+        return reservaRepository.findByFechaBetweenAndPistaNombre(inicio, fin, campo);
     }
 
-    public void guardarReserva(Reserva reserva) {
-        reservaRepository.save(reserva);
+    public boolean obtenerReservaUsuarioFecha(Long user_id, LocalDate fecha){
+        return reservaRepository.existsByUsuarioIdAndFecha(user_id, fecha);
     }
+
+    public List<Reserva> obtenerReservasUsuarioFechas(LocalDate inicio, LocalDate fin, Long userId) {
+        return reservaRepository.findReservasByUsuarioAndFechaRange(userId, inicio, fin);
+    }
+
+    public List<Reserva> obtenerReservasUsuarioExcluyendoRangoFechas(LocalDate inicio, LocalDate fin, Long userId){
+        return reservaRepository.findReservasByUsuarioExcludingFechaRange(userId, inicio, fin);
+    }
+
 }

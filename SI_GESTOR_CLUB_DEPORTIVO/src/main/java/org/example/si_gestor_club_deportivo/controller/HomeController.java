@@ -8,18 +8,16 @@ import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.example.si_gestor_club_deportivo.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -41,6 +39,12 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/exitoRsv")
+    public String exitoRsv(HttpSession session) {return "exitoReserva";}
+
+    @GetMapping("/falloRsv")
+    public String falloRsv(HttpSession session) {return "falloReserva";}
+
     @GetMapping("/iniciarSesion")
     public String iniciarsesion(HttpSession session) {
         return "iniciarSesion";
@@ -51,39 +55,64 @@ public class HomeController {
         return "registrarse";
     }
 
+    @GetMapping("/datosCuenta")
+    public String datosCuenta(HttpSession session) {
+        return "datosCuenta";
+    }
+
     @GetMapping("/sobreNosotros")
     public String sobreNosotros(HttpSession session) {
         return "sobreNosotros";
     }
 
-    @GetMapping("/misReservas")
-    public String misReservas(HttpSession session) {
-        return "misReservas";
-    }
+    @GetMapping("/eleccionCampo")
+    public String eleccionCampo(@RequestParam("tipo") String tipo, Model model) {
+        // Mapear tipo a su imagen correspondiente
+        String imagenCampo = switch (tipo) {
+            case "Futbol 11" -> "/campof11.png";
+            case "Futbol 7" -> "/campoFut7.png";
+            case "Baloncesto" -> "/pistBaloncesto.png";
+            case "Tenis" -> "/pistaTenis.png";
+            case "Padel" -> "/pistaPadel.png";
+            default -> "/campo_default.png"; // Imagen por defecto
+        };
 
-    @GetMapping("/eleccionCampoFut11")
-    public String eleccionCamopFut11(HttpSession session) {
+        // Obtener pistas según el tipo
+        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
+
+        // Pasar datos al modelo
+        model.addAttribute("pistas", pistas);
+        model.addAttribute("tipo", tipo);
+        model.addAttribute("imagenCampo", imagenCampo);
+
         return "eleccionCampo";
     }
+
+
+    @GetMapping("/eleccionCampoFut11")
+    public String eleccionCampoFut11(Model model) {
+        return "redirect:/eleccionCampo?tipo=Futbol 11";
+    }
+
 
     @GetMapping("/eleccionCampoFut7")
     public String eleccionCampoFut7(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Futbol 7";
     }
 
     @GetMapping("/eleccionCampoBasket")
     public String eleccionCampoBasket(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Baloncesto";
     }
 
     @GetMapping("/eleccionCampoTenis")
     public String eleccionCampoTenis(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Tenis";
     }
 
     @GetMapping("/eleccionCampoPadel")
     public String eleccionCampoPadel(HttpSession session) {
-        return "eleccionCampo";
+        return "redirect:/eleccionCampo?tipo=Padel";
     }
 
     @PostMapping("/login")
@@ -152,10 +181,10 @@ public class HomeController {
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setPassword(password); // Asegúrate de encriptar la contraseña antes de guardarla
-        nuevoUsuario.setNombre(nombre); // Valores opcionales o vacíos
-        nuevoUsuario.setApellidos(apellidos);
-        nuevoUsuario.setTelefono(telefono);
-        nuevoUsuario.setDni(dni);
+        nuevoUsuario.setNombre(nombre != null ? nombre : ""); // Valores opcionales o vacíos
+        nuevoUsuario.setApellidos(apellidos != null ? apellidos : "");
+        nuevoUsuario.setTelefono(telefono != null ? telefono : "");
+        nuevoUsuario.setDni(dni != null ? dni : "");
         nuevoUsuario.setEsAdmin(false); // Por defecto, no es administrador
 
         // Guardar el usuario en la base de datos
@@ -186,99 +215,180 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/datosCuenta")
-    public String datosCuenta(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        model.addAttribute("nombre", usuario.getNombre());
-        model.addAttribute("apellidos", usuario.getApellidos());
-        model.addAttribute("dni", usuario.getDni());
-        model.addAttribute("email", usuario.getEmail());
-        model.addAttribute("telefono", usuario.getTelefono());
-
-        return "datosCuenta";  //Lo mandamos al html
-    }
-
-    @PostMapping("/actualizarDatos")
-    public String actualizarDatos(
-            @RequestParam(value = "nombre", required = false) String nombre,
-            @RequestParam(value = "apellidos", required = false) String apellidos,
-            @RequestParam(value = "dni", required = false) String dni,
-            @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "telefono", required = false) String telefono,
-            HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        if (!nombre.isEmpty()) {
-            usuario.setNombre(nombre);
-        } else {
-            usuario.setNombre((String) session.getAttribute("nombre"));
-        }
-        if (!apellidos.isEmpty()) {
-            usuario.setApellidos(apellidos);
-        } else {
-            usuario.setApellidos((String) session.getAttribute("apellidos"));
-        }
-        if (!dni.isEmpty()) {
-            usuario.setDni(dni);
-        } else {
-            usuario.setDni((String) session.getAttribute("dni"));
-        }
-        if (!email.isEmpty()) {
-            usuario.setEmail(email);
-        } else {
-            usuario.setEmail((String) session.getAttribute("email"));
-        }
-        if (!telefono.isEmpty()) {
-            usuario.setTelefono(telefono);
-        } else {
-            usuario.setTelefono((String) session.getAttribute("telefono"));
-        }
-
-        usuarioService.guardarUsuario(usuario);
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/eleccion")
-    public String mostrarPistasPorTipo(@RequestParam("tipo") String tipo, Model model) {
-        List<Pista> pistas = pistaService.obtenerPistasPorTipo(tipo);
-        model.addAttribute("pistas", pistas);
-        model.addAttribute("tipo", tipo); // Pasamos el tipo para usar en el título dinámico
-        return "eleccionCampo";
-    }
-
     @GetMapping("/reservar")
-    public String mostrarReservasSemanaActual(Model model, HttpSession session) {
-        if (session.getAttribute("loggedUser") == null) {
+    public String mostrarReservasSemanaActual(@RequestParam("campo") String campo, Model model, HttpSession session) {
+        // Verifica que el usuario esté logueado
+        Object loggedUser = session.getAttribute("loggedUser");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (loggedUser == null) {
             return "redirect:/iniciarSesion";
         }
-
+        // Obtener la semana actual
         LocalDate hoy = LocalDate.now();
         LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
-        List<LocalDate> diasSemana = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            diasSemana.add(inicioSemana.plusDays(i));
-        }
 
+        // Lista de horas
         List<String> horas = List.of(
                 "08:00 - 09:30", "09:30 - 11:00", "11:00 - 12:30", "12:30 - 14:00",
                 "14:00 - 15:30", "15:30 - 17:00", "17:00 - 18:30", "18:30 - 20:00", "20:00 - 21:30"
         );
 
-        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6));
-        Map<LocalDate, List<String>> reservasMap = new HashMap<>();
-
-        for (Reserva reserva : reservasSemana) {
-            reservasMap.computeIfAbsent(reserva.getFecha(), k -> new ArrayList<>()).add(reserva.getHora());
+        List<Map<String, Object>> diasSemanaConFechas = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            LocalDate dia = inicioSemana.plusDays(i);
+            Map<String, Object> diasSemFecha = new HashMap<>();
+            diasSemFecha.put("diaSem", dia.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            diasSemFecha.put("fecha", dia);
+            diasSemanaConFechas.add(diasSemFecha);
         }
 
-        model.addAttribute("diasSemana", diasSemana);
-        model.addAttribute("horas", horas);
-        model.addAttribute("reservasMap", reservasMap);
+        // Obtener las reservas de la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasEntreFechas(inicioSemana, inicioSemana.plusDays(6), campo);
+
+        List<Map<String, Object>> horariosConReservas = new ArrayList<>();
+
+        for (Map<String, Object> diaFecha : diasSemanaConFechas) {
+            for (String hora : horas) {
+                Map<String, Object> horario = new HashMap<>();
+                horario.put("fecha", diaFecha.get("fecha"));
+                horario.put("hora", hora);
+                boolean reservado = reservasSemana.stream().anyMatch(reserva ->
+                        reserva.getFecha().equals(diaFecha.get("fecha")) && reserva.getHora().equals(hora)
+                );
+
+                horario.put("reservado", reservado);
+                horariosConReservas.add(horario);
+            }
+        }
+
+        model.addAttribute("horariosConReservas", horariosConReservas);
+        model.addAttribute("userId", usuario.getId());
+        model.addAttribute("pistaNombre", campo);
+        model.addAttribute("diasSemanaConFechas", diasSemanaConFechas);
 
         return "reservar";
     }
 
+    private Double calculatePrice(String pista){
+        Double price = 20.0;
 
+        switch (pista) {
+            case "Futbol 11":
+                price = 50.0;
+                break;
+            case "Futbol 7":
+                price = 30.0;
+                break;
+            case "Baloncesto":
+                price = 35.0;
+                break;
+            case "Tenis":
+                price = 29.0;
+                break;
+            case "Padel":
+                price = 25.0;
+                break;
+        }
+
+        return price;
+    }
+
+    @PostMapping("/nueva")
+    public String crearReserva(
+            @RequestParam String pistaNombre,
+            @RequestParam String fecha,
+            @RequestParam String horaInicio,
+            @RequestParam String horaFin,
+            HttpSession session,
+            Model model) {
+
+        // Validar que el usuario esté logueado
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no autenticado.");
+            return "redirect:/iniciarSesion";
+        }
+
+        LocalDate fechaBusqueda = LocalDate.parse(fecha);
+        boolean yaReservado = reservaService.obtenerReservaUsuarioFecha(usuario.getId(), fechaBusqueda);
+
+        if(yaReservado){
+            return "redirect:/falloRsv";
+        }
+
+        // Crear nueva reserva
+        Reserva nuevaReserva = new Reserva();
+        nuevaReserva.setUsuario(usuario);
+
+        // Validar pista
+        Optional<Pista> pista = pistaService.obtenerPistaPorNombre(pistaNombre);
+
+        if (pista.isEmpty()) {
+            model.addAttribute("error", "La pista no existe.");
+            return "redirect:/reservar";
+        }
+        nuevaReserva.setPista(pista.get());
+
+        // Validar y asignar fecha y horas
+        LocalDate parsedFecha = LocalDate.parse(fecha);
+        if (parsedFecha.isBefore(LocalDate.now())) {
+            model.addAttribute("error", "La fecha no puede ser anterior a la actual.");
+            return "redirect:/";
+        }
+        nuevaReserva.setFecha(parsedFecha);
+        nuevaReserva.setHoraInicio(LocalTime.parse(horaInicio));
+        nuevaReserva.setHoraFin(LocalTime.parse(horaFin));
+        nuevaReserva.setPrecio(calculatePrice(pistaNombre));
+
+        // Guardar reserva
+        reservaService.crearReserva(nuevaReserva);
+
+        return "redirect:/exitoRsv";
+    }
+
+    @GetMapping("/misReservas")
+    public String misReservas(Model model, HttpSession session) {
+        // Obtener la semana actual
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+        LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        // Obtener todas las reservas del usuario para la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasUsuarioFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Separar reservas activas y no activas
+        List<Reserva> reservasActivas = new ArrayList<>();
+        List<Reserva> reservasNoActivas = new ArrayList<>();
+
+        for (Reserva reserva : reservasSemana) {
+            if (reserva.getFecha().isAfter(hoy) ||
+                    (reserva.getFecha().isEqual(hoy) && reserva.getHoraInicio().isAfter(horaActual))) {
+                reservasActivas.add(reserva);
+            } else {
+                reservasNoActivas.add(reserva);
+            }
+        }
+
+        // Obtener reservas fuera del rango de la semana actual
+        List<Reserva> reservasFueraDeLaSemana = reservaService.obtenerReservasUsuarioExcluyendoRangoFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Combinar reservas no activas de la semana actual con las reservas fuera de la semana
+        reservasNoActivas.addAll(reservasFueraDeLaSemana);
+
+        model.addAttribute("reservasActivas", reservasActivas);
+        model.addAttribute("reservasNoActivas", reservasNoActivas);
+
+        return "misReservas";
+    }
+
+    @PostMapping("/eliminarReserva")
+    public String eliminarReserva(Model model, HttpSession session, @RequestParam("reservaId") Long pista) {
+        reservaService.eliminarReserva(pista);
+
+        return "redirect:/misReservas";
+    }
 
 }

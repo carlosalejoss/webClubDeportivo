@@ -76,7 +76,7 @@
                 <div class="flex lg:flex-1">
                     <a href="/" class="-m-1.5 p-1.5">
                         <span class="sr-only">Your Company</span>
-                        <img class="transform scale-150 h-8 w-auto" src="/logo.png" alt="Logo">
+                        <img class="transform scale-150 h-8 w-auto" src="/logo.png" alt="logo">
                     </a>
                 </div>
                 <div class="flex lg:hidden">
@@ -671,7 +671,7 @@
 
     <!-- Campo a reservar -->
     <div class="flex flex-col justify-center px-6 py-4 lg:px-8 pt-[100px]">
-        <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Fútbol 11 - Campo 1</h2>
+        <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900" th:text="${pistaNombre}"></h2>
     </div>
     <div class="flex flex-col justify-center px-6 py-4 lg:px-96 ">
         <div class="mx-auto mt-1 grid grid-cols-4 gap-0 border-t border-gray-300 pt-2 sm:mx-0 sm:max-w-full lg:grid-cols-4"></div>
@@ -688,32 +688,34 @@
     <!-- Indicador de la semana del año -->
     <div id="week-info" class="week-display">Semana actual: Cargando...</div>
 
-    <!-- Calendario -->
+    <!-- CALENDAR -->
     <div class="calendar-container">
         <div class="calendar">
-            <!-- Iterar sobre los días de la semana -->
-            <div class="day" th:each="dia : ${diasSemana}">
+            <!-- Iterar sobre los días -->
+            <div class="day" th:each="dia : ${diasSemanaConFechas}">
+                <!-- Mostrar el nombre del día -->
                 <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900"
-                    th:text="${#dates.format(dia, 'EEEE')}">
-                </h2>
+                    th:text="${dia.get('diaSem')}"></h2>
 
-                <!-- Iterar sobre los slots de tiempo -->
-                <div th:each="hora : ${horas}">
-                    <!-- Verificar si el slot de tiempo está reservado -->
-                    <div th:if="${reservasMap[dia] != null}"> <!-- Solo entra si existen reservas para el día -->
-                        <div th:each="horaReservada : ${reservasMap[dia]}">
-                            <div th:if="${hora == horaReservada}"
-                                 class="time-slot reserved cursor-not-allowed bg-red-500 text-white">
-                                <span th:text="${hora}"></span>
+                <!-- Iterar sobre los horarios del día -->
+                <div th:each="horario : ${horariosConReservas}">
+                    <div th:if="${horario.get('fecha')} == ${dia.get('fecha')}">
+                        <!-- Mostrar horario reservado en rojo -->
+                        <div th:if="${horario.get('reservado')}">
+                            <div class="time-slot reserved bg-red-100 border border-red-500 text-red-600 cursor-not-allowed"
+                                 th:attr="data-date=${horario.get('fecha')}, data-time=${horario.get('hora')}">
+                                <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1"
+                                    th:text="${horario.get('hora')}"></h2>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Mostrar slot como disponible si no está reservado -->
-                    <div th:if="${reservasMap[dia] == null}">
-
-                        <div class="time-slot cursor-pointer hover:bg-blue-200 bg-blue-500 text-white">
-                            <span th:text="${hora}"></span>
+                        <!-- Mostrar horario no reservado en azul -->
+                        <div th:if="${!horario.get('reservado')}">
+                            <div class="time-slot bg-blue-100 border border-blue-500 text-blue-600"
+                                 th:attr="data-date=${horario.get('fecha')}, data-time=${horario.get('hora')}">
+                                <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1"
+                                    th:text="${horario.get('hora')}"></h2>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -721,101 +723,112 @@
         </div>
     </div>
 
-
-
-    <!--<div class="day">
-        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Lunes</h2>
-        <div class="time-slot">08:00 - 09:30</div>
-        <div class="time-slot">09:30 - 11:00</div>
-        <div class="time-slot">11:00 - 12:30</div>
-        <div class="time-slot">12:30 - 14:00</div>
-        <div class="time-slot">14:00 - 15:30</div>
-        <div class="time-slot">15:30 - 17:00</div>
-        <div class="time-slot">17:00 - 18:30</div>
-        <div class="time-slot">18:30 - 20:00</div>
-        <div class="time-slot">20:00 - 21:30</div>
-    </div>-->
-
     <div class="text-center">
-        <div class="mt-10 flex items-center justify-center gap-x-6" style="text-align: center; margin-top: 20px;">
-            <button id="confirm-btn" href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="display: none;">Confirmar Reserva</button>
-        </div>
+        <form id="reservation-form" method="post" th:action="@{/nueva}">
+            <input type="hidden" id="form-pistaNombre" name="pistaNombre" th:value="${pistaNombre}">
+            <input type="hidden" id="form-fecha" name="fecha">
+            <input type="hidden" id="form-horaInicio" name="horaInicio">
+            <input type="hidden" id="form-horaFin" name="horaFin">
+            <div class="mt-10 flex items-center justify-center gap-x-6" style="text-align: center; margin-top: 20px;">
+                <button id="confirm-btn" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" style="display: none;">Confirmar Reserva</button>
+            </div>
+        </form>
+
     </div>
 
     <!-- Alerta reservas -->
     <script>
-        let selectedSlot = null;  // Variable para almacenar la franja horaria seleccionada
+        let selectedSlot = null; // Variable para almacenar la franja horaria seleccionada
 
-        // Seleccionar las franjas horarias
-        document.querySelectorAll('.time-slot').forEach(slot => {
-            slot.addEventListener('click', function() {
-                const messageBox = document.getElementById('message');
-
-                // Si ya se había seleccionado una hora y la misma hora es clickeada nuevamente, la deseleccionamos
-                if (selectedSlot === this) {
-                    this.classList.remove('selected');
-                    selectedSlot = null;
-                    document.getElementById('confirm-btn').style.display = 'none'; // Ocultar el botón de confirmación
-                    messageBox.textContent = ''; // Limpiar mensaje
-                    return;
-                }
-
-                // Si se selecciona una nueva hora, resaltar la hora seleccionada
-                if (selectedSlot !== null) {
-                    selectedSlot.classList.remove('selected');  // Deseleccionar la hora previamente seleccionada
-                }
-
-                this.classList.add('selected');
-                selectedSlot = this;  // Guardar la franja seleccionada
-
-                // Mostrar el botón de confirmación
-                document.getElementById('confirm-btn').style.display = 'inline-block';
-                messageBox.style.color = '#007bff';  // Azul para hora seleccionada
-            });
-        });
-
-        // Confirmar la reserva
-        document.getElementById('confirm-btn').addEventListener('click', function() {
-            const messageBox = document.getElementById('message');
-
-            if (selectedSlot && !selectedSlot.classList.contains('reserved')) {
-                selectedSlot.classList.add('reserved');  // Marcar como reservada
-                selectedSlot.classList.remove('selected');
-
-                // Ocultar el botón de confirmación
-                document.getElementById('confirm-btn').style.display = 'none';
-                selectedSlot = null;  // Limpiar la selección
-
-                messageBox.textContent = 'Reserva confirmada para la hora: ' + selectedSlot.getAttribute('data-time');
-                messageBox.style.color = '#28a745';  // Verde para confirmación
-            }
-            else {
-                messageBox.textContent = 'Esta hora ya está reservada.';
-                messageBox.style.color = '#dc3545';  // Rojo para error
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const weekDisplay = document.getElementById("week-info");
 
             // Obtener la fecha actual
             const today = new Date();
 
-            // Calcular el día de  (lunes) y el final de la semana (domingo)
-            const startOfWeek = new Date(today);
-            startOfWeek.setDate(today.getDate() - today.getDay() + 1); // lunes
-            const endOfWeek = new Date(today);
-            endOfWeek.setDate(today.getDate() - today.getDay() + 7); // domingo
+            // Calcular el día de la semana (0 = domingo, 1 = lunes, ..., 6 = sábado)
+            const dayOfWeek = today.getDay();
 
-            // Formatear las fechas al formato deseado (dd/mm/yyyy)
+            // Ajustar el día de la semana para que 0 sea lunes (en lugar de domingo)
+            const adjustedDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1;
+
+            // Calcular el inicio de la semana (lunes)
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - adjustedDay);
+
+            // Calcular el final de la semana (domingo)
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            // Formatear las fechas al formato deseado (por ejemplo, dd/mm/yyyy)
             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
             const startOfWeekStr = startOfWeek.toLocaleDateString('es-ES', options);
             const endOfWeekStr = endOfWeek.toLocaleDateString('es-ES', options);
 
-            // Actualizar el contenido del cuadro con el rango de fechas de la semana actual
+            // Actualizar el contenido del div con el rango de fechas
             weekDisplay.textContent = `Semana actual: ${startOfWeekStr} - ${endOfWeekStr}`;
         });
+
+        // Seleccionar las franjas horarias
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function () {
+                const messageBox = document.getElementById('message');
+
+                // Verificar si el slot está reservado
+                if (slot.classList.contains('reserved')) {
+                    alert('Este horario ya está reservado.');
+                    return; // Salir sin permitir la selección
+                }
+
+                // Si ya se había seleccionado un slot, deseleccionarlo
+                if (selectedSlot === this) {
+                    this.classList.remove('selected');
+                    selectedSlot = null;
+                    document.getElementById('confirm-btn').style.display = 'none'; // Ocultar botón de confirmación
+                    messageBox.textContent = ''; // Limpiar mensaje
+                    return;
+                }
+
+                // Deseleccionar slot anterior
+                if (selectedSlot) {
+                    selectedSlot.classList.remove('selected');
+                }
+
+                this.classList.add('selected');
+                selectedSlot = this;
+
+                // Rellenar los campos del formulario con los datos del slot seleccionado
+                const [horaInicio, horaFin] = this.textContent.trim().split(' - ');
+                document.getElementById('form-fecha').value = this.getAttribute('data-date'); // Fecha del slot
+                document.getElementById('form-horaInicio').value = horaInicio; // Hora de inicio del slot
+                document.getElementById('form-horaFin').value = horaFin; // Hora de fin del slot
+
+                // Mostrar botón de confirmación
+                document.getElementById('confirm-btn').style.display = 'inline-block';
+                messageBox.style.color = '#007bff'; // Azul para hora seleccionada
+            });
+        });
+
+        // Validar y enviar el formulario al hacer clic en el botón de confirmación
+        document.getElementById('confirm-btn').addEventListener('click', function () {
+            if (selectedSlot) {
+                const pistaNombre = document.getElementById('form-pistaNombre').value;
+                const fecha = document.getElementById('form-fecha').value;
+                const horaInicio = document.getElementById('form-horaInicio').value;
+                const horaFin = document.getElementById('form-horaFin').value;
+
+                // Validaciones adicionales si son necesarias
+                if (!fecha || !horaInicio || !horaFin || !pistaNombre) {
+                    alert('Por favor, selecciona todos los campos necesarios.');
+                    return;
+                }
+
+                // Enviar el formulario automáticamente
+                document.getElementById('reservation-form').submit();
+            }
+        });
     </script>
+
 
     <!-- Pie de Pagina -->
     <footer class="bg-gray-800 text-white py-8 mt-20">
