@@ -385,7 +385,7 @@ public class HomeController {
         return "misReservas";
     }
 
-    @PostMapping("/eliminarReservad")
+    @PostMapping("/eliminarReserva")
     public String eliminarReserva(Model model, HttpSession session, @RequestParam("reservaId") Long pista) {
         reservaService.eliminarReserva(pista);
 
