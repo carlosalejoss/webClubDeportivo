@@ -1,7 +1,6 @@
 package org.example.si_gestor_club_deportivo.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.example.si_gestor_club_deportivo.dto.ReservaDTO;
 import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.Usuario;
@@ -9,8 +8,7 @@ import org.example.si_gestor_club_deportivo.service.PistaService;
 import org.example.si_gestor_club_deportivo.service.UsuarioService;
 import org.example.si_gestor_club_deportivo.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -43,6 +39,12 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/exitoRsv")
+    public String exitoRsv(HttpSession session) {return "exitoReserva";}
+
+    @GetMapping("/falloRsv")
+    public String falloRsv(HttpSession session) {return "falloReserva";}
+
     @GetMapping("/iniciarSesion")
     public String iniciarsesion(HttpSession session) {
         return "iniciarSesion";
@@ -61,11 +63,6 @@ public class HomeController {
     @GetMapping("/sobreNosotros")
     public String sobreNosotros(HttpSession session) {
         return "sobreNosotros";
-    }
-
-    @GetMapping("/misReservas")
-    public String misReservas(HttpSession session) {
-        return "misReservas";
     }
 
     @GetMapping("/eleccionCampo")
@@ -310,7 +307,14 @@ public class HomeController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             model.addAttribute("error", "Usuario no autenticado.");
-            return "redirect:/";
+            return "redirect:/iniciarSesion";
+        }
+
+        LocalDate fechaBusqueda = LocalDate.parse(fecha);
+        boolean yaReservado = reservaService.obtenerReservaUsuarioFecha(usuario.getId(), fechaBusqueda);
+
+        if(yaReservado){
+            return "redirect:/falloRsv";
         }
 
         // Crear nueva reserva
@@ -330,7 +334,7 @@ public class HomeController {
         LocalDate parsedFecha = LocalDate.parse(fecha);
         if (parsedFecha.isBefore(LocalDate.now())) {
             model.addAttribute("error", "La fecha no puede ser anterior a la actual.");
-            return "redirect:/iniciarSesion";
+            return "redirect:/";
         }
         nuevaReserva.setFecha(parsedFecha);
         nuevaReserva.setHoraInicio(LocalTime.parse(horaInicio));
@@ -340,8 +344,51 @@ public class HomeController {
         // Guardar reserva
         reservaService.crearReserva(nuevaReserva);
 
-        model.addAttribute("success", "Reserva creada con éxito.");
-        return "redirect:/";
+        return "redirect:/exitoRsv";
+    }
+
+    @GetMapping("/misReservas")
+    public String misReservas(Model model, HttpSession session) {
+        // Obtener la semana actual
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+        LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        // Obtener todas las reservas del usuario para la semana actual
+        List<Reserva> reservasSemana = reservaService.obtenerReservasUsuarioFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Separar reservas activas y no activas
+        List<Reserva> reservasActivas = new ArrayList<>();
+        List<Reserva> reservasNoActivas = new ArrayList<>();
+
+        for (Reserva reserva : reservasSemana) {
+            if (reserva.getFecha().isAfter(hoy) ||
+                    (reserva.getFecha().isEqual(hoy) && reserva.getHoraInicio().isAfter(horaActual))) {
+                reservasActivas.add(reserva);
+            } else {
+                reservasNoActivas.add(reserva);
+            }
+        }
+
+        // Obtener reservas fuera del rango de la semana actual
+        List<Reserva> reservasFueraDeLaSemana = reservaService.obtenerReservasUsuarioExcluyendoRangoFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Combinar reservas no activas de la semana actual con las reservas fuera de la semana
+        reservasNoActivas.addAll(reservasFueraDeLaSemana);
+
+        model.addAttribute("reservasActivas", reservasActivas);
+        model.addAttribute("reservasNoActivas", reservasNoActivas);
+
+        return "misReservas";
+    }
+
+    @PostMapping("/eliminarReserva")
+    public String eliminarReserva(Model model, HttpSession session, @RequestParam("reservaId") Long pista) {
+        reservaService.eliminarReserva(pista);
+
+        return "redirect:/misReservas";
     }
 
 }

@@ -620,6 +620,37 @@
             <div id="reservas-container">
                 <!-- Plantilla de reserva -->
                 <!-- Esta sección se llenará dinámicamente -->
+                <div class="reservasActivas">
+                    <div th:if="${reservasActivas.isEmpty()} == false">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">RESERVAS PARA ESTA SEMANA</h2>
+                        <div th:each="reservaActiva : ${reservasActivas}" class="mb-4 p-4 border rounded-lg shadow-md bg-gray-50">
+                            <h2 class="text-xl font-semibold" th:text="${reservaActiva.getPista().getNombre()}"></h2>
+                            <p class="text-gray-600" th:text="${'Fecha: ' + reservaActiva.getFecha().toString()}"></p>
+                            <p class="text-gray-600" th:text="'Hora: ' + ${reservaActiva.getHora()}"></p>
+                            <p class="text-gray-600" th:text="'Ubicación: Campo ' + ${reservaActiva.getPista().getNumero_pista()} + ' ' + ${reservaActiva.getPista().getTipo()}"></p>
+
+                            <!-- Botón de eliminar -->
+                            <form th:action="@{/eliminarReserva}" method="post" class="mt-4">
+                                <input type="hidden" name="reservaId" th:value="${reservaActiva.getId()}" />
+                                <button type="submit"
+                                        class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                                    Eliminar Reserva
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="reservasNoActivas">
+                    <div th:if="${reservasNoActivas.isEmpty()} == false">
+                        <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">HISTÓRICO DE RESERVAS</h2>
+                        <div th:each="reservaNoActiva : ${reservasNoActivas}" class="mb-4 p-4 border rounded-lg shadow-md bg-gray-50">
+                            <h2 class="text-xl font-semibold" th:text="${reservaNoActiva.getPista().getNombre()}"></h2>
+                            <p class="text-gray-600" th:text="${'Fecha: ' + reservaNoActiva.getFecha().toString()}"></p>
+                            <p class="text-gray-600" th:text="'Hora: ' + ${reservaNoActiva.getHora()}"></p>
+                            <p class="text-gray-600" th:text="'Ubicación: Campo ' + ${reservaNoActiva.getPista().getNumero_pista()} + ' ' + ${reservaNoActiva.getPista().getTipo()}"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Mensaje en caso de no tener reservas -->
@@ -628,33 +659,8 @@
     </div>
 
     <script>
-        // Ejemplo de datos de reservas (Esto normalmente vendría de una API o base de datos)
-        const reservas = [
-            { id: 1, fecha: "2024-12-05", hora: "12:00 - 13:00", actividad: "Fútbol 11", ubicacion: "Campo 1" },
-            { id: 2, fecha: "2024-11-20", hora: "12:00 - 13:00", actividad: "Baloncesto", ubicacion: "Cancha 2" },
-            { id: 3, fecha: "2023-10-10", hora: "12:00 - 13:00", actividad: "Padel", ubicacion: "Cancha 4" }
-        ];
-
-        const reservasContainer = document.getElementById("reservas-container");
-        const noReservas = document.getElementById("no-reservas");
-        const today = new Date().toISOString().split('T')[0];  // Fecha actual
-
-        // Filtrar reservas futuras y del usuario actual
-        const reservasFuturas = reservas.filter(reserva => reserva.fecha > today);
-
-        if (reservasFuturas.length > 0) {
-            reservasFuturas.forEach(reserva => {
-                const reservaElement = document.createElement("div");
-                reservaElement.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "mb-4");
-                reservaElement.innerHTML = `
-                    <h2 class="text-xl font-semibold">${reserva.actividad}</h2>
-                    <p class="text-gray-600">Fecha: ${reserva.fecha}</p>
-                    <p class="text-gray-600">Hora: ${reserva.hora}</p>
-                    <p class="text-gray-600">Ubicación: ${reserva.ubicacion}</p>
-                `;
-                reservasContainer.appendChild(reservaElement);
-            });
-        } else {
+        //Mostrar opciones vista sin reservas
+        if (reservasFuturas.length <= 0) {
             noReservas.classList.remove("hidden");
         }
     </script>
