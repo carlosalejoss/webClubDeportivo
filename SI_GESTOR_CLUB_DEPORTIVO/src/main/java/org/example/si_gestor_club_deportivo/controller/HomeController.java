@@ -331,23 +331,31 @@ public class HomeController {
             return "redirect:/iniciarSesion";
         }
 
-        LocalDate fechaBusqueda = LocalDate.parse(fecha);
-        boolean yaReservado = reservaService.obtenerReservaUsuarioFecha(usuario.getId(), fechaBusqueda);
+        LocalDate fechaParsed = LocalDate.parse(fecha);
+        boolean yaReservado = reservaService.obtenerReservaUsuarioFecha(usuario.getId(), fechaParsed);
 
         if(yaReservado){
             return "redirect:/falloRsv";
         }
 
+        // Obtener la fecha y hora actuales
+        LocalDate fechaActual = LocalDate.now();
         LocalTime horaActual = LocalTime.now();
         LocalTime horaInicioParsed = LocalTime.parse(horaInicio);
 
-        // Verificar si la hora actual es igual o posterior a la hora de inicio
-        boolean reservaEnCurso = horaActual.equals(horaInicioParsed) || horaActual.isAfter(horaInicioParsed);
 
-        if (reservaEnCurso) {
+        // Verificar si la fecha del horario es la fecha actual
+        if (fechaParsed.equals(fechaActual)) {
+            // Si es el mismo día, verificar si la hora ya ha pasado
+            boolean reservaEnCurso = horaActual.equals(horaInicioParsed) || horaActual.isAfter(horaInicioParsed);
+
+            if (reservaEnCurso) {
+                return "redirect:/falloRsv";
+            }
+        } else if (fechaParsed.isBefore(fechaActual)) {
+            // Si la fecha es anterior al día actual, no se puede reservar
             return "redirect:/falloRsv";
         }
-
 
         // Crear nueva reserva
         Reserva nuevaReserva = new Reserva();
@@ -497,29 +505,46 @@ public class HomeController {
 
     @GetMapping("/clasesReserva")
     public String clasesReserva(Model model, HttpSession session, @RequestParam("tipo") String tipoSeleccionado) {
-        // Verifica que el usuario esté logueado
+        // Verificar que el usuario esté logueado
         Object loggedUser = session.getAttribute("loggedUser");
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (loggedUser == null) {
             return "redirect:/iniciarSesion";
         }
+
         // Obtener las clases por tipo
         List<Clase> clases = claseService.obtenerClasesPorTipo(tipoSeleccionado);
 
-        // Obtener los horarios para las clases
+        // Fecha y hora actuales
+        LocalDate fechaActual = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+
+        // Filtrar horarios por fecha y hora actuales o posteriores
         Map<Long, List<Horario>> horariosPorClase = clases.stream()
                 .collect(Collectors.toMap(
                         Clase::getId,
                         clase -> horarioService.obtenerHorariosPorClase(clase.getId())
+                                .stream()
+                                .filter(horario ->
+                                        horario.getFecha().isAfter(fechaActual) ||
+                                                (horario.getFecha().isEqual(fechaActual) && horario.getHoraInicio().isAfter(horaActual))
+                                )
+                                .collect(Collectors.toList())
                 ));
+
+        // Filtrar las clases que no tienen horarios válidos
+        List<Clase> clasesConHorarios = clases.stream()
+                .filter(clase -> horariosPorClase.get(clase.getId()) != null && !horariosPorClase.get(clase.getId()).isEmpty())
+                .collect(Collectors.toList());
 
         // Pasar datos al modelo
         model.addAttribute("tipoSeleccionado", tipoSeleccionado);
-        model.addAttribute("clases", clases);
+        model.addAttribute("clases", clasesConHorarios);
         model.addAttribute("horariosPorClase", horariosPorClase);
         return "reservarClases";
     }
+
 
     @PostMapping("/clasesReserva")
     public String apuntarseClase(Model model, HttpSession session, @RequestParam("horarioId") Long horarioId) {

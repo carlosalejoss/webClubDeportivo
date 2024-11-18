@@ -698,12 +698,12 @@
 
 <div class="max-w-7xl mx-auto mt-10">
     <!-- Contenedor de la cuadrícula -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div th:each="tipo, iterStat : ${tiposDeClases}"
-             class="bg-white shadow-lg rounded-lg p-4 flex flex-col items-center"
+             class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center relative"
              th:classappend="${iterStat.last and !iterStat.even} ? 'col-span-2 mx-auto' : ''">
             <!-- Imagen según el tipo de clase -->
-            <div class="w-72 h-72 mb-4">
+            <div class="w-96 h-96 mb-6">
                 <img th:src="@{'/' + ${tipo} + '.png'}"
                      onerror="this.src='/logo.png';"
                      alt="Tipo de Clase"
@@ -712,12 +712,13 @@
 
             <!-- Botón para redirigir -->
             <a th:href="@{/clasesReserva(tipo=${tipo})}"
-               class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-900">
+               class="absolute -bottom-4 bg-blue-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-900">
                 Ver Clases de <span th:text="${tipo}"></span>
             </a>
         </div>
     </div>
 </div>
+
 
 
 
