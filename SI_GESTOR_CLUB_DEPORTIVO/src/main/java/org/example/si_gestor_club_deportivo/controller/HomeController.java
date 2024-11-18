@@ -495,6 +495,75 @@ public class HomeController {
         return "redirect:/gestionarPistas";
     }
 
+    @PostMapping("/NewDatos")
+    public String nuevosDatos(
+            @RequestParam String newNombre,
+            @RequestParam String newApellidos,
+            @RequestParam String newDNI,
+            @RequestParam String newEmail,
+            @RequestParam String newTelefono,
+            @RequestParam String newPassword,
+            HttpSession session,
+            Model model) {
+
+        // Obtener el usuario actual desde la sesión
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if ((newEmail == null || newEmail.trim().isEmpty()) &&
+                (newPassword == null || newPassword.trim().isEmpty()) &&
+                (newNombre == null || newNombre.trim().isEmpty()) &&
+                (newApellidos == null || newApellidos.trim().isEmpty()) &&
+                (newTelefono == null || newTelefono.trim().isEmpty()) &&
+                (newDNI == null || newDNI.trim().isEmpty())) {
+
+            model.addAttribute("error", "Hay que rellenar mínimo un campo para cambiar los datos.");
+            return "datosCuenta"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        if (usuarioService.findByEmail(newEmail) != null) {
+            model.addAttribute("error", "El email ya está registrado.");
+            return "datosCuenta"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        if (usuarioService.findByDni(newDNI) != null) {
+            model.addAttribute("error", "El dni ya está registrado.");
+            return "datosCuenta"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        if (usuarioService.findByTelefono(newTelefono) != null) {
+            model.addAttribute("error", "El telefono ya está registrado.");
+            return "datosCuenta"; // Redirige de nuevo a la página de registro en caso de error
+        }
+
+        // Cambiar los datos del usuario
+        if (newNombre != null && !newNombre.trim().isEmpty()) {
+            usuario.setNombre(newNombre);
+        }
+        if (newApellidos != null && !newApellidos.trim().isEmpty()) {
+            usuario.setApellidos(newApellidos);
+        }
+        if (newDNI != null && !newDNI.trim().isEmpty()) {
+            usuario.setDni(newDNI);
+        }
+        if (newEmail != null && !newEmail.trim().isEmpty()) {
+            usuario.setEmail(newEmail);
+        }
+        if (newTelefono != null && !newTelefono.trim().isEmpty()) {
+            usuario.setTelefono(newTelefono);
+        }
+        if (newPassword != null && !newPassword.trim().isEmpty()) {
+            usuario.setPassword(newPassword);
+        }
+
+        // Guardar los cambios
+        usuarioService.guardarUsuario(usuario);
+
+        // Actualizar la sesión con los datos modificados si es necesario
+        session.setAttribute("usuario", usuario);
+
+        return "redirect:/datosCuenta";
+    }
+
     @GetMapping("/clases")
     public String clases(Model model, HttpSession session) {
         List<String> tipos = claseService.obtenerTiposDeClases();
