@@ -32,6 +32,9 @@
 
             <!-- Mostrar opciones para usuarios no logueados -->
             <div th:if="${session.loggedUser == null}" class="hidden lg:flex lg:gap-x-12 lg:justify-center">
+                <!-- Clases -->
+                <a href="/clases" class="text-sm font-semibold leading-6 text-gray-900">Clases Dirigidas</a>
+                <!-- Reservas -->
                 <div x-data="{ openReserva: false }" class="relative">
                     <button @click="openReserva = !openReserva" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
                         Reservar
@@ -125,6 +128,9 @@
             <div th:if="${session.loggedUser} and (${session.isAdmin} == false)" class="hidden lg:flex lg:gap-x-12">
                 <!-- Menú Reservar -->
                 <div class="hidden lg:flex lg:gap-x-12">
+                    <!-- Clases -->
+                    <a href="/clases" class="text-sm font-semibold leading-6 text-gray-900">Clases Dirigidas</a>
+                    <!-- Reservas -->
                     <div x-data="{ openReserva: false }" class="relative">
                         <button @click="openReserva = !openReserva" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
                             Reservar
@@ -233,7 +239,9 @@
 
             <!-- Mostrar opciones para administradores logueados (vista de user) -->
             <div th:if="${session.loggedUser} and (${session.viewAsAdmin == false})" class="hidden lg:flex lg:gap-x-12">
-                <!-- Menú Reservar -->
+                <!-- Clases -->
+                <a href="/clases" class="text-sm font-semibold leading-6 text-gray-900">Clases Dirigidas</a>
+                <!-- Reservas -->
                 <div class="hidden lg:flex lg:gap-x-12">
                     <div x-data="{ openReserva: false }" class="relative">
                         <button @click="openReserva = !openReserva" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
@@ -344,7 +352,9 @@
 
             <!-- Mostrar opciones para administradores logueados (vista de admin) -->
             <div th:if="${session.loggedUser} and ${session.viewAsAdmin}" class="hidden lg:flex lg:gap-x-12">
-                <!-- Menú Reservar -->
+                <!-- Clases -->
+                <a href="/clases" class="text-sm font-semibold leading-6 text-gray-900">Clases Dirigidas</a>
+                <!-- Reservas -->
                 <div class="hidden lg:flex lg:gap-x-12">
                     <div x-data="{ openReserva: false }" class="relative">
                         <button @click="openReserva = !openReserva" type="button" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900" aria-expanded="false">
@@ -477,6 +487,7 @@
 
                     <div th:if="${session.loggedUser == null}" class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
+                            <a href="/clases" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Clases Dirigidas</a>
                             <div x-data="{ openResMov: true }" class="-mx-3">
                                 <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
                                     Reservar
@@ -503,6 +514,7 @@
 
                     <div th:if="${session.loggedUser} and (${session.isAdmin} == false)" class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
+                            <a href="/clases" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Clases Dirigidas</a>
                             <div x-data="{ openResMov: true }" class="-mx-3">
                                 <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
                                     Reservar
@@ -537,6 +549,7 @@
 
                     <div th:if="${session.loggedUser} and (${session.viewAsAdmin == false})" class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
+                            <a href="/clases" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Clases Dirigidas</a>
                             <div x-data="{ openResMov: true }" class="-mx-3">
                                 <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
                                     Reservar
@@ -563,7 +576,7 @@
                                 <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2">
                                     <a href="/datosCuenta" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
                                     <a href="/misReservas" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
-                                    <a href="/" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a Admin</a>
+                                    <a href="/toggleView" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a Admin</a>
                                     <a href="/logout" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                 </div>
                             </div>
@@ -572,6 +585,7 @@
 
                     <div th:if="${session.loggedUser} and ${session.viewAsAdmin}" class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
+                            <a href="/clases" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Clases Dirigidas</a>
                             <div x-data="{ openResMov: true }" class="-mx-3">
                                 <button @click="openResMov = !openResMov" type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
                                     Reservar
@@ -598,12 +612,13 @@
                                 <div x-show="openUserMov" @click="openUserMov = false" x-transition class="mt-2 space-y-2">
                                     <a href="/datosCuenta" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Ajustes de cuenta</a>
                                     <a href="/misReservas" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Mis reservas</a>
-                                    <a href="/" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a User</a>
+                                    <a href="/toggleView" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cambiar a User</a>
                                     <a href="/logout" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">Cerrar Sesión</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

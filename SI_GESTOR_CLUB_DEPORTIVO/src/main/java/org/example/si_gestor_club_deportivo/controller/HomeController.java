@@ -4,9 +4,14 @@ import jakarta.servlet.http.HttpSession;
 import org.example.si_gestor_club_deportivo.model.Pista;
 import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.Usuario;
-import org.example.si_gestor_club_deportivo.service.PistaService;
-import org.example.si_gestor_club_deportivo.service.UsuarioService;
+import org.example.si_gestor_club_deportivo.model.Horario;
+import org.example.si_gestor_club_deportivo.model.ReservaClase;
 import org.example.si_gestor_club_deportivo.service.ReservaService;
+import org.example.si_gestor_club_deportivo.service.UsuarioService;
+import org.example.si_gestor_club_deportivo.model.Clase;
+import org.example.si_gestor_club_deportivo.repository.ClaseRepository;
+import org.example.si_gestor_club_deportivo.repository.ReservaClaseRepository;
+import org.example.si_gestor_club_deportivo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
@@ -27,12 +33,22 @@ public class HomeController {
     private final UsuarioService usuarioService;
     private final PistaService pistaService;
     private final ReservaService reservaService;
+    private final ClaseService claseService;
+    private final HorarioService horarioService;
+    private final ReservaClaseRepository reservaClaseRepository;
+    private final ClaseRepository claseRepository;
+    private final ReservaClaseService reservaClaseService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService, ClaseService claseService, HorarioService horarioService, ReservaClaseRepository reservaClaseRepository, ClaseRepository claseRepository, ReservaClaseService reservaClaseService) {
         this.usuarioService = usuarioService;
         this.pistaService = pistaService;
         this.reservaService = reservaService;
+        this.claseService = claseService;
+        this.horarioService = horarioService;
+        this.reservaClaseRepository = reservaClaseRepository;
+        this.claseRepository = claseRepository;
+        this.reservaClaseService = reservaClaseService;
     }
 
     @GetMapping("/")
@@ -469,6 +485,79 @@ public class HomeController {
 
         pistaService.crearPista(newPista);
         return "redirect:/gestionarPistas";
+    }
+
+    @GetMapping("/clases")
+    public String clases(Model model, HttpSession session) {
+        List<String> tipos = claseService.obtenerTiposDeClases();
+
+        model.addAttribute("tiposDeClases", tipos);
+        return "clases";
+    }
+
+    @GetMapping("/clasesReserva")
+    public String clasesReserva(Model model, HttpSession session, @RequestParam("tipo") String tipoSeleccionado) {
+        // Verifica que el usuario esté logueado
+        Object loggedUser = session.getAttribute("loggedUser");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (loggedUser == null) {
+            return "redirect:/iniciarSesion";
+        }
+        // Obtener las clases por tipo
+        List<Clase> clases = claseService.obtenerClasesPorTipo(tipoSeleccionado);
+
+        // Obtener los horarios para las clases
+        Map<Long, List<Horario>> horariosPorClase = clases.stream()
+                .collect(Collectors.toMap(
+                        Clase::getId,
+                        clase -> horarioService.obtenerHorariosPorClase(clase.getId())
+                ));
+
+        // Pasar datos al modelo
+        model.addAttribute("tipoSeleccionado", tipoSeleccionado);
+        model.addAttribute("clases", clases);
+        model.addAttribute("horariosPorClase", horariosPorClase);
+        return "reservarClases";
+    }
+
+    @PostMapping("/clasesReserva")
+    public String apuntarseClase(Model model, HttpSession session, @RequestParam("horarioId") Long horarioId) {
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        Horario horario = horarioService.obtenerHorarioPorId(horarioId);
+
+        // Verificar si ya está reservado por el usuario en el mismo horario
+        boolean yaReservado = reservaClaseRepository.existsByHorarioIdAndUsuarioId(horarioId, user.getId());
+        if (yaReservado) {
+            return "redirect:/falloRsv";
+        }
+
+        // Verificar si ya hay una clase en el mismo horario
+        List<ReservaClase> reservasUsuario = reservaClaseRepository.findByUsuarioId(user.getId());
+        for (ReservaClase reserva : reservasUsuario) {
+            Horario horarioReserva = reserva.getHorarioClase();
+            if (horario.getFecha().equals(horarioReserva.getFecha()) &&
+                    ((horario.getHoraInicio().isBefore(horarioReserva.getHoraFin()) &&
+                            horario.getHoraFin().isAfter(horarioReserva.getHoraInicio())))) {
+                return "redirect:/falloRsv";
+            }
+        }
+
+        // Verificar si el número máximo de asistentes ya fue alcanzado
+        List<ReservaClase> reservasActuales = reservaClaseRepository.findByHorarioId(horarioId);
+        if ((reservasActuales.size() + 1) > horario.getClase().getMaxAsistentes()) {
+            return "redirect:/falloRsv";
+        }
+
+        // Crear y guardar la nueva reserva
+        ReservaClase newReserva = new ReservaClase();
+        newReserva.setUsuario(user);
+        newReserva.setHorarioClase(horario);
+        newReserva.setFechaReserva(LocalDateTime.now());
+
+        reservaClaseRepository.save(newReserva);
+
+        return "redirect:/exitoRsv";
     }
 
 }
