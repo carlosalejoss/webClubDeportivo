@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS usuario (
 CREATE TABLE IF NOT EXISTS pista (
     nombre VARCHAR(100) PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL,
-    numero_pista INT NOT NULL
+    numero_pista INT NOT NULL,
+    descripcion VARCHAR(200) NOT NULL
 );
 
 -- Tabla para las reservas
@@ -41,11 +42,11 @@ INSERT INTO usuario (nombre, apellidos, telefono, dni, email, password, esAdmin)
 VALUES ('Victor', 'Martinez Paramo', '123123123', '33333333C', 'socio1@club.com', 'sociopass1', FALSE);
 
 -- Insertar pistas
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 1 Baloncesto', 'Baloncesto', 1);
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 2 Baloncesto', 'Baloncesto', 2);
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 1 Tenis', 'Tenis',1 );
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 2 Tenis', 'Tenis', 2);
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 1 Futbol 11', 'Futbol 11', 1);
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 2 Futbol 11', 'Futbol 11',2 );
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 1 Futbol 7', 'Futbol 7',1);
-INSERT INTO pista (nombre, tipo, numero_pista) VALUES ('Pista 2 Futbol 7', 'Futbol 7',2);
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 1 Baloncesto', 'Baloncesto', 1, 'Pista para la practica de baloncesto, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 2 Baloncesto', 'Baloncesto', 2, 'Pista para la practica de baloncesto, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 1 Tenis', 'Tenis',1, 'Pista para la practica del tenis, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 2 Tenis', 'Tenis', 2, 'Pista para la practica del tenis, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 1 Futbol 11', 'Futbol 11', 1,'Pista para la practica de fútbol base, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 2 Futbol 11', 'Futbol 11',2,'Pista para la practica defútbol base, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 1 Futbol 7', 'Futbol 7',1, 'Pista para la practica de fútbol 11, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');
+INSERT INTO pista (nombre, tipo, numero_pista, descripcion) VALUES ('Pista 2 Futbol 7', 'Futbol 7',2, 'Pista para la practica de fútbol 11, construida en 2009 con motivo del primer aniversario de la creación del club. Dispone de material alquilable para su practica');

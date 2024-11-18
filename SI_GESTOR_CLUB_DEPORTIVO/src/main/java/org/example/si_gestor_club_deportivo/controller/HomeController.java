@@ -225,6 +225,9 @@ public class HomeController {
         if (loggedUser == null) {
             return "redirect:/iniciarSesion";
         }
+
+        Optional<Pista> pista = pistaService.obtenerPistaPorNombre(campo);
+
         // Obtener la semana actual
         LocalDate hoy = LocalDate.now();
         LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
@@ -263,6 +266,7 @@ public class HomeController {
             }
         }
 
+        model.addAttribute("pistaActual", pista);
         model.addAttribute("horariosConReservas", horariosConReservas);
         model.addAttribute("userId", usuario.getId());
         model.addAttribute("pistaNombre", campo);
@@ -317,6 +321,17 @@ public class HomeController {
         if(yaReservado){
             return "redirect:/falloRsv";
         }
+
+        LocalTime horaActual = LocalTime.now();
+        LocalTime horaInicioParsed = LocalTime.parse(horaInicio);
+
+        // Verificar si la hora actual es igual o posterior a la hora de inicio
+        boolean reservaEnCurso = horaActual.equals(horaInicioParsed) || horaActual.isAfter(horaInicioParsed);
+
+        if (reservaEnCurso) {
+            return "redirect:/falloRsv";
+        }
+
 
         // Crear nueva reserva
         Reserva nuevaReserva = new Reserva();
@@ -437,11 +452,12 @@ public class HomeController {
     }
 
     @PostMapping("/newCampo")
-    public String guardarCampo(@RequestParam String nombre, @RequestParam String tipo,  Model model, HttpSession session) {
+    public String guardarCampo(@RequestParam String nombre, @RequestParam String tipo,  @RequestParam String descripcion, Model model, HttpSession session) {
 
         Pista newPista = new Pista();
         newPista.setNombre(nombre);
         newPista.setTipo(tipo);
+        newPista.setDescripcion(descripcion);
         Pista auxPista = pistaService.obtenerUltimaPistaPorTipo(tipo);
 
         if(auxPista == null){

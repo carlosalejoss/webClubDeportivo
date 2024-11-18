@@ -645,6 +645,7 @@
                     <p><strong>Nombre:</strong> <span th:text="${pista.getNombre()}"></span></p>
                     <p><strong>Número:</strong> <span th:text="${pista.getNumero_pista()}"></span></p>
                     <p><strong>Tipo:</strong> <span th:text="${pista.getTipo()}"></span></p>
+                    <p><strong>Descripcion:</strong> <span th:text="${pista.getDescripcion()}"></span></p>
                 </div>
                 <button type="button" class="bg-red-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-500"
                         th:attr="data-id=${pista.getNombre()}" onclick="eliminarPista(this)">
