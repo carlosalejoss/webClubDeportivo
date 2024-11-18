@@ -16,6 +16,9 @@ public class Pista {
     @Column(nullable = false)
     private int numero_pista;
 
+    @Column(nullable = false)
+    private String descripcion;
+
     // Constructor vacío para JPA
     public Pista() {}
 
@@ -42,4 +45,8 @@ public class Pista {
     public void setNumero_pista(int numero_pista) {
         this.numero_pista = numero_pista;
     }
+
+    public String getDescripcion() {return descripcion;}
+
+    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 }
