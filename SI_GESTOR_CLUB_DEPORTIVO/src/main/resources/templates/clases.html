@@ -615,45 +615,43 @@
 <div class="max-w-7xl mx-auto mt-10">
     <!-- Contenedor de la cuadrícula -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div th:each="tipo, iterStat : ${tiposDeClases}"
-             class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center relative"
-             th:classappend="${iterStat.last and !iterStat.even} ? 'col-span-2 mx-auto' : ''">
-            <!-- Imagen según el tipo de clase -->
-            <div class="w-96 h-96 mb-6">
-                <img th:src="@{'/' + ${tipo} + '.png'}"
-                     onerror="this.src='/logo.png';"
-                     alt="Tipo de Clase"
-                     class="w-full h-full object-contain" />
-            </div>
+        <div th:if="${!tiposDeClases.isEmpty()}">
+            <div th:each="tipo, iterStat : ${tiposDeClases}"
+                 class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center relative"
+                 th:classappend="${iterStat.last and !iterStat.even} ? 'col-span-2 mx-auto' : ''">
+                <!-- Imagen según el tipo de clase -->
+                <div class="w-96 h-96 mb-6">
+                    <img th:src="@{'/' + ${tipo} + '.png'}"
+                         onerror="this.src='/logo.png';"
+                         alt="Tipo de Clase"
+                         class="w-full h-full object-contain" />
+                </div>
 
-            <!-- Botón para redirigir -->
-            <a th:href="@{/clasesReserva(tipo=${tipo})}"
-               class="absolute -bottom-4 bg-blue-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-900">
-                Ver Clases de <span th:text="${tipo}"></span>
-            </a>
+                <!-- Botón para redirigir -->
+                <a th:href="@{/clasesReserva(tipo=${tipo})}"
+                   class="absolute -bottom-4 bg-blue-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-900">
+                    Ver Clases de <span th:text="${tipo}"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col items-center mt-10">
+        <!-- Contenedor principal cuando no hay clases -->
+        <div th:if="${tiposDeClases.isEmpty()}"
+             class="flex flex-col items-center text-center bg-blue-900 shadow-lg rounded-lg p-8 max-w-md w-full">
+            <!-- Imagen profesional -->
+            <div class="w-64 h-64">
+                <img src="/logo.png" class="w-full h-full object-contain" alt="No hay clases disponibles"/>
+            </div>
+            <!-- Mensaje -->
+            <div class="mt-6">
+                <h2 class="text-2xl font-semibold text-white">No se encontraron clases disponibles</h2>
+                <p class="text-gray-200 mt-2">Actualmente no hay clases disponibles para mostrar.</p>
+                <p class="text-gray-200">Intenta de nuevo más tarde o contacta al administrador.</p>
+            </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-<!--CONFIRMACION RESERVA VER DONDE METER
-<div class="max-w-xl mx-auto mt-20 bg-white shadow-lg rounded-lg p-6 text-center">
-    <h1 class="text-3xl font-bold text-green-600">¡Inscripción Exitosa!</h1>
-    <p class="text-gray-700 mt-4">Te has inscrito a la siguiente clase:</p>
-    <div class="mt-4 text-left">
-        <p><strong>Clase:</strong> <span th:text="${reserva.clase.nombre}"></span></p>
-        <p><strong>Profesor:</strong> <span th:text="${reserva.clase.profesor}"></span></p>
-        <p><strong>Fecha:</strong> <span th:text="${reserva.horario.fecha}"></span></p>
-        <p><strong>Hora:</strong> <span th:text="${reserva.horario.hora_inicio} + ' - ' + ${reserva.horario.hora_fin}"></span></p>
-        <p><strong>Precio:</strong> $<span th:text="${reserva.precio}"></span></p>
-    </div>
-    <a href="/" class="mt-6 inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
-        Volver al Inicio
-    </a>
-</div>-->
 
 
 <!-- Pie de Pagina -->
