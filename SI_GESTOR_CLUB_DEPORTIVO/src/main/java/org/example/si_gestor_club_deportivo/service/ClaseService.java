@@ -66,4 +66,5 @@ public class ClaseService {
     public Clase obtenerClasePorId(Long id) {
         return claseRepository.findById(id).orElse(null);
     }
+
 }

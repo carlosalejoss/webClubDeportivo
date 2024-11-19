@@ -629,4 +629,51 @@ public class HomeController {
         return "redirect:/exitoRsv";
     }
 
+
+
+    @GetMapping("/verClases")
+    public String misClases(Model model, HttpSession session) {
+        // Obtener la semana actual
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+        LocalDate inicioSemana = hoy.with(ChronoField.DAY_OF_WEEK, 1);
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        // Obtener todas las reservas de clases del usuario para la semana actual
+        List<ReservaClase> clasesSemana = reservaClaseService.obtenerReservasClasesUsuarioFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Separar clases activas y no activas
+        List<ReservaClase> clasesActivas = new ArrayList<>();
+        List<ReservaClase> clasesNoActivas = new ArrayList<>();
+
+        for (ReservaClase reservaClase : clasesSemana) {
+            if (reservaClase.getHorarioClase().getFecha().isAfter(hoy) ||
+                    (reservaClase.getHorarioClase().getFecha().isEqual(hoy) && reservaClase.getHorarioClase().getHoraInicio().isAfter(horaActual))) {
+                clasesActivas.add(reservaClase);
+            } else {
+                clasesNoActivas.add(reservaClase);
+            }
+        }
+
+        // Obtener reservas de clases fuera del rango de la semana actual
+        List<ReservaClase> clasesFueraDeLaSemana = reservaClaseService.obtenerReservasUsuarioExcluyendoRangoFechas(inicioSemana, inicioSemana.plusDays(6), usuario.getId());
+
+        // Combinar clases no activas de la semana actual con las clases fuera de la semana
+        clasesNoActivas.addAll(clasesFueraDeLaSemana);
+
+        // Pasar las clases activas y no activas al modelo
+        model.addAttribute("clasesActivas", clasesActivas);
+        model.addAttribute("clasesNoActivas", clasesNoActivas);
+
+        return "misClases";
+    }
+
+    @PostMapping("/eliminarClase")
+    public String eliminarClase(Model model, HttpSession session, @RequestParam("claseId") Long pista) {
+        reservaClaseService.eliminarClase(pista);
+
+        return "redirect:/misReservas";
+    }
+
 }

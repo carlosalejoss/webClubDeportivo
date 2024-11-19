@@ -14,4 +14,5 @@ public interface ClaseRepository extends JpaRepository<Clase, Long> {
     List<String> findDistinctTipos();
 
     List<Clase> findByTipo(String tipo);
+
 }

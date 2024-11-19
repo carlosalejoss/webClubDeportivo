@@ -1,10 +1,12 @@
 package org.example.si_gestor_club_deportivo.service;
 
+import org.example.si_gestor_club_deportivo.model.Reserva;
 import org.example.si_gestor_club_deportivo.model.ReservaClase;
 import org.example.si_gestor_club_deportivo.repository.ReservaClaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,20 @@ public class ReservaClaseService {
             throw new IllegalArgumentException("El ID de la reserva no puede ser nulo.");
         }
         return reservaClaseRepository.save(reserva);
+    }
+
+
+    public List<ReservaClase> obtenerReservasClasesUsuarioFechas(LocalDate inicio, LocalDate fin, Long userId) {
+        return reservaClaseRepository.findReservasClasesByUsuarioAndFechaRange(userId, inicio, fin);
+    }
+
+    public List<ReservaClase> obtenerReservasUsuarioExcluyendoRangoFechas(LocalDate inicio, LocalDate fin, Long userId){
+        return reservaClaseRepository.findReservasClasesByUsuarioExcludingFechaRange(userId, inicio, fin);
+    }
+
+    // Método para eliminar una clase  por su ID
+    public void eliminarClase(Long id) {
+        reservaClaseRepository.deleteById(id);
     }
 
 }
