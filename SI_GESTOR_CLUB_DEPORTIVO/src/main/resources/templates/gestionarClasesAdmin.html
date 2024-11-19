@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="description" content="" />
@@ -8,64 +8,6 @@
     <title>Sports Center Aragon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        .calendar-container {
-            max-width: 1400px; /* Ajusta este valor según el tamaño deseado */
-            margin: 0 auto; /* Centra el contenedor en la página */
-            padding-left: 20px; /* Añade espacio alrededor del calendario */
-            padding-right: 20px; /* Añade espacio alrededor del calendario */
-        }
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-top: 20px;
-        }
-        .day {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .day h2 {
-            font-size: 1.2em;
-            margin-bottom: 20px; /* Aumenta este valor según sea necesario */
-            text-align: center;
-        }
-        .time-slot {
-            background-color: #e7f3fe;
-            border: 1px solid #c1e1f4;
-            border-radius: 4px;
-            margin: 2px 0;
-            padding: 3px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .time-slot:hover {
-            background-color: #d0e7ff;
-        }
-        .reserved {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        .time-slot.selected {
-            background-color: #cce5ff;  /* Azul claro para horas seleccionadas */
-            border-color: #80b3ff;
-        }
-        #week-info {
-            background-color: #e0e0e0;
-            padding: 5px;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-            grid-column: 7 / 8; /* Asegura que esté en la columna de "Domingo" */
-            justify-self: center; /* Centra el cuadro en su columna */
-            width: fit-content; /* Ajusta el ancho al contenido del texto */
-        }
-    </style>
 </head>
 <body>
 <!-- Cabecera -->
@@ -598,68 +540,154 @@
         </div>
     </header>
 </div>
-<!-- Campo a reservar -->
-<div class="flex flex-col justify-center px-6 py-4 lg:px-8 pt-[100px]">
-    <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">CAMPO</h2>
-</div>
-<div class="flex flex-col justify-center px-6 py-4 lg:px-96 ">
-    <div class="mx-auto mt-1 grid grid-cols-4 gap-0 border-t border-gray-300 pt-2 sm:mx-0 sm:max-w-full lg:grid-cols-4"></div>
-</div>
 
-<!-- Texto selccionar hora -->
-<div class="flex flex-col justify-center px-6 py-4 lg:px-8 ">
-    <h2 class="mt-auto text-center text-xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">Seleccione la hora que quiere reservar</h2>
-</div>
+<div class="max-w-7xl mx-auto p-6 bg-white shadow-md mt-8 rounded-lg">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Gestión de Clases</h1>
+        <a href="/" class="bg-white text-blue-900 px-4 py-2 rounded-md font-semibold hover:bg-gray-100">Volver al Panel</a>
+    </div>
 
-<div class="max-w-7xl mx-auto mt-10">
-    <h1 class="text-3xl font-bold text-center text-indigo-600 mb-6"
-        th:text="'Clases de ' + ${tipoSeleccionado}"></h1>
-    <div class="space-y-8">
-        <div th:each="clase : ${clases}">
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-bold text-gray-800" th:text="${clase.getNombre()}"></h2>
-                <p class="text-gray-600" th:text="'Profesor: ' + ${clase.getProfesor()}"></p>
-                <p class="text-gray-600" th:text="${clase.getDescripcion()}"></p>
-                <p class="text-gray-600 font-semibold" th:text="'Precio: $' + ${clase.getPrecio()}"></p>
+    <!-- Formulario de búsqueda por fechas -->
+    <div class="mb-10 bg-gray-100 p-4 rounded-lg shadow-inner">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Buscar Clases por Fechas</h2>
+        <form th:action="@{/clases/buscar}" method="get" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" required
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha Fin</label>
+                <input type="date" id="fechaFin" name="fechaFin" required
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="flex items-end">
+                <button type="submit"
+                        class="w-full bg-blue-900 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-500">
+                    Buscar
+                </button>
+            </div>
+        </form>
+    </div>
 
-                <!-- Horarios -->
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-gray-700">Horarios Disponibles</h3>
-                    <div th:each="horario : ${horariosPorClase.get(clase.getId())}"
-                         class="flex justify-between items-center mt-2">
-                        <p class="text-gray-600"
-                           th:text="${horario.getFecha()} + ' | ' + ${horario.getHoraInicio()} + ' - ' + ${horario.getHoraFin()}">
-                        </p>
-                        <form th:action="@{/clasesReserva}" method="post" class="inline">
-                            <input type="hidden" name="horarioId" th:value="${horario.getId()}" />
-                            <button type="submit"
-                                    class="bg-blue-900 text-white px-3 py-2 rounded-md hover:bg-indigo-500">
-                                Apuntarme
-                            </button>
-                        </form>
-                    </div>
+    <div class="mb-10">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Crear Nueva Clase</h2>
+        <!-- Formulario para crear clase -->
+        <form th:action="@{/clases/crear}" method="post" class="space-y-6">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Nombre -->
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- Profesor -->
+                <div>
+                    <label for="profesor" class="block text-sm font-medium text-gray-700">Profesor</label>
+                    <input type="text" id="profesor" name="profesor" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- Tipo -->
+                <div>
+                    <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo</label>
+                    <input type="text" id="tipo" name="tipo" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- Máx. Asistentes -->
+                <div>
+                    <label for="maxAsistentes" class="block text-sm font-medium text-gray-700">Máx. Asistentes</label>
+                    <input type="number" id="maxAsistentes" name="maxAsistentes" min="1" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- Precio -->
+                <div>
+                    <label for="precio" class="block text-sm font-medium text-gray-700">Precio (€)</label>
+                    <input type="number" id="precio" name="precio" step="0.01" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
             </div>
+            <!-- Descripción -->
+            <div>
+                <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="3" required
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-900 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-500">
+                Crear Clase
+            </button>
+        </form>
+
+        <!-- Formulario para añadir horario -->
+        <div class="mt-10">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Añadir Horario</h2>
+            <form th:action="@{/clases/horarios/crear}" method="post" class="space-y-6">
+                <div>
+                    <label for="clase" class="block text-sm font-medium text-gray-700">Clase</label>
+                    <select id="clase" name="claseId" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option th:each="clase : ${clases}" th:value="${clase.id}" th:text="${clase.nombre}"></option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Fecha -->
+                    <div>
+                        <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
+                        <input type="date" id="fecha" name="fecha" required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <!-- Hora de Inicio -->
+                    <div>
+                        <label for="horaInicio" class="block text-sm font-medium text-gray-700">Hora de Inicio</label>
+                        <input type="time" id="horaInicio" name="horaInicio" required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <!-- Hora de Fin -->
+                    <div>
+                        <label for="horaFin" class="block text-sm font-medium text-gray-700">Hora de Fin</label>
+                        <input type="time" id="horaFin" name="horaFin" required
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-900 text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-500">
+                    Añadir Horario
+                </button>
+            </form>
         </div>
     </div>
-</div>
 
 
-<!--CONFIRMACION RESERVA VER DONDE METER
-<div class="max-w-xl mx-auto mt-20 bg-white shadow-lg rounded-lg p-6 text-center">
-    <h1 class="text-3xl font-bold text-green-600">¡Inscripción Exitosa!</h1>
-    <p class="text-gray-700 mt-4">Te has inscrito a la siguiente clase:</p>
-    <div class="mt-4 text-left">
-        <p><strong>Clase:</strong> <span th:text="${reserva.clase.nombre}"></span></p>
-        <p><strong>Profesor:</strong> <span th:text="${reserva.clase.profesor}"></span></p>
-        <p><strong>Fecha:</strong> <span th:text="${reserva.horario.fecha}"></span></p>
-        <p><strong>Hora:</strong> <span th:text="${reserva.horario.hora_inicio} + ' - ' + ${reserva.horario.hora_fin}"></span></p>
-        <p><strong>Precio:</strong> $<span th:text="${reserva.precio}"></span></p>
+    <!-- Tabla de clases existentes -->
+    <div>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Clases Existentes</h2>
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+            <tr>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Nombre</th>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Profesor</th>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Tipo</th>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Máx. Asistentes</th>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Precio (€)</th>
+                <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="clase : ${clases}" class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b text-sm text-gray-700" th:text="${clase.getNombre()}"></td>
+                <td class="px-4 py-2 border-b text-sm text-gray-700" th:text="${clase.profesor}"></td>
+                <td class="px-4 py-2 border-b text-sm text-gray-700" th:text="${clase.tipo}"></td>
+                <td class="px-4 py-2 border-b text-sm text-gray-700" th:text="${clase.maxAsistentes}"></td>
+                <td class="px-4 py-2 border-b text-sm text-gray-700" th:text="${clase.precio}"></td>
+                <td class="px-4 py-2 border-b text-sm text-gray-700 flex space-x-2">
+                    <a th:href="@{/clases/editar/{id}(id=${clase.id})}" class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-900">Editar</a>
+                    <form th:action="@{/clases/eliminar/{id}(id=${clase.getId()})}" method="post" class="inline">
+                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-400">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <a href="/" class="mt-6 inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-500">
-        Volver al Inicio
-    </a>
-</div>-->
+</div>
 
 
 <!-- Pie de Pagina -->

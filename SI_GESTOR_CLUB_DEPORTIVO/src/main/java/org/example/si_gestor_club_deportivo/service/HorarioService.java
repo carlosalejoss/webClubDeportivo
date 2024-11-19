@@ -1,5 +1,6 @@
 package org.example.si_gestor_club_deportivo.service;
 
+import org.example.si_gestor_club_deportivo.model.Clase;
 import org.example.si_gestor_club_deportivo.model.Horario;
 import org.example.si_gestor_club_deportivo.repository.HorarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,4 +70,7 @@ public class HorarioService {
         return horarioClaseRepository.findById(id).orElse(null);
     }
 
+    public void guardarHorario(Horario nuevoHorario) {
+        horarioClaseRepository.save(nuevoHorario);
+    }
 }

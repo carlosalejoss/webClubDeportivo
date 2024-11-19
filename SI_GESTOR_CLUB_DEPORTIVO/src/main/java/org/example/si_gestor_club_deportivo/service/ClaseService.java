@@ -67,4 +67,11 @@ public class ClaseService {
         return claseRepository.findById(id).orElse(null);
     }
 
+    public List<Clase> obtenerClasesPorIds(List<Long> ids) {
+        return claseRepository.findAllById(ids);
+    }
+
+    public void guardarClase(Clase nuevaClase) {
+        claseRepository.save(nuevaClase);
+    }
 }
