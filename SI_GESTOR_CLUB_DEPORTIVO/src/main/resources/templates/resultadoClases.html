@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Clases</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+<div class="max-w-7xl mx-auto p-6 bg-white shadow-md mt-8 rounded-lg">
+    <!-- Título -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-indigo-600">Resultados de Clases</h1>
+        <a href="/gestionarClases" class="bg-gray-200 text-indigo-600 px-4 py-2 rounded-md font-semibold hover:bg-gray-300">
+            Volver a Gestión
+        </a>
+    </div>
+
+    <!-- Rango de fechas -->
+    <div class="mb-6 text-gray-700">
+        <p class="text-lg">
+            Mostrando clases entre el
+            <span class="font-semibold" th:text="${fechaInicio}"></span> y el
+            <span class="font-semibold" th:text="${fechaFin}"></span>.
+        </p>
+    </div>
+
+    <!-- Clases -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="clase : ${clases}" class="bg-white shadow-lg rounded-lg p-4 flex flex-col">
+            <!-- Título de la clase -->
+            <h2 class="text-xl font-bold text-gray-800 mb-2" th:text="${clase.nombre}"></h2>
+            <p class="text-gray-600 mb-2" th:text="'Profesor: ' + ${clase.profesor}"></p>
+            <p class="text-gray-600 mb-2" th:text="'Tipo: ' + ${clase.tipo}"></p>
+            <p class="text-gray-600 mb-4" th:text="${clase.descripcion}"></p>
+            <p class="text-gray-800 font-semibold mb-4" th:text="'Precio: €' + ${clase.precio}"></p>
+
+            <!-- Horarios de la clase -->
+            <h3 class="text-lg font-semibold text-indigo-600">Horarios Disponibles</h3>
+            <div th:each="horario : ${horarios}" th:if="${horario.clase.id} == ${clase.id}" class="flex justify-between items-center mt-2 bg-gray-100 p-2 rounded-md">
+                <p class="text-gray-600"
+                   th:text="${horario.fecha} + ' | ' + ${horario.horaInicio} + ' - ' + ${horario.horaFin}">
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje en caso de no encontrar clases -->
+    <div th:if="${clases.isEmpty()}" class="text-center mt-10">
+        <p class="text-xl font-bold text-gray-700">No se encontraron clases para el rango de fechas seleccionado.</p>
+    </div>
+</div>
+</body>
+</html>

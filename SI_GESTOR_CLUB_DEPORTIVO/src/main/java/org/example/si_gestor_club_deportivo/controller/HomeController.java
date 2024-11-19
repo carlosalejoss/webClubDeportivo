@@ -14,10 +14,12 @@ import org.example.si_gestor_club_deportivo.repository.ReservaClaseRepository;
 import org.example.si_gestor_club_deportivo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -652,6 +654,130 @@ public class HomeController {
         reservaClaseRepository.save(newReserva);
 
         return "redirect:/exitoRsv";
+    }
+
+    @GetMapping("/gestionarClases")
+    public String gestionarClases(Model model, HttpSession session) {
+        List<Clase> clases = claseService.obtenerTodasLasClases();
+        model.addAttribute("clases", clases);
+        return "gestionarClasesAdmin";
+    }
+
+    @GetMapping("/clases/buscar")
+    public String buscarClasesPorFechas(
+            Model model,
+            @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        // Filtrar horarios dentro del rango de fechas
+        List<Horario> horariosEnRango = horarioService.obtenerTodosLosHorarios()
+                .stream()
+                .filter(horario -> !horario.getFecha().isBefore(fechaInicio) && !horario.getFecha().isAfter(fechaFin))
+                .collect(Collectors.toList());
+
+        // Obtener IDs de las clases relacionadas con esos horarios
+        List<Long> claseIds = horariosEnRango.stream()
+                .map(horario -> horario.getClase().getId())
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Obtener las clases relacionadas
+        List<Clase> clases = claseService.obtenerClasesPorIds(claseIds);
+
+        // Pasar las clases y horarios al modelo
+        model.addAttribute("fechaInicio", fechaInicio);
+        model.addAttribute("fechaFin", fechaFin);
+        model.addAttribute("clases", clases);
+        model.addAttribute("horarios", horariosEnRango);
+
+        return "resultadoClases"; // Página de resultados
+    }
+
+    @PostMapping("/clases/editar/{id}")
+    public String guardarEdicionClase(
+            @PathVariable Long id,
+            @RequestParam String nombre,
+            @RequestParam String profesor,
+            @RequestParam String tipo,
+            @RequestParam String descripcion,
+            @RequestParam int maxAsistentes,
+            @RequestParam double precio) {
+
+        Clase clase = claseService.obtenerClasePorId(id);
+        clase.setNombre(nombre);
+        clase.setProfesor(profesor);
+        clase.setTipo(tipo);
+        clase.setDescripcion(descripcion);
+        clase.setMaxAsistentes(maxAsistentes);
+
+        clase.setPrecio(BigDecimal.valueOf(precio));
+
+        claseService.guardarClase(clase);
+        return "redirect:/gestionarClases";
+    }
+
+    @GetMapping("/clases/editar/{id}")
+    public String editarClase(@PathVariable Long id, Model model) {
+        Clase clase = claseService.obtenerClasePorId(id);
+        model.addAttribute("clase", clase);
+        return "editarClase"; // Vista para editar una clase
+    }
+
+    // Eliminar clase
+    @PostMapping("/clases/eliminar/{id}")
+    public String eliminarClase(@PathVariable Long id) {
+        claseService.eliminarClase(id);
+        return "redirect:/gestionarClases";
+    }
+
+    // Crear nueva clase
+    @PostMapping("/clases/crear")
+    public String crearClase(
+            @RequestParam String nombre,
+            @RequestParam String profesor,
+            @RequestParam String tipo,
+            @RequestParam String descripcion,
+            @RequestParam int maxAsistentes,
+            @RequestParam double precio) {
+
+        Clase nuevaClase = new Clase();
+        nuevaClase.setNombre(nombre);
+        nuevaClase.setProfesor(profesor);
+        nuevaClase.setTipo(tipo);
+        nuevaClase.setDescripcion(descripcion);
+        nuevaClase.setMaxAsistentes(maxAsistentes);
+        nuevaClase.setPrecio(BigDecimal.valueOf(precio));
+
+        claseService.guardarClase(nuevaClase);
+        return "redirect:/gestionarClases";
+    }
+
+    @PostMapping("/clases/horarios/crear")
+    public String crearHorario(
+            @RequestParam Long claseId,
+            @RequestParam String fecha,
+            @RequestParam String horaInicio,
+            @RequestParam String horaFin,
+            Model model) {
+
+        // Validar que la clase existe
+        Clase clase = claseService.obtenerClasePorId(claseId);
+        if (clase == null) {
+            model.addAttribute("error", "La clase seleccionada no existe.");
+            return "redirect:/gestionarClases"; // Ajustar según la vista de error
+        }
+
+        // Crear el nuevo horario
+        Horario nuevoHorario = new Horario();
+        nuevoHorario.setClase(clase);
+        nuevoHorario.setFecha(LocalDate.parse(fecha));
+        nuevoHorario.setHoraInicio(LocalTime.parse(horaInicio));
+        nuevoHorario.setHoraFin(LocalTime.parse(horaFin));
+
+        // Guardar el horario
+        horarioService.guardarHorario(nuevoHorario);
+
+        return "redirect:/gestionarClases";
     }
 
 }
