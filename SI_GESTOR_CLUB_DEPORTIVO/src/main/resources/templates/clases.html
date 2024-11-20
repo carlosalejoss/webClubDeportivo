@@ -614,31 +614,31 @@
 
 <div class="max-w-7xl mx-auto mt-10">
     <!-- Contenedor de la cuadrícula -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div th:if="${!tiposDeClases.isEmpty()}">
-            <div th:each="tipo, iterStat : ${tiposDeClases}"
-                 class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center relative"
-                 th:classappend="${iterStat.last and !iterStat.even} ? 'col-span-2 mx-auto' : ''">
-                <!-- Imagen según el tipo de clase -->
-                <div class="w-96 h-96 mb-6">
-                    <img th:src="@{'/' + ${tipo} + '.png'}"
-                         onerror="this.src='/logo.png';"
-                         alt="Tipo de Clase"
-                         class="w-full h-full object-contain" />
-                </div>
-
-                <!-- Botón para redirigir -->
-                <a th:href="@{/clasesReserva(tipo=${tipo})}"
-                   class="absolute -bottom-4 bg-blue-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-900">
-                    Ver Clases de <span th:text="${tipo}"></span>
-                </a>
+    <div th:if="${!tiposDeClases.isEmpty()}"
+         class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <!-- Clases -->
+        <div th:each="tipo, iterStat : ${tiposDeClases}"
+             class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
+             th:classappend="${iterStat.last and !iterStat.even} ? 'col-span-2 mx-auto' : ''">
+            <!-- Imagen según el tipo de clase -->
+            <div class="w-96 h-96 mb-6">
+                <img th:src="@{'/' + ${tipo} + '.png'}"
+                     onerror="this.src='/logo.png';"
+                     alt="Tipo de Clase"
+                     class="w-full h-full object-contain" />
             </div>
+
+            <!-- Botón para redirigir -->
+            <a th:href="@{/clasesReserva(tipo=${tipo})}"
+               class="bg-blue-900 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-800">
+                Ver Clases de <span th:text="${tipo}"></span>
+            </a>
         </div>
     </div>
-    <div class="flex flex-col items-center mt-10">
-        <!-- Contenedor principal cuando no hay clases -->
-        <div th:if="${tiposDeClases.isEmpty()}"
-             class="flex flex-col items-center text-center bg-blue-900 shadow-lg rounded-lg p-8 max-w-md w-full">
+
+    <!-- Contenedor principal cuando no hay clases -->
+    <div th:if="${tiposDeClases.isEmpty()}" class="flex flex-col items-center mt-10">
+        <div class="flex flex-col items-center text-center bg-blue-900 shadow-lg rounded-lg p-8 max-w-md w-full">
             <!-- Imagen profesional -->
             <div class="w-64 h-64">
                 <img src="/logo.png" class="w-full h-full object-contain" alt="No hay clases disponibles"/>
@@ -652,7 +652,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Pie de Pagina -->
 <footer class="bg-gray-800 text-white py-8 mt-20">
