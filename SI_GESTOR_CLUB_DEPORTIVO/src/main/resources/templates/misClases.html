@@ -596,24 +596,24 @@
                     <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">HISTÓRICO DE RESERVAS</h2>
                     <div th:each="claseNoActiva : ${clasesNoActivas}" class="mb-4 p-4 border rounded-lg shadow-md bg-gray-50">
                         <!-- Nombre de la clase -->
-                        <h2 class="text-xl font-semibold" th:text="${clasesNoActivas.getHorarioClase().getClase().getNombre()}"></h2>
+                        <h2 class="text-xl font-semibold" th:text="${claseNoActiva.getHorarioClase().getClase().getNombre()}"></h2>
                         <!-- Tipo de la clase -->
-                        <p class="text-gray-600" th:text="'Tipo: ' + ${clasesNoActivas.getHorarioClase().getClase().getTipo()}"></p>
+                        <p class="text-gray-600" th:text="'Tipo: ' + ${claseNoActiva.getHorarioClase().getClase().getTipo()}"></p>
 
                         <!-- Fecha de la clase -->
-                        <p class="text-gray-600" th:text="'Fecha: ' + ${clasesNoActivas.getHorarioClase().getFecha()}"></p>
+                        <p class="text-gray-600" th:text="'Fecha: ' + ${claseNoActiva.getHorarioClase().getFecha()}"></p>
 
                         <!-- Hora de la clase -->
-                        <p class="text-gray-600" th:text="'Hora: ' + ${clasesNoActivas.getHorarioClase().getHoraInicio()} + ' - ' + ${claseActiva.getHorarioClase().getHoraFin()}"></p>
+                        <p class="text-gray-600" th:text="'Hora: ' + ${claseNoActiva.getHorarioClase().getHoraInicio()} + ' - ' + ${claseNoActiva.getHorarioClase().getHoraFin()}"></p>
 
                         <!-- Profesor de la clase -->
-                        <p class="text-gray-600" th:text="'Profesor: ' + ${clasesNoActivas.getHorarioClase().getClase().getProfesor()}"></p>
+                        <p class="text-gray-600" th:text="'Profesor: ' + ${claseNoActiva.getHorarioClase().getClase().getProfesor()}"></p>
 
                         <!-- Descripción de la clase -->
-                        <p class="text-gray-600" th:text="'Descripción: ' + ${clasesNoActivas.getHorarioClase().getClase().getDescripcion()}"></p>
+                        <p class="text-gray-600" th:text="'Descripción: ' + ${claseNoActiva.getHorarioClase().getClase().getDescripcion()}"></p>
 
                         <!-- Precio de la clase -->
-                        <p class="text-gray-600" th:text="'Precio: ' + ${clasesNoActivas.getHorarioClase().getClase().getPrecio()}"></p>
+                        <p class="text-gray-600" th:text="'Precio: ' + ${claseNoActiva.getHorarioClase().getClase().getPrecio()}"></p>
                     </div>
                 </div>
             </div>

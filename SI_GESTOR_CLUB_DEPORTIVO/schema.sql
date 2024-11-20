@@ -90,6 +90,7 @@ VALUES
 
 INSERT INTO horario_clase (clase_id, fecha, hora_inicio, hora_fin)
 VALUES
+    (1, '2024-11-18', '08:00:00', '09:00:00'), -- Yoga Básico
     (1, '2024-11-20', '08:00:00', '09:00:00'), -- Yoga Básico
     (1, '2024-11-22', '08:00:00', '09:00:00'), -- Yoga Básico
     (2, '2024-11-21', '10:00:00', '11:30:00'), -- Pilates Avanzado
@@ -100,5 +101,33 @@ VALUES
     (4, '2024-11-23', '07:00:00', '07:45:00'), -- HIIT Intensivo
     (5, '2024-11-20', '19:30:00', '20:30:00'), -- Meditación Guiada
     (5, '2024-11-22', '19:30:00', '20:30:00'); -- Meditación Guiada
+
+
+INSERT INTO reserva_clase (usuario_id, horario_id, fecha_reserva)
+VALUES (
+           (SELECT id FROM usuario WHERE nombre = 'Victor' AND apellidos = 'Martinez Paramo'),
+           (SELECT hc.id
+            FROM horario_clase hc
+                     JOIN clase c ON hc.clase_id = c.id
+            WHERE c.nombre = 'Yoga Básico' AND hc.fecha = '2024-11-18'),
+           CURRENT_TIMESTAMP
+       );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

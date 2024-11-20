@@ -825,5 +825,4 @@ public class HomeController {
 
         return "redirect:/gestionarClases";
     }
-
 }

@@ -52,8 +52,13 @@
             color: #721c24;
         }
         .time-slot.selected {
-            background-color: #cce5ff;  /* Azul claro para horas seleccionadas */
-            border-color: #80b3ff;
+            background-color: #0044cc;  /* Un azul intenso */
+            border-color: #003399;     /* Un azul oscuro para el borde */
+            color: white;              /* Texto en blanco */
+            font-weight: bold;         /* Texto más visible */
+            border-width: 2px;         /* Borde más grueso */
+            transition: transform 0.3s; /* Efecto de animación */
+            transform: scale(1);     /* Ampliar ligeramente la celda seleccionada */
         }
         #week-info {
             background-color: #e0e0e0;
