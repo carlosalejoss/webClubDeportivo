@@ -62,5 +62,5 @@ public class UsuarioService {
     public UsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
-
+    
 }
