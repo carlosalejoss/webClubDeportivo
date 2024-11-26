@@ -843,7 +843,6 @@ public class HomeController {
     @PostMapping("/sendMail")
     public ResponseEntity<String> sendMail(@RequestParam String email) {
 
-        System.out.println("Email recibido: " + email);
         String resultado = mailService.sendPasswordRecoveryEmail(email);
         if (resultado.startsWith("Correo enviado")) {
             return ResponseEntity.ok(resultado);
