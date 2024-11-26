@@ -15,9 +15,12 @@ import org.example.si_gestor_club_deportivo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,9 +43,10 @@ public class HomeController {
     private final ReservaClaseRepository reservaClaseRepository;
     private final ClaseRepository claseRepository;
     private final ReservaClaseService reservaClaseService;
+    private final MailService mailService;
 
     @Autowired
-    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService, ClaseService claseService, HorarioService horarioService, ReservaClaseRepository reservaClaseRepository, ClaseRepository claseRepository, ReservaClaseService reservaClaseService) {
+    public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService, ClaseService claseService, HorarioService horarioService, ReservaClaseRepository reservaClaseRepository, ClaseRepository claseRepository, ReservaClaseService reservaClaseService, MailService mailService) {
         this.usuarioService = usuarioService;
         this.pistaService = pistaService;
         this.reservaService = reservaService;
@@ -51,6 +55,7 @@ public class HomeController {
         this.reservaClaseRepository = reservaClaseRepository;
         this.claseRepository = claseRepository;
         this.reservaClaseService = reservaClaseService;
+        this.mailService = mailService;
     }
 
     @GetMapping("/")
@@ -824,5 +829,26 @@ public class HomeController {
         horarioService.guardarHorario(nuevoHorario);
 
         return "redirect:/gestionarClases";
+    }
+
+
+    /*@GetMapping("/sendMail")
+    public String sendMail(@RequestParam("email") String email, HttpSession session) {
+
+        mailService.sendMail("{mail Address}", "Title", "Massage");
+        return "mirarCorreo";
+
+    }*/
+
+    @PostMapping("/sendMail")
+    public ResponseEntity<String> sendMail(@RequestParam String email) {
+
+        System.out.println("Email recibido: " + email);
+        String resultado = mailService.sendPasswordRecoveryEmail(email);
+        if (resultado.startsWith("Correo enviado")) {
+            return ResponseEntity.ok(resultado);
+        } else {
+            return ResponseEntity.badRequest().body(resultado);
+        }
     }
 }

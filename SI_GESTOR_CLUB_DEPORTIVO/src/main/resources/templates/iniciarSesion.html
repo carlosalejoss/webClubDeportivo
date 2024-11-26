@@ -567,7 +567,7 @@
                     <div class="flex items-center justify-between">
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
                         <div class="text-sm">
-                            <a href="/recuperarContrasegna" class="font-semibold text-indigo-600 hover:text-indigo-500">¿Has olvidado tu contraseña?</a>
+                            <a id="forgot-password" href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">¿Has olvidado tu contraseña?</a>
                         </div>
                     </div>
                     <div class="mt-2">
@@ -593,6 +593,46 @@
             </p>
         </div>
     </div>
+
+<script>
+    document.getElementById('forgot-password').addEventListener('click', function (event) {
+        event.preventDefault(); // Evita que el enlace recargue la página
+
+        const email = document.getElementById('email').value.trim(); // Obtiene y limpia el valor del email
+        if (!email) {
+            alert("Por favor, introduce un correo electrónico válido.");
+            return;
+        }
+
+        // Formatear los datos
+        const body = new URLSearchParams({ email }).toString();
+
+        console.log("Correo enviado desde el script:", email);
+
+        fetch('/sendMail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // Declaramos el tipo correcto
+            },
+            body: body,  // Los datos ya están en el formato requerido
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // Cambiar a .text() si el servidor devuelve texto plano
+                } else {
+                    throw new Error("Error en la solicitud: " + response.status);
+                }
+            })
+            .then(data => {
+                alert(data); // Mensaje de éxito devuelto por el servidor
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocurrió un error inesperado. Detalles: " + error.message);
+            });
+    });
+</script>
+
 
     <!-- Pie de Pagina -->
     <footer class="bg-gray-800 text-white py-8 mt-20">
