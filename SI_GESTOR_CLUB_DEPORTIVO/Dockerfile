@@ -10,7 +10,6 @@ RUN mvn dependency:go-offline
 COPY . .
 RUN mvn clean package -DskipTests
 
-
 # Fase 2: Imagen final para ejecución
 FROM openjdk:17-jdk-slim
 
