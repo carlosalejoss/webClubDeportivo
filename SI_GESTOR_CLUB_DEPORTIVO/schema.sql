@@ -1,4 +1,4 @@
--- Tabla principal de usuarios, que incluye los identificadores únicos
+-- Tabla principal de usuarios, que incluye los identificadores unicos
 CREATE TABLE IF NOT EXISTS usuario (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS clase (
 );
 
 CREATE TABLE IF NOT EXISTS horario_clase (
-    id SERIAL PRIMARY KEY, -- Identificador único del horario
-    clase_id INT NOT NULL, -- Relación con la tabla de clase
+    id SERIAL PRIMARY KEY, -- Identificador unico del horario
+    clase_id INT NOT NULL, -- Relacion con la tabla de clase
     fecha DATE NOT NULL, -- Fecha del horario
     hora_inicio TIME NOT NULL, -- Hora de inicio de la clase
     hora_fin TIME NOT NULL, -- Hora de fin de la clase
@@ -51,10 +51,10 @@ CREATE TABLE IF NOT EXISTS horario_clase (
 );
 
 CREATE TABLE IF NOT EXISTS reserva_clase (
-    id SERIAL PRIMARY KEY, -- Identificador único de la reserva
-    usuario_id INT NOT NULL, -- Relación con la tabla de usuario
-    horario_id INT NOT NULL, -- Relación con la tabla de horario_clase
-    fecha_reserva TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Fecha y hora en que se realizó la reserva
+    id SERIAL PRIMARY KEY, -- Identificador unico de la reserva
+    usuario_id INT NOT NULL, -- Relacion con la tabla de usuario
+    horario_id INT NOT NULL, -- Relacion con la tabla de horario_clase
+    fecha_reserva TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Fecha y hora en que se realizo la reserva
     FOREIGN KEY (usuario_id) REFERENCES usuario (id) ON DELETE CASCADE,
     FOREIGN KEY (horario_id) REFERENCES horario_clase (id) ON DELETE CASCADE
 );
