@@ -850,4 +850,32 @@ public class HomeController {
             return ResponseEntity.badRequest().body(resultado);
         }
     }
+
+
+    @PostMapping("/restablecer")
+    public String restablecerContraseña(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("password2") String password2,
+            Model model) {
+
+        // Validar que las contraseñas coincidan
+        if (!password.equals(password2)) {
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "nuevaContrasegna"; // Redirige a la página de restablecimiento con el mensaje de error
+        }
+
+        // Actualizar la contraseña en la base de datos
+        boolean actualizado = usuarioService.actualizarContraseñaSinEncriptar(email, password);
+        if (!actualizado) {
+            model.addAttribute("error", "No se pudo actualizar la contraseña. Inténtalo nuevamente.");
+            return "nuevaContrasegna"; // Redirige a la página de restablecimiento con el mensaje de error
+        }
+
+        // Contraseña actualizada correctamente, redirigir al inicio de sesión
+        return "redirect:/iniciarSesion";
+    }
+
+
+
 }

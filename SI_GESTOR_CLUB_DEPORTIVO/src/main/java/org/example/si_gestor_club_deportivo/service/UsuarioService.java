@@ -62,5 +62,15 @@ public class UsuarioService {
     public UsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
+
+    public boolean actualizarContraseñaSinEncriptar(String email, String nuevaContraseña) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario != null) {
+            usuario.setPassword(nuevaContraseña); // Guardamos la contraseña tal como la ingresó el usuario
+            usuarioRepository.save(usuario);
+            return true;
+        }
+        return false; // Si no se encuentra el usuario
+    }
     
 }

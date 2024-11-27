@@ -31,6 +31,9 @@ public class Usuario {
     @Column(name = "esadmin", nullable = false)
     private boolean esAdmin;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
     // Getters y Setters
     public Long getId() {
         return id;
@@ -94,5 +97,13 @@ public class Usuario {
 
     public void setEsAdmin(boolean esAdmin) {
         this.esAdmin = esAdmin;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 }
