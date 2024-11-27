@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service("MailService")
 public class MailService {
@@ -31,17 +32,22 @@ public class MailService {
         if (usuarioOptional.isEmpty()) {
             return "No se encontró un usuario con el correo proporcionado.";
         }
+        Usuario usuario = usuarioOptional.get();
+        String token = UUID.randomUUID().toString(); // Generar token único
+        usuario.setPasswordResetToken(token);
+        mailRepository.save(usuario); // Guardar el token en la base de datos
+
         try {
-            // Preparar y enviar el correo
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email);
             message.setSubject("Recuperación de contraseña");
-            message.setText("Hola, este es tu enlace para restablecer la contraseña: https://tu-sitio.com/restablecer?email=" + email);
+            message.setText("Hola, este es tu enlace para restablecer la contraseña: " +
+                    "https://http://localhost:8080/restablecer?token=" + token);
             mailSender.send(message);
             return "Correo enviado correctamente a: " + email;
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error al enviar el correo: " + e.getMessage();  // Detallar el error para depuración
+            return "Error al enviar el correo: " + e.getMessage();
         }
     }
 }

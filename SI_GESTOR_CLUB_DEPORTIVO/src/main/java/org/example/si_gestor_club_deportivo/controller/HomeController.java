@@ -850,4 +850,52 @@ public class HomeController {
             return ResponseEntity.badRequest().body(resultado);
         }
     }
+
+
+    @GetMapping("/restablecer")
+    public String mostrarFormularioRestablecer(@RequestParam("token") String token, Model model) {
+        // Verificar si el token es válido
+        Usuario usuario = usuarioService.obtenerUsuarioPorToken(token);
+        if (usuario == null) {
+            model.addAttribute("error", "El enlace de restablecimiento no es válido o ha expirado.");
+            return "error"; // Página de error
+        }
+
+        // Imprimir el email para depuración
+        System.out.println("Email para formulario: " + usuario.getEmail());
+
+        model.addAttribute("email", usuario.getEmail());
+        return "nuevaContrasegna";
+    }
+
+    @PostMapping("/restablecer")
+    public String restablecerContrasegna(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("password2") String password2,
+            Model model) {
+
+        System.out.println("Email recibido: " + email);
+        System.out.println("Contraseñas: " + password + " / " + password2);
+
+        if (!password.equals(password2)) {
+            System.out.println("Las contraseñas no coinciden.");
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "nuevaContrasegna";
+        }
+
+        boolean actualizado = usuarioService.actualizarContrasegnaSinEncriptar(email, password);
+        System.out.println("Contraseña actualizada: " + actualizado);
+
+        if (!actualizado) {
+            model.addAttribute("error", "No se pudo actualizar la contraseña.");
+            return "nuevaContrasegna";
+        }
+
+        System.out.println("Redirigiendo a iniciar sesión...");
+        return "redirect:/iniciarSesion";
+    }
+
+
+
 }
