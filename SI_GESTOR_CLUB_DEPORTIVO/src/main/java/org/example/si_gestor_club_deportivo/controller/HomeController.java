@@ -64,10 +64,15 @@ public class HomeController {
     }
 
     @GetMapping("/exitoRsv")
-    public String exitoRsv(HttpSession session) {return "exitoReserva";}
+    public String exitoRsv(HttpSession session) {
+        return "exitoReserva";
+    }
 
     @GetMapping("/falloRsv")
-    public String falloRsv(HttpSession session) {return "falloReserva";}
+    public String falloRsv(HttpSession session) {
+        session.getAttribute("tipoFallo");
+        return "falloReserva";
+    }
 
     @GetMapping("/iniciarSesion")
     public String iniciarsesion(HttpSession session) {
@@ -630,6 +635,7 @@ public class HomeController {
         // Verificar si ya está reservado por el usuario en el mismo horario
         boolean yaReservado = reservaClaseRepository.existsByHorarioIdAndUsuarioId(horarioId, user.getId());
         if (yaReservado) {
+            session.setAttribute("tipoFallo", "No se ha podido completar la reserva porque ya has reservado esta clase en concreto.");
             return "redirect:/falloRsv";
         }
 
@@ -640,6 +646,7 @@ public class HomeController {
             if (horario.getFecha().equals(horarioReserva.getFecha()) &&
                     ((horario.getHoraInicio().isBefore(horarioReserva.getHoraFin()) &&
                             horario.getHoraFin().isAfter(horarioReserva.getHoraInicio())))) {
+                session.setAttribute("tipoFallo", "No se ha podido completar la reserva ya que ya tienes una clase reservada en esa hora.");
                 return "redirect:/falloRsv";
             }
         }
@@ -647,6 +654,7 @@ public class HomeController {
         // Verificar si el número máximo de asistentes ya fue alcanzado
         List<ReservaClase> reservasActuales = reservaClaseRepository.findByHorarioId(horarioId);
         if ((reservasActuales.size() + 1) > horario.getClase().getMaxAsistentes()) {
+            session.setAttribute("tipoFallo", "No se ha podido completar la reserva ya que se ha alcanzado el número máximo de asistentes a la clase.");
             return "redirect:/falloRsv";
         }
 
