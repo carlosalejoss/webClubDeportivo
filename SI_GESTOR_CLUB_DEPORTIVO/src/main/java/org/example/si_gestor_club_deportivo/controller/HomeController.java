@@ -852,27 +852,47 @@ public class HomeController {
     }
 
 
+    @GetMapping("/restablecer")
+    public String mostrarFormularioRestablecer(@RequestParam("token") String token, Model model) {
+        // Verificar si el token es válido
+        Usuario usuario = usuarioService.obtenerUsuarioPorToken(token);
+        if (usuario == null) {
+            model.addAttribute("error", "El enlace de restablecimiento no es válido o ha expirado.");
+            return "error"; // Página de error
+        }
+
+        // Imprimir el email para depuración
+        System.out.println("Email para formulario: " + usuario.getEmail());
+
+        model.addAttribute("email", usuario.getEmail());
+        return "nuevaContrasegna";
+    }
+
     @PostMapping("/restablecer")
-    public String restablecerContraseña(
+    public String restablecerContrasegna(
             @RequestParam("email") String email,
             @RequestParam("password") String password,
             @RequestParam("password2") String password2,
             Model model) {
 
-        // Validar que las contraseñas coincidan
+        System.out.println("Email recibido: " + email);
+        System.out.println("Contraseñas: " + password + " / " + password2);
+
         if (!password.equals(password2)) {
+            System.out.println("Las contraseñas no coinciden.");
             model.addAttribute("error", "Las contraseñas no coinciden.");
-            return "nuevaContrasegna"; // Redirige a la página de restablecimiento con el mensaje de error
+            return "nuevaContrasegna";
         }
 
-        // Actualizar la contraseña en la base de datos
-        boolean actualizado = usuarioService.actualizarContraseñaSinEncriptar(email, password);
+        boolean actualizado = usuarioService.actualizarContrasegnaSinEncriptar(email, password);
+        System.out.println("Contraseña actualizada: " + actualizado);
+
         if (!actualizado) {
-            model.addAttribute("error", "No se pudo actualizar la contraseña. Inténtalo nuevamente.");
-            return "nuevaContrasegna"; // Redirige a la página de restablecimiento con el mensaje de error
+            model.addAttribute("error", "No se pudo actualizar la contraseña.");
+            return "nuevaContrasegna";
         }
 
-        // Contraseña actualizada correctamente, redirigir al inicio de sesión
+        System.out.println("Redirigiendo a iniciar sesión...");
         return "redirect:/iniciarSesion";
     }
 

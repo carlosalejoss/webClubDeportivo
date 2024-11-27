@@ -58,19 +58,31 @@ public class UsuarioService {
         return usuarioRepository.findByTelefono(telefono);
     }
 
+    public Usuario obtenerUsuarioPorToken(String token) {
+        return usuarioRepository.findByPasswordResetToken(token);
+    }
+
     // Getter for usuarioRepository
     public UsuarioRepository getUsuarioRepository() {
         return usuarioRepository;
     }
 
-    public boolean actualizarContraseñaSinEncriptar(String email, String nuevaContraseña) {
+    public boolean actualizarContrasegnaSinEncriptar(String email, String nuevaContrasegna) {
+        System.out.println("Buscando usuario con email: " + email);
+        email = email.trim().toLowerCase(); // Normalización
         Usuario usuario = usuarioRepository.findByEmail(email);
+
         if (usuario != null) {
-            usuario.setPassword(nuevaContraseña); // Guardamos la contraseña tal como la ingresó el usuario
+            System.out.println("Usuario encontrado: " + usuario.getEmail());
+            usuario.setPassword(nuevaContrasegna);
             usuarioRepository.save(usuario);
+            System.out.println("Contraseña guardada correctamente.");
             return true;
         }
-        return false; // Si no se encuentra el usuario
+
+        System.out.println("Usuario no encontrado.");
+        return false;
     }
-    
+
+
 }

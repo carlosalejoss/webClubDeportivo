@@ -5,23 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restablecer Contraseña</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        function validatePasswords(event) {
-            const password = document.getElementById('password').value.trim();
-            const password2 = document.getElementById('password2').value.trim();
-
-            if (password !== password2) {
-                event.preventDefault();
-                alert('Las contraseñas no coinciden. Por favor, verifica e inténtalo nuevamente.');
-            }
-        }
-    </script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
 <!-- Restablecer contraseña -->
-<form action="/restablecer" method="POST" onsubmit="validatePasswords(event)">
-    <input type="hidden" name="email" value="{{email}}"> <!-- Asegúrate de pasar el email dinámicamente -->
+<form id="password-reset-form">
+    <input type="hidden" name="email" value="${email}"> <!-- Email dinámico desde el controlador -->
     <div class="bg-white shadow-md rounded-lg p-6 max-w-lg text-center">
 
         <div>
@@ -38,5 +27,41 @@
     </div>
 </form>
 
+<script>
+    // Script para manejar el envío del formulario de restablecimiento de contraseña
+    async function enviarFormulario(event) {
+        event.preventDefault(); // Evitar el envío predeterminado del formulario
+
+        const email = document.querySelector('input[name="email"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+        const password2 = document.querySelector('input[name="password2"]').value;
+
+        if (password !== password2) {
+            alert('Las contraseñas no coinciden. Por favor, verifica e inténtalo nuevamente.');
+            return;
+        }
+
+        try {
+            const response = await fetch('/restablecer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ email, password, password2 })
+            });
+
+            if (response.ok) {
+                // Redirigir al inicio de sesión en caso de éxito
+                window.location.href = '/iniciarSesion';
+            } else {
+                const error = await response.text();
+                alert('Error al restablecer la contraseña: ' + error);
+            }
+        } catch (error) {
+            console.error('Error en el envío:', error);
+        }
+    }
+
+    // Asociar el evento de envío al formulario
+    document.getElementById('password-reset-form').addEventListener('submit', enviarFormulario);
+</script>
 </body>
 </html>
