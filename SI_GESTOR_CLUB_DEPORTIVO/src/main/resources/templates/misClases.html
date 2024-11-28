@@ -548,7 +548,7 @@
 </div>
 
 <!-- Contenido -->
-<div class="pt-16 pb-20">
+<div class="pt-20 pb-20">
     <div class="container mx-auto px-6 py-10 max-w-3xl">
         <h1 class="text-2xl font-semibold mb-4">Mis Clases</h1>
 
@@ -557,6 +557,11 @@
             <!-- Plantilla de clase -->
             <!-- Esta sección se llenará dinámicamente -->
             <div class="clasesActivas">
+                <div th:if="${clasesActivas.isEmpty()} == true">
+                    <div class="mb-4 p-4 mt-12 border rounded-lg shadow-md bg-gray-50">
+                        <h2 class="text-xl font-semibold"> NO TIENES CLASES ESTA SEMANA</h2>
+                    </div>
+                </div>
                 <div th:if="${clasesActivas.isEmpty()} == false">
                     <h2 class="mt-auto text-center text-2xl font-bold leading-16 tracking-tight sm:mt-1 sm:pt-1 text-gray-900">CLASES PARA ESTA SEMANA</h2>
                     <div th:each="claseActiva : ${clasesActivas}" class="mb-4 p-4 border rounded-lg shadow-md bg-gray-50">
