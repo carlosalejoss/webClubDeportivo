@@ -56,8 +56,9 @@ public class HorarioService {
         horarioClaseRepository.deleteById(id);
     }
 
+
     public List<Horario> obtenerHorariosPorClase(Long claseId) {
-        return horarioClaseRepository.findByClaseId(claseId);
+        return horarioClaseRepository.findByClaseIdOrderByFechaAndHoraInicio(claseId);
     }
 
     /**
