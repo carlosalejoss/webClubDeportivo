@@ -60,7 +60,7 @@ public class MailService {
             message.setTo(email);
             message.setSubject("Recuperación de contraseña");
             message.setText("Hola, este es tu enlace para restablecer la contraseña: " +
-                    "https://http://localhost:8080/restablecer?token=" + token);
+                    "http://http://localhost:8080/restablecer?token=" + token);
             mailSender.send(message);
             return "Correo enviado correctamente a: " + email;
         } catch (Exception e) {
