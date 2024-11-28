@@ -10,7 +10,7 @@
 
 <!-- Restablecer contraseña -->
 <form id="password-reset-form">
-    <input type="hidden" name="email" value="${email}"> <!-- Email dinámico desde el controlador -->
+    <input type="hidden" name="email" th:value="${email}"> <!-- Email dinámico desde el controlador -->
     <div class="bg-white shadow-md rounded-lg p-6 max-w-lg text-center">
 
         <div>
@@ -32,10 +32,15 @@
     async function enviarFormulario(event) {
         event.preventDefault(); // Evitar el envío predeterminado del formulario
 
+        // Obtener valores del formulario
         const email = document.querySelector('input[name="email"]').value;
         const password = document.querySelector('input[name="password"]').value;
         const password2 = document.querySelector('input[name="password2"]').value;
 
+        // Depuración: Log del email que se recibe en el HTML
+        console.log("Email recibido en el HTML:", email);
+
+        // Validar que las contraseñas coincidan
         if (password !== password2) {
             alert('Las contraseñas no coinciden. Por favor, verifica e inténtalo nuevamente.');
             return;
@@ -63,5 +68,6 @@
     // Asociar el evento de envío al formulario
     document.getElementById('password-reset-form').addEventListener('submit', enviarFormulario);
 </script>
+
 </body>
 </html>

@@ -854,16 +854,13 @@ public class HomeController {
 
     @GetMapping("/restablecer")
     public String mostrarFormularioRestablecer(@RequestParam("token") String token, Model model) {
-        // Verificar si el token es válido
         Usuario usuario = usuarioService.obtenerUsuarioPorToken(token);
         if (usuario == null) {
             model.addAttribute("error", "El enlace de restablecimiento no es válido o ha expirado.");
             return "error"; // Página de error
         }
 
-        // Imprimir el email para depuración
-        System.out.println("Email para formulario: " + usuario.getEmail());
-
+        System.out.println("Email enviado al modelo: " + usuario.getEmail());
         model.addAttribute("email", usuario.getEmail());
         return "nuevaContrasegna";
     }
