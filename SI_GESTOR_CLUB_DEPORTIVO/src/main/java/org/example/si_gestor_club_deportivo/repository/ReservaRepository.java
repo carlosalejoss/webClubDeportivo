@@ -18,7 +18,7 @@ import java.util.List;
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     /**
-     * Encuentra todas las reservas de una pista dentro de un rango de fechas específico.
+     * Encuentra todas las reservas de una pista dentro de un rango de fechas especifico.
      *
      * @param inicio La fecha de inicio del rango.
      * @param fin La fecha de fin del rango.
@@ -28,7 +28,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByFechaBetweenAndPistaNombre(LocalDate inicio, LocalDate fin, String pistaNombre);
 
     /**
-     * Verifica si un usuario tiene una reserva en una fecha específica.
+     * Verifica si un usuario tiene una reserva en una fecha especifica.
      *
      * @param user_id El identificador del usuario.
      * @param fecha La fecha de la reserva.
@@ -37,7 +37,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     boolean existsByUsuarioIdAndFecha(Long user_id, LocalDate fecha);
 
     /**
-     * Encuentra todas las reservas realizadas por un usuario dentro de un rango de fechas específico.
+     * Encuentra todas las reservas realizadas por un usuario dentro de un rango de fechas especifico.
      *
      * @param userId El identificador del usuario.
      * @param fechaInicio La fecha de inicio del rango.
@@ -48,7 +48,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findReservasByUsuarioAndFechaRange(@Param("userId") Long userId, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
     /**
-     * Encuentra todas las reservas realizadas por un usuario fuera de un rango de fechas específico.
+     * Encuentra todas las reservas realizadas por un usuario fuera de un rango de fechas especifico.
      *
      * @param userId El identificador del usuario.
      * @param fechaInicio La fecha de inicio del rango a excluir.

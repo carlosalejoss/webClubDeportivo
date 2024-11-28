@@ -12,27 +12,27 @@ import java.util.Map;
 import java.util.List;
 
 /**
- * Controlador para gestionar las operaciones de correo electrónico relacionadas con la recuperación de contraseñas.
- * Proporciona endpoints para enviar correos de recuperación de contraseña.
+ * Controlador para gestionar las operaciones de correo electronico relacionadas con la recuperacion de contraseñas.
+ * Proporciona endpoints para enviar correos de recuperacion de contraseña.
  */
 public class MailController {
 
     private final MailService mailService;
 
     /**
-     * Constructor para inicializar el servicio de correo electrónico.
+     * Constructor para inicializar el servicio de correo electronico.
      *
-     * @param mailService Servicio para el envío de correos electrónicos.
+     * @param mailService Servicio para el envio de correos electronicos.
      */
     public MailController(MailService mailService) {
         this.mailService = mailService;
     }
 
     /**
-     * Endpoint para enviar un correo de recuperación de contraseña a un usuario.
+     * Endpoint para enviar un correo de recuperacion de contraseña a un usuario.
      *
-     * @param email Email del usuario que solicita la recuperación de contraseña.
-     * @return Respuesta con el estado y el mensaje de éxito o error.
+     * @param email Email del usuario que solicita la recuperacion de contraseña.
+     * @return Respuesta con el estado y el mensaje de exito o error.
      */
     @PostMapping("/recuperar")
     public ResponseEntity<String> enviarCorreoRecuperacion(@RequestBody String email) {

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio para la gestión de reservas.
+ * Servicio para la gestion de reservas.
  * Este servicio permite obtener, crear, actualizar, eliminar y consultar reservas de pistas.
  */
 @Service
@@ -36,7 +36,7 @@ public class ReservaService {
      * Obtiene una reserva por su ID.
      *
      * @param id ID de la reserva.
-     * @return Un objeto Optional con la reserva encontrada o vacío si no existe.
+     * @return Un objeto Optional con la reserva encontrada o vacio si no existe.
      */
     public Optional<Reserva> obtenerReservaPorId(Long id) {
         return reservaRepository.findById(id);
@@ -54,7 +54,7 @@ public class ReservaService {
 
     /**
      * Actualiza una reserva existente en la base de datos.
-     * Si no se encuentra la reserva con el ID proporcionado, lanza una excepción.
+     * Si no se encuentra la reserva con el ID proporcionado, lanza una excepcion.
      *
      * @param id ID de la reserva a actualizar.
      * @param reservaActualizada Reserva con los nuevos datos.
@@ -85,7 +85,7 @@ public class ReservaService {
     }
 
     /**
-     * Obtiene las reservas de una pista entre dos fechas específicas.
+     * Obtiene las reservas de una pista entre dos fechas especificas.
      *
      * @param inicio Fecha de inicio.
      * @param fin Fecha de fin.
@@ -97,7 +97,7 @@ public class ReservaService {
     }
 
     /**
-     * Verifica si un usuario ya tiene una reserva en una fecha específica.
+     * Verifica si un usuario ya tiene una reserva en una fecha especifica.
      *
      * @param user_id ID del usuario.
      * @param fecha Fecha de la reserva.
@@ -108,7 +108,7 @@ public class ReservaService {
     }
 
     /**
-     * Obtiene todas las reservas de un usuario entre un rango de fechas específico.
+     * Obtiene todas las reservas de un usuario entre un rango de fechas especifico.
      *
      * @param inicio Fecha de inicio.
      * @param fin Fecha de fin.
@@ -120,7 +120,7 @@ public class ReservaService {
     }
 
     /**
-     * Obtiene todas las reservas de un usuario excluyendo un rango de fechas específico.
+     * Obtiene todas las reservas de un usuario excluyendo un rango de fechas especifico.
      *
      * @param inicio Fecha de inicio.
      * @param fin Fecha de fin.

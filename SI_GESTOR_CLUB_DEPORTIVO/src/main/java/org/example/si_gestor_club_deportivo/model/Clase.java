@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 /**
  * Clase que representa una clase en el sistema deportivo.
  * Esta clase es mapeada a la tabla "clase" en la base de datos
- * y contiene la información relacionada con las clases disponibles en el centro deportivo.
+ * y contiene la informacion relacionada con las clases disponibles en el centro deportivo.
  */
 @Entity
 @Table(name = "clase")
@@ -35,13 +35,13 @@ public class Clase {
     private BigDecimal precio;
 
     /**
-     * Constructor vacío para la clase `Clase`.
-     * Este constructor es utilizado por JPA para la creación de objetos de la clase.
+     * Constructor vacio para la clase `Clase`.
+     * Este constructor es utilizado por JPA para la creacion de objetos de la clase.
      */
     public Clase() {}
 
     /**
-     * Obtiene el identificador único de la clase.
+     * Obtiene el identificador unico de la clase.
      * @return El identificador de la clase.
      */
     public Long getId() {
@@ -49,7 +49,7 @@ public class Clase {
     }
 
     /**
-     * Establece el identificador único de la clase.
+     * Establece el identificador unico de la clase.
      * @param id El identificador de la clase.
      */
     public void setId(Long id) {
@@ -105,32 +105,32 @@ public class Clase {
     }
 
     /**
-     * Obtiene la descripción de la clase.
-     * @return La descripción de la clase.
+     * Obtiene la descripcion de la clase.
+     * @return La descripcion de la clase.
      */
     public String getDescripcion() {
         return descripcion;
     }
 
     /**
-     * Establece la descripción de la clase.
-     * @param descripcion La descripción de la clase.
+     * Establece la descripcion de la clase.
+     * @param descripcion La descripcion de la clase.
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
     /**
-     * Obtiene el número máximo de asistentes a la clase.
-     * @return El número máximo de asistentes.
+     * Obtiene el numero maximo de asistentes a la clase.
+     * @return El numero maximo de asistentes.
      */
     public Integer getMaxAsistentes() {
         return maxAsistentes;
     }
 
     /**
-     * Establece el número máximo de asistentes a la clase.
-     * @param maxAsistentes El número máximo de asistentes.
+     * Establece el numero maximo de asistentes a la clase.
+     * @param maxAsistentes El numero maximo de asistentes.
      */
     public void setMaxAsistentes(Integer maxAsistentes) {
         this.maxAsistentes = maxAsistentes;

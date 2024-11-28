@@ -5,8 +5,8 @@ import java.time.LocalTime;
 
 /**
  * Clase DTO (Data Transfer Object) que representa una reserva de pista.
- * Esta clase se utiliza para transferir la información de una reserva
- * entre diferentes capas de la aplicación.
+ * Esta clase se utiliza para transferir la informacion de una reserva
+ * entre diferentes capas de la aplicacion.
  */
 public class ReservaDTO {
 
@@ -19,14 +19,14 @@ public class ReservaDTO {
     private Double precio;
 
     /**
-     * Constructor vacío de la clase ReservaDTO.
+     * Constructor vacio de la clase ReservaDTO.
      * Se utiliza para crear una instancia de ReservaDTO sin inicializar los campos.
      */
     public ReservaDTO() {}
 
     /**
      * Constructor con todos los campos de la reserva.
-     * @param id El identificador único de la reserva.
+     * @param id El identificador unico de la reserva.
      * @param userId El identificador del usuario que realiza la reserva.
      * @param pistaNombre El nombre de la pista que se ha reservado.
      * @param fecha La fecha en la que se realiza la reserva.
@@ -45,7 +45,7 @@ public class ReservaDTO {
     }
 
     /**
-     * Obtiene el identificador único de la reserva.
+     * Obtiene el identificador unico de la reserva.
      * @return El identificador de la reserva.
      */
     public Long getId() {
@@ -53,7 +53,7 @@ public class ReservaDTO {
     }
 
     /**
-     * Establece el identificador único de la reserva.
+     * Establece el identificador unico de la reserva.
      * @param id El identificador de la reserva.
      */
     public void setId(Long id) {
@@ -61,7 +61,7 @@ public class ReservaDTO {
     }
 
     /**
-     * Obtiene el identificador del usuario que realizó la reserva.
+     * Obtiene el identificador del usuario que realizo la reserva.
      * @return El identificador del usuario.
      */
     public Long getUserId() {
@@ -69,7 +69,7 @@ public class ReservaDTO {
     }
 
     /**
-     * Establece el identificador del usuario que realizó la reserva.
+     * Establece el identificador del usuario que realizo la reserva.
      * @param userId El identificador del usuario.
      */
     public void setUserId(Long userId) {
@@ -157,7 +157,7 @@ public class ReservaDTO {
     }
 
     /**
-     * Devuelve una representación en formato String de la instancia de ReservaDTO.
+     * Devuelve una representacion en formato String de la instancia de ReservaDTO.
      * @return Una cadena de texto que representa la reserva.
      */
     @Override

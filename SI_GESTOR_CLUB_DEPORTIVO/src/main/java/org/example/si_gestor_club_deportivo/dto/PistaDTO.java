@@ -2,8 +2,8 @@ package org.example.si_gestor_club_deportivo.dto;
 
 /**
  * Clase DTO (Data Transfer Object) que representa una pista deportiva.
- * Esta clase se utiliza para transferir la información de una pista
- * entre diferentes capas de la aplicación.
+ * Esta clase se utiliza para transferir la informacion de una pista
+ * entre diferentes capas de la aplicacion.
  */
 public class PistaDTO {
 
@@ -13,7 +13,7 @@ public class PistaDTO {
     private String descripcion;
 
     /**
-     * Constructor vacío de la clase PistaDTO.
+     * Constructor vacio de la clase PistaDTO.
      * Se utiliza para crear una instancia de PistaDTO sin inicializar los campos.
      */
     public PistaDTO() {}
@@ -21,9 +21,9 @@ public class PistaDTO {
     /**
      * Constructor con todos los campos de la pista.
      * @param nombre Nombre de la pista.
-     * @param tipo Tipo de deporte de la pista (por ejemplo, 'Tenis', 'Fútbol', etc.).
-     * @param numero_pista Número de identificación de la pista.
-     * @param descripcion Descripción adicional sobre la pista.
+     * @param tipo Tipo de deporte de la pista (por ejemplo, 'Tenis', 'Futbol', etc.).
+     * @param numero_pista Numero de identificacion de la pista.
+     * @param descripcion Descripcion adicional sobre la pista.
      */
     public PistaDTO(String nombre, String tipo, int numero_pista, String descripcion) {
         this.nombre = nombre;
@@ -50,7 +50,7 @@ public class PistaDTO {
 
     /**
      * Obtiene el tipo de la pista.
-     * @return El tipo de la pista (por ejemplo, 'Tenis', 'Fútbol', etc.).
+     * @return El tipo de la pista (por ejemplo, 'Tenis', 'Futbol', etc.).
      */
     public String getTipo() {
         return tipo;
@@ -58,46 +58,46 @@ public class PistaDTO {
 
     /**
      * Establece el tipo de la pista.
-     * @param tipo El tipo de la pista (por ejemplo, 'Tenis', 'Fútbol', etc.).
+     * @param tipo El tipo de la pista (por ejemplo, 'Tenis', 'Futbol', etc.).
      */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
     /**
-     * Obtiene el número de la pista.
-     * @return El número de identificación de la pista.
+     * Obtiene el numero de la pista.
+     * @return El numero de identificacion de la pista.
      */
     public int getNumero_pista() {
         return numero_pista;
     }
 
     /**
-     * Establece el número de la pista.
-     * @param numero_pista El número de identificación de la pista.
+     * Establece el numero de la pista.
+     * @param numero_pista El numero de identificacion de la pista.
      */
     public void setNumero_pista(int numero_pista) {
         this.numero_pista = numero_pista;
     }
 
     /**
-     * Obtiene la descripción de la pista.
-     * @return La descripción de la pista.
+     * Obtiene la descripcion de la pista.
+     * @return La descripcion de la pista.
      */
     public String getDescripcion() {
         return this.descripcion;
     }
 
     /**
-     * Establece la descripción de la pista.
-     * @param descripcion La descripción de la pista.
+     * Establece la descripcion de la pista.
+     * @param descripcion La descripcion de la pista.
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
     /**
-     * Devuelve una representación en formato String de la instancia de PistaDTO.
+     * Devuelve una representacion en formato String de la instancia de PistaDTO.
      * @return Una cadena de texto que representa la pista.
      */
     @Override

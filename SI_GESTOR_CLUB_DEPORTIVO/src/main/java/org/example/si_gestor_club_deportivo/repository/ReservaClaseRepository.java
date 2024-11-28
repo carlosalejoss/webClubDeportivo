@@ -17,7 +17,7 @@ import java.util.List;
 public interface ReservaClaseRepository extends JpaRepository<ReservaClase, Long> {
 
     /**
-     * Encuentra todas las reservas asociadas a un horario específico.
+     * Encuentra todas las reservas asociadas a un horario especifico.
      *
      * @param horarioId El identificador del horario de la clase.
      * @return Una lista de reservas que corresponden al horario especificado.
@@ -25,7 +25,7 @@ public interface ReservaClaseRepository extends JpaRepository<ReservaClase, Long
     List<ReservaClase> findByHorarioId(Long horarioId);
 
     /**
-     * Verifica si un usuario tiene una reserva para un horario específico.
+     * Verifica si un usuario tiene una reserva para un horario especifico.
      *
      * @param horarioId El identificador del horario de la clase.
      * @param usuarioId El identificador del usuario.
@@ -42,7 +42,7 @@ public interface ReservaClaseRepository extends JpaRepository<ReservaClase, Long
     List<ReservaClase> findByUsuarioId(Long usuarioId);
 
     /**
-     * Encuentra las reservas de clases realizadas por un usuario dentro de un rango de fechas específico.
+     * Encuentra las reservas de clases realizadas por un usuario dentro de un rango de fechas especifico.
      *
      * @param userId El identificador del usuario.
      * @param fechaInicio La fecha de inicio del rango.
@@ -53,7 +53,7 @@ public interface ReservaClaseRepository extends JpaRepository<ReservaClase, Long
     List<ReservaClase> findReservasClasesByUsuarioAndFechaRange(@Param("userId") Long userId, @Param("fechaInicio") LocalDate fechaInicio, @Param("fechaFin") LocalDate fechaFin);
 
     /**
-     * Encuentra las reservas de clases realizadas por un usuario fuera de un rango de fechas específico.
+     * Encuentra las reservas de clases realizadas por un usuario fuera de un rango de fechas especifico.
      *
      * @param userId El identificador del usuario.
      * @param fechaInicio La fecha de inicio del rango que se desea excluir.

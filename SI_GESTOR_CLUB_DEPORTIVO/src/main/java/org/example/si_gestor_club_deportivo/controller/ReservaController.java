@@ -81,7 +81,7 @@ public class ReservaController {
      * Elimina una reserva por su ID.
      *
      * @param id ID de la reserva a eliminar.
-     * @return Respuesta con el estado 204 (Sin Contenido) si la eliminación fue exitosa.
+     * @return Respuesta con el estado 204 (Sin Contenido) si la eliminacion fue exitosa.
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarReserva(@PathVariable Long id) {

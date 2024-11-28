@@ -20,13 +20,13 @@ public interface ClaseRepository extends JpaRepository<Clase, Long> {
      * Obtiene una lista de los tipos de clases disponibles de manera distinta.
      * Esta consulta utiliza el operador DISTINCT para evitar duplicados en los tipos de clases.
      *
-     * @return Una lista de tipos de clases únicos.
+     * @return Una lista de tipos de clases unicos.
      */
     @Query("SELECT DISTINCT c.tipo FROM Clase c")
     List<String> findDistinctTipos();
 
     /**
-     * Obtiene una lista de clases según el tipo.
+     * Obtiene una lista de clases segun el tipo.
      *
      * @param tipo El tipo de clase que se desea buscar.
      * @return Una lista de clases que coinciden con el tipo especificado.

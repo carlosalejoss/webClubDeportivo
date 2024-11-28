@@ -86,7 +86,7 @@ public class PistaController {
      * Elimina una pista por su nombre.
      *
      * @param nombre Nombre de la pista a eliminar.
-     * @return Respuesta con el estado 204 (Sin Contenido) si la eliminación fue exitosa.
+     * @return Respuesta con el estado 204 (Sin Contenido) si la eliminacion fue exitosa.
      */
     @DeleteMapping("/{nombre}")
     public ResponseEntity<Void> eliminarPista(@PathVariable String nombre) {

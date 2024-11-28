@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 
 /**
  * Clase que representa a un usuario en el sistema.
- * Esta clase está mapeada a la tabla "usuario" en la base de datos y contiene los datos asociados
- * a un usuario, como su nombre, apellidos, teléfono, DNI, email, contraseña y si es un administrador o no.
+ * Esta clase esta mapeada a la tabla "usuario" en la base de datos y contiene los datos asociados
+ * a un usuario, como su nombre, apellidos, telefono, DNI, email, contraseña y si es un administrador o no.
  */
 @Entity
 @Table(name = "usuario")
 public class Usuario {
 
     /**
-     * Identificador único del usuario, generado automáticamente.
+     * Identificador unico del usuario, generado automaticamente.
      * Este campo se mapea a la columna "id" de la tabla "usuario".
      */
     @Id
@@ -34,21 +34,21 @@ public class Usuario {
     private String apellidos;
 
     /**
-     * Teléfono del usuario.
+     * Telefono del usuario.
      * Este campo se mapea a la columna "telefono" de la tabla "usuario" y no puede ser nulo.
      */
     @Column(nullable = false)
     private String telefono;
 
     /**
-     * DNI del usuario. Debe ser único y no puede ser nulo.
+     * DNI del usuario. Debe ser unico y no puede ser nulo.
      * Este campo se mapea a la columna "dni" de la tabla "usuario".
      */
     @Column(unique = true, nullable = false)
     private String dni;
 
     /**
-     * Email del usuario. Debe ser único y no puede ser nulo.
+     * Email del usuario. Debe ser unico y no puede ser nulo.
      * Este campo se mapea a la columna "email" de la tabla "usuario".
      */
     @Column(unique = true, nullable = false)
@@ -126,16 +126,16 @@ public class Usuario {
     }
 
     /**
-     * Obtiene el teléfono del usuario.
-     * @return El teléfono del usuario.
+     * Obtiene el telefono del usuario.
+     * @return El telefono del usuario.
      */
     public String getTelefono() {
         return telefono;
     }
 
     /**
-     * Establece el teléfono del usuario.
-     * @param telefono El teléfono del usuario.
+     * Establece el telefono del usuario.
+     * @param telefono El telefono del usuario.
      */
     public void setTelefono(String telefono) {
         this.telefono = telefono;

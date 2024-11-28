@@ -22,11 +22,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findAllByEsAdmin(boolean esAdmin);
 
     /**
-     * Encuentra un usuario por su correo electrónico.
-     * Este método es útil para la autenticación de usuarios.
+     * Encuentra un usuario por su correo electronico.
+     * Este metodo es util para la autenticacion de usuarios.
      *
-     * @param email El correo electrónico del usuario.
-     * @return El usuario correspondiente al correo electrónico proporcionado.
+     * @param email El correo electronico del usuario.
+     * @return El usuario correspondiente al correo electronico proporcionado.
      */
     Usuario findByEmail(String email);
 
@@ -39,16 +39,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByDni(String dni);
 
     /**
-     * Encuentra un usuario por su número de teléfono.
+     * Encuentra un usuario por su numero de telefono.
      *
-     * @param telefono El número de teléfono del usuario.
-     * @return El usuario correspondiente al número de teléfono proporcionado.
+     * @param telefono El numero de telefono del usuario.
+     * @return El usuario correspondiente al numero de telefono proporcionado.
      */
     Usuario findByTelefono(String telefono);
 
     /**
      * Encuentra un usuario por su token de restablecimiento de contraseña.
-     * Este metodo es útil para recuperar el token cuando se solicita un restablecimiento de contraseña.
+     * Este metodo es util para recuperar el token cuando se solicita un restablecimiento de contraseña.
      *
      * @param token El token de restablecimiento de contraseña.
      * @return El usuario correspondiente al token proporcionado.

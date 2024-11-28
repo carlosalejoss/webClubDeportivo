@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 /**
  * Clase que representa un horario de clase en el sistema.
- * Esta clase está mapeada a la tabla "horario_clase" en la base de datos y contiene la información sobre
+ * Esta clase esta mapeada a la tabla "horario_clase" en la base de datos y contiene la informacion sobre
  * el horario de las clases, incluyendo la fecha, la hora de inicio y la hora de fin.
  */
 @Entity
@@ -18,7 +18,7 @@ public class Horario {
     private Long id;
 
     /**
-     * Relación con la clase a la que pertenece este horario.
+     * Relacion con la clase a la que pertenece este horario.
      * La clase es referenciada por su identificador en la columna "clase_id".
      */
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -35,13 +35,13 @@ public class Horario {
     private LocalTime horaFin;
 
     /**
-     * Constructor vacío para la clase `Horario`.
-     * Este constructor es utilizado por JPA para la creación de objetos de la clase.
+     * Constructor vacio para la clase `Horario`.
+     * Este constructor es utilizado por JPA para la creacion de objetos de la clase.
      */
     public Horario() {}
 
     /**
-     * Obtiene el identificador único del horario.
+     * Obtiene el identificador unico del horario.
      * @return El identificador del horario.
      */
     public Long getId() {
@@ -49,7 +49,7 @@ public class Horario {
     }
 
     /**
-     * Establece el identificador único del horario.
+     * Establece el identificador unico del horario.
      * @param id El identificador del horario.
      */
     public void setId(Long id) {

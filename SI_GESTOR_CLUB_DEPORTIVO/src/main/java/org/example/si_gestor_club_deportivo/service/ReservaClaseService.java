@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio para la gestión de reservas de clases.
+ * Servicio para la gestion de reservas de clases.
  * Este servicio permite obtener, crear, actualizar y eliminar reservas de clases.
  */
 @Service
@@ -29,10 +29,10 @@ public class ReservaClaseService {
     }
 
     /**
-     * Busca una reserva específica de clase por su ID.
+     * Busca una reserva especifica de clase por su ID.
      *
      * @param id ID de la reserva.
-     * @return Un objeto Optional con la reserva encontrada o vacío si no existe.
+     * @return Un objeto Optional con la reserva encontrada o vacio si no existe.
      */
     public Optional<ReservaClase> obtenerReservaPorId(Long id) {
         return reservaClaseRepository.findById(id);
@@ -40,7 +40,7 @@ public class ReservaClaseService {
 
     /**
      * Actualiza una reserva existente en la base de datos.
-     * Si el ID de la reserva es nulo, se lanza una excepción.
+     * Si el ID de la reserva es nulo, se lanza una excepcion.
      *
      * @param reserva Reserva con datos actualizados.
      * @return La reserva actualizada.
@@ -54,7 +54,7 @@ public class ReservaClaseService {
     }
 
     /**
-     * Obtiene todas las reservas de clases de un usuario dentro de un rango de fechas específico.
+     * Obtiene todas las reservas de clases de un usuario dentro de un rango de fechas especifico.
      *
      * @param inicio  Fecha de inicio del rango.
      * @param fin     Fecha de fin del rango.
@@ -66,7 +66,7 @@ public class ReservaClaseService {
     }
 
     /**
-     * Obtiene todas las reservas de clases de un usuario excluyendo un rango de fechas específico.
+     * Obtiene todas las reservas de clases de un usuario excluyendo un rango de fechas especifico.
      *
      * @param inicio  Fecha de inicio del rango.
      * @param fin     Fecha de fin del rango.

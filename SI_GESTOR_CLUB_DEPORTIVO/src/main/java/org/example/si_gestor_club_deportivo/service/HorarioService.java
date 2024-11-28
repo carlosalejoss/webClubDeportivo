@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio encargado de la lógica de negocio relacionada con los horarios de las clases.
- * Proporciona métodos para gestionar los horarios en el sistema.
+ * Servicio encargado de la logica de negocio relacionada con los horarios de las clases.
+ * Proporciona metodos para gestionar los horarios en el sistema.
  */
 @Service
 public class HorarioService {
@@ -62,7 +62,7 @@ public class HorarioService {
     }
 
     /**
-     * Obtiene todos los horarios asociados a una clase específica, ordenados por fecha y hora de inicio.
+     * Obtiene todos los horarios asociados a una clase especifica, ordenados por fecha y hora de inicio.
      *
      * @param claseId El ID de la clase.
      * @return Una lista de horarios para la clase especificada.

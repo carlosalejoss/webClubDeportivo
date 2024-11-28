@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Clase que representa una reserva en el sistema.
- * Esta clase está mapeada a la tabla "reserva" en la base de datos y contiene la información
+ * Esta clase esta mapeada a la tabla "reserva" en la base de datos y contiene la informacion
  * sobre una reserva, incluyendo los detalles del usuario, pista, fecha, hora y precio.
  */
 @Entity
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class Reserva {
 
     /**
-     * Identificador único de la reserva, generado automáticamente.
+     * Identificador unico de la reserva, generado automaticamente.
      * Este campo se mapea a la columna "id" de la tabla "reserva".
      */
     @Id
@@ -61,7 +61,7 @@ public class Reserva {
     private Double precio;
 
     /**
-     * Constructor vacío utilizado por JPA para la creación de instancias de la clase.
+     * Constructor vacio utilizado por JPA para la creacion de instancias de la clase.
      */
     public Reserva() {}
 

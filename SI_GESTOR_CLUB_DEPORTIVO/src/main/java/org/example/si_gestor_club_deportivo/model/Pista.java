@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 
 /**
  * Clase que representa una pista en el sistema.
- * Esta clase está mapeada a la tabla "pista" en la base de datos y contiene la información sobre
- * una pista deportiva, como su nombre, tipo, número de pista y una descripción.
+ * Esta clase esta mapeada a la tabla "pista" en la base de datos y contiene la informacion sobre
+ * una pista deportiva, como su nombre, tipo, numero de pista y una descripcion.
  */
 @Entity
 @Table(name = "pista")
 public class Pista {
 
     /**
-     * Nombre único de la pista, es la clave primaria.
+     * Nombre unico de la pista, es la clave primaria.
      * Este campo se mapea a la columna "nombre" de la tabla "pista".
      */
     @Id
@@ -20,28 +20,28 @@ public class Pista {
     private String nombre;
 
     /**
-     * Tipo de la pista (por ejemplo, fútbol, baloncesto, tenis, etc.).
+     * Tipo de la pista (por ejemplo, futbol, baloncesto, tenis, etc.).
      * Este campo se mapea a la columna "tipo" de la tabla "pista".
      */
     @Column(nullable = false)
     private String tipo;
 
     /**
-     * Número de la pista (por ejemplo, pista 1, pista 2).
+     * Numero de la pista (por ejemplo, pista 1, pista 2).
      * Este campo se mapea a la columna "numero_pista" de la tabla "pista".
      */
     @Column(nullable = false)
     private int numero_pista;
 
     /**
-     * Descripción detallada de la pista.
+     * Descripcion detallada de la pista.
      * Este campo se mapea a la columna "descripcion" de la tabla "pista".
      */
     @Column(nullable = false)
     private String descripcion;
 
     /**
-     * Constructor vacío utilizado por JPA para la creación de instancias de la clase.
+     * Constructor vacio utilizado por JPA para la creacion de instancias de la clase.
      */
     public Pista() {}
 
@@ -78,32 +78,32 @@ public class Pista {
     }
 
     /**
-     * Obtiene el número de la pista.
-     * @return El número de la pista.
+     * Obtiene el numero de la pista.
+     * @return El numero de la pista.
      */
     public int getNumero_pista() {
         return numero_pista;
     }
 
     /**
-     * Establece el número de la pista.
-     * @param numero_pista El número de la pista.
+     * Establece el numero de la pista.
+     * @param numero_pista El numero de la pista.
      */
     public void setNumero_pista(int numero_pista) {
         this.numero_pista = numero_pista;
     }
 
     /**
-     * Obtiene la descripción de la pista.
-     * @return La descripción de la pista.
+     * Obtiene la descripcion de la pista.
+     * @return La descripcion de la pista.
      */
     public String getDescripcion() {
         return descripcion;
     }
 
     /**
-     * Establece la descripción de la pista.
-     * @param descripcion La descripción de la pista.
+     * Establece la descripcion de la pista.
+     * @param descripcion La descripcion de la pista.
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;

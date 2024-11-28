@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Servicio para la gestión de usuarios en el sistema.
+ * Servicio para la gestion de usuarios en el sistema.
  * Este servicio permite realizar operaciones CRUD sobre los usuarios, como registrar, obtener, actualizar, y eliminar usuarios.
  */
 @Service
@@ -87,9 +87,9 @@ public class UsuarioService {
     }
 
     /**
-     * Busca un usuario por su correo electrónico.
+     * Busca un usuario por su correo electronico.
      *
-     * @param email El correo electrónico del usuario.
+     * @param email El correo electronico del usuario.
      * @return El usuario encontrado o null si no existe.
      */
     public Usuario findByEmail(String email) {
@@ -107,9 +107,9 @@ public class UsuarioService {
     }
 
     /**
-     * Busca un usuario por su número de teléfono.
+     * Busca un usuario por su numero de telefono.
      *
-     * @param telefono El número de teléfono del usuario.
+     * @param telefono El numero de telefono del usuario.
      * @return El usuario encontrado o null si no existe.
      */
     public Usuario findByTelefono(String telefono) {
@@ -137,15 +137,15 @@ public class UsuarioService {
 
     /**
      * Actualiza la contraseña de un usuario sin encriptar.
-     * Este método se utiliza para restablecer la contraseña de un usuario.
+     * Este metodo se utiliza para restablecer la contraseña de un usuario.
      *
-     * @param email            El correo electrónico del usuario.
+     * @param email            El correo electronico del usuario.
      * @param nuevaContrasegna La nueva contraseña a establecer.
-     * @return true si la contraseña fue actualizada correctamente, false si no se encontró el usuario.
+     * @return true si la contraseña fue actualizada correctamente, false si no se encontro el usuario.
      */
     public boolean actualizarContrasegnaSinEncriptar(String email, String nuevaContrasegna) {
         System.out.println("Buscando usuario con email: " + email);
-        email = email.trim().toLowerCase(); // Normalización
+        email = email.trim().toLowerCase(); // Normalizacion
         Usuario usuario = usuarioRepository.findByEmail(email);
 
         if (usuario != null) {

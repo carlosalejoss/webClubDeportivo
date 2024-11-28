@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 /**
  * Clase que representa una reserva de clase en el sistema.
- * Esta clase está mapeada a la tabla "reserva_clase" en la base de datos y contiene la información
+ * Esta clase esta mapeada a la tabla "reserva_clase" en la base de datos y contiene la informacion
  * sobre una reserva de clase, incluyendo los detalles del usuario, horario de la clase y la fecha de la reserva.
  */
 @Entity
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ReservaClase {
 
     /**
-     * Identificador único de la reserva de clase, generado automáticamente.
+     * Identificador unico de la reserva de clase, generado automaticamente.
      * Este campo se mapea a la columna "id" de la tabla "reserva_clase".
      */
     @Id
@@ -35,14 +35,14 @@ public class ReservaClase {
     private Horario horario;
 
     /**
-     * Fecha en la que se realizó la reserva. Este campo se mapea a la columna "fecha_reserva" en la tabla "reserva_clase".
+     * Fecha en la que se realizo la reserva. Este campo se mapea a la columna "fecha_reserva" en la tabla "reserva_clase".
      * Se define como un TIMESTAMP con valor por defecto `CURRENT_TIMESTAMP`.
      */
     @Column(name = "fecha_reserva", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaReserva;
 
     /**
-     * Constructor vacío utilizado por JPA para la creación de instancias de la clase.
+     * Constructor vacio utilizado por JPA para la creacion de instancias de la clase.
      */
     public ReservaClase() {}
 
@@ -97,7 +97,7 @@ public class ReservaClase {
     }
 
     /**
-     * Obtiene la fecha en la que se realizó la reserva.
+     * Obtiene la fecha en la que se realizo la reserva.
      * @return La fecha de la reserva.
      */
     public LocalDateTime getFechaReserva() {

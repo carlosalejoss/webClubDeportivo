@@ -2,8 +2,8 @@ package org.example.si_gestor_club_deportivo.dto;
 
 /**
  * Clase DTO (Data Transfer Object) que representa a un usuario del sistema.
- * Esta clase se utiliza para transferir la información del usuario
- * entre diferentes capas de la aplicación.
+ * Esta clase se utiliza para transferir la informacion del usuario
+ * entre diferentes capas de la aplicacion.
  */
 public class UsuarioDTO {
 
@@ -16,7 +16,7 @@ public class UsuarioDTO {
     private boolean esAdmin;
 
     /**
-     * Obtiene el identificador único del usuario.
+     * Obtiene el identificador unico del usuario.
      * @return El identificador del usuario.
      */
     public Long getId() {
@@ -24,7 +24,7 @@ public class UsuarioDTO {
     }
 
     /**
-     * Establece el identificador único del usuario.
+     * Establece el identificador unico del usuario.
      * @param id El identificador del usuario.
      */
     public void setId(Long id) {
@@ -64,16 +64,16 @@ public class UsuarioDTO {
     }
 
     /**
-     * Obtiene el número de teléfono del usuario.
-     * @return El teléfono del usuario.
+     * Obtiene el numero de telefono del usuario.
+     * @return El telefono del usuario.
      */
     public String getTelefono() {
         return telefono;
     }
 
     /**
-     * Establece el número de teléfono del usuario.
-     * @param telefono El número de teléfono del usuario.
+     * Establece el numero de telefono del usuario.
+     * @param telefono El numero de telefono del usuario.
      */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
@@ -96,16 +96,16 @@ public class UsuarioDTO {
     }
 
     /**
-     * Obtiene el correo electrónico del usuario.
-     * @return El correo electrónico del usuario.
+     * Obtiene el correo electronico del usuario.
+     * @return El correo electronico del usuario.
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * Establece el correo electrónico del usuario.
-     * @param email El correo electrónico del usuario.
+     * Establece el correo electronico del usuario.
+     * @param email El correo electronico del usuario.
      */
     public void setEmail(String email) {
         this.email = email;

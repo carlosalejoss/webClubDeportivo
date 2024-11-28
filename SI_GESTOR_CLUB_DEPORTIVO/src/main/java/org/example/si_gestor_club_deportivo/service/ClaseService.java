@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio encargado de la lógica de negocio relacionada con las clases.
- * Proporciona métodos para gestionar las clases en el sistema.
+ * Servicio encargado de la logica de negocio relacionada con las clases.
+ * Proporciona metodos para gestionar las clases en el sistema.
  */
 @Service
 public class ClaseService {

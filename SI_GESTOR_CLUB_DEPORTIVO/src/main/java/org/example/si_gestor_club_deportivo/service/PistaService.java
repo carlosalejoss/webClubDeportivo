@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio para la gestión de pistas deportivas.
- * Contiene métodos para obtener, crear, actualizar y eliminar pistas, así como para obtener pistas por tipo.
+ * Servicio para la gestion de pistas deportivas.
+ * Contiene metodos para obtener, crear, actualizar y eliminar pistas, asi como para obtener pistas por tipo.
  */
 @Service
 public class PistaService {
@@ -40,7 +40,7 @@ public class PistaService {
      * Obtiene una pista por su nombre.
      *
      * @param nombre El nombre de la pista a buscar.
-     * @return Un objeto Optional que contiene la pista si existe, o vacío si no se encuentra.
+     * @return Un objeto Optional que contiene la pista si existe, o vacio si no se encuentra.
      */
     public Optional<Pista> obtenerPistaPorNombre(String nombre) {
         return pistaRepository.findById(nombre);
@@ -59,7 +59,7 @@ public class PistaService {
     /**
      * Actualiza una pista existente.
      *
-     * Si la pista con el nombre proporcionado no existe, se lanza una excepción.
+     * Si la pista con el nombre proporcionado no existe, se lanza una excepcion.
      *
      * @param nombre           El nombre de la pista a actualizar.
      * @param pistaActualizada La pista con los nuevos datos.
@@ -85,7 +85,7 @@ public class PistaService {
     }
 
     /**
-     * Obtiene todas las pistas de un tipo específico.
+     * Obtiene todas las pistas de un tipo especifico.
      *
      * @param tipo El tipo de las pistas que se desean obtener.
      * @return Lista de pistas de ese tipo.
@@ -95,10 +95,10 @@ public class PistaService {
     }
 
     /**
-     * Obtiene la última pista registrada de un tipo específico, basada en el número de pista más alto.
+     * Obtiene la ultima pista registrada de un tipo especifico, basada en el numero de pista mas alto.
      *
      * @param tipo El tipo de la pista que se desea obtener.
-     * @return La última pista del tipo especificado.
+     * @return La ultima pista del tipo especificado.
      */
     public Pista obtenerUltimaPistaPorTipo(String tipo) {
         return pistaRepository.findByTipoOnly(tipo);
