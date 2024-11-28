@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva No Permitida</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Temporizador para redirigir al home después de 3 segundos
+    setTimeout(() => {
+      window.location.href = '/'; // volver a las reservas
+    }, 3000); // 3000 ms = 3 segundos
+  </script>
 </head>
-<body>
-$END$
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="bg-white shadow-md rounded-lg p-6 max-w-lg text-center">
+  <div class="flex justify-center">
+    <!-- Ícono de advertencia -->
+    <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.59c.745 1.326-.208 2.91-1.743 2.91H3.482c-1.535 0-2.488-1.584-1.743-2.91L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-.25-4.5a.75.75 0 10-1.5 0v2.25a.75.75 0 001.5 0V8.5z" clip-rule="evenodd" />
+      </svg>
+    </div>
+  </div>
+  <h1 class="text-2xl font-bold mt-4 text-gray-900">¡No se ha podido restablecer la contraseña!</h1>
+  <p class="text-gray-600 mt-2"
+     th:text="${session.tipoFallo}"></p>
+  <p class="text-gray-600 mt-2">Serás redirigido a la pagina principal en unos segundos...</p>
+</div>
 </body>
 </html>

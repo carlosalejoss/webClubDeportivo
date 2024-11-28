@@ -865,7 +865,7 @@ public class HomeController {
         Usuario usuario = usuarioService.obtenerUsuarioPorToken(token);
         if (usuario == null) {
             model.addAttribute("error", "El enlace de restablecimiento no es válido o ha expirado.");
-            return "error"; // Página de error
+            return "falloNuevaContrasegna"; // Página de error
         }
 
         System.out.println("Email enviado al modelo: " + usuario.getEmail());
