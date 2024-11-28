@@ -11,16 +11,16 @@
 <!-- Restablecer contraseña -->
 <form id="password-reset-form">
     <input type="hidden" name="email" th:value="${email}"> <!-- Email dinámico desde el controlador -->
-    <div class="bg-white shadow-md rounded-lg p-6 max-w-lg text-center">
+    <div class="bg-white shadow-md rounded-lg p-10 max-w-xl mx-auto text-center">
 
         <div>
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Nueva contraseña</label>
-            <input id="password" name="password" type="password" required class="block w-full rounded-md border-0 py-1.5 pl-4">
+            <input id="password" name="password" type="password" required class="block w-full rounded-md border-2 py-1.5 pl-4">
         </div>
 
         <div class="mt-4">
             <label for="password2" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
-            <input id="password2" name="password2" type="password" required class="block w-full rounded-md border-0 py-1.5 pl-4">
+            <input id="password2" name="password2" type="password" required class="block w-full rounded-md border-2 py-1.5 pl-4">
         </div>
 
         <button type="submit" class="mt-6 w-full bg-indigo-600 text-white rounded-md py-2">Restablecer</button>
