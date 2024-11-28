@@ -31,6 +31,9 @@ import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controlador para gestionar toda la web, las conexiones de los html, etc.
+ */
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -45,6 +48,19 @@ public class HomeController {
     private final ReservaClaseService reservaClaseService;
     private final MailService mailService;
 
+    /**
+     * Constructor con inyección de dependencias para inicializar todos los servicios y repositorios necesarios en el controlador.
+     *
+     * @param usuarioService Servicio para gestionar las operaciones relacionadas con los usuarios.
+     * @param pistaService Servicio para gestionar las operaciones relacionadas con las pistas.
+     * @param reservaService Servicio para gestionar las operaciones relacionadas con las reservas.
+     * @param claseService Servicio para gestionar las operaciones relacionadas con las clases.
+     * @param horarioService Servicio para gestionar los horarios de las clases.
+     * @param reservaClaseRepository Repositorio para las operaciones CRUD de reservas de clases.
+     * @param claseRepository Repositorio para las operaciones CRUD de clases.
+     * @param reservaClaseService Servicio para la gestión de reservas de clases.
+     * @param mailService Servicio para el envío de correos electrónicos.
+     */
     @Autowired
     public HomeController(UsuarioService usuarioService, PistaService pistaService, ReservaService reservaService, ClaseService claseService, HorarioService horarioService, ReservaClaseRepository reservaClaseRepository, ClaseRepository claseRepository, ReservaClaseService reservaClaseService, MailService mailService) {
         this.usuarioService = usuarioService;
@@ -58,42 +74,91 @@ public class HomeController {
         this.mailService = mailService;
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página principal.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista principal "home".
+     */
     @GetMapping("/")
     public String home(HttpSession session) {
         return "home";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página de éxito en la reserva.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "exitoReserva" que muestra un mensaje de éxito en la reserva.
+     */
     @GetMapping("/exitoRsv")
     public String exitoRsv(HttpSession session) {
         return "exitoReserva";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página de fallo en la reserva.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "falloReserva" que muestra un mensaje de error en la reserva.
+     */
     @GetMapping("/falloRsv")
     public String falloRsv(HttpSession session) {
         session.getAttribute("tipoFallo");
         return "falloReserva";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página de inicio de sesión.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "iniciarSesion" que permite al usuario ingresar sus credenciales.
+     */
     @GetMapping("/iniciarSesion")
     public String iniciarsesion(HttpSession session) {
         return "iniciarSesion";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página de registro de un nuevo usuario.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "registrarse" que permite al usuario crear una cuenta.
+     */
     @GetMapping("/registrarse")
     public String registrarse(HttpSession session) {
         return "registrarse";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página de datos de cuenta del usuario.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "datosCuenta" donde el usuario puede ver y editar sus datos.
+     */
     @GetMapping("/datosCuenta")
     public String datosCuenta(HttpSession session) {
         return "datosCuenta";
     }
 
+    /**
+     * Método para manejar la solicitud GET a la página "Sobre Nosotros".
+     *
+     * @param session La sesión del usuario.
+     * @return La vista "sobreNosotros", que describe la información sobre el club deportivo.
+     */
     @GetMapping("/sobreNosotros")
     public String sobreNosotros(HttpSession session) {
         return "sobreNosotros";
     }
 
+    /**
+     * Método para manejar la selección de tipo de campo por parte del usuario y mostrar las pistas disponibles.
+     *
+     * @param tipo El tipo de deporte para el cual se selecciona el campo (ej. Futbol, Baloncesto, etc.).
+     * @param model El modelo que contiene los atributos para pasar a la vista.
+     * @return La vista "eleccionCampo" con las pistas disponibles para el tipo de campo seleccionado.
+     */
     @GetMapping("/eleccionCampo")
     public String eleccionCampo(@RequestParam("tipo") String tipo, Model model) {
         // Mapear tipo a su imagen correspondiente
@@ -117,33 +182,70 @@ public class HomeController {
         return "eleccionCampo";
     }
 
-
+    /**
+     * Método para redirigir a la página de selección de campo para Futbol 11.
+     *
+     * @param model El modelo de la vista.
+     * @return La vista redirigida para la elección de campo de Futbol 11.
+     */
     @GetMapping("/eleccionCampoFut11")
     public String eleccionCampoFut11(Model model) {
         return "redirect:/eleccionCampo?tipo=Futbol 11";
     }
 
-
+    /**
+     * Método para redirigir a la página de selección de campo para Futbol 7.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista redirigida para la elección de campo de Futbol 7.
+     */
     @GetMapping("/eleccionCampoFut7")
     public String eleccionCampoFut7(HttpSession session) {
         return "redirect:/eleccionCampo?tipo=Futbol 7";
     }
 
+    /**
+     * Método para redirigir a la página de selección de campo para Baloncesto.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista redirigida para la elección de campo de Baloncesto.
+     */
     @GetMapping("/eleccionCampoBasket")
     public String eleccionCampoBasket(HttpSession session) {
         return "redirect:/eleccionCampo?tipo=Baloncesto";
     }
 
+    /**
+     * Método para redirigir a la página de selección de campo para Tenis.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista redirigida para la elección de campo de Tenis.
+     */
     @GetMapping("/eleccionCampoTenis")
     public String eleccionCampoTenis(HttpSession session) {
         return "redirect:/eleccionCampo?tipo=Tenis";
     }
 
+    /**
+     * Método para redirigir a la página de selección de campo para Padel.
+     *
+     * @param session La sesión del usuario.
+     * @return La vista redirigida para la elección de campo de Padel.
+     */
     @GetMapping("/eleccionCampoPadel")
     public String eleccionCampoPadel(HttpSession session) {
         return "redirect:/eleccionCampo?tipo=Padel";
     }
 
+    /**
+     * Método para manejar el inicio de sesión del usuario.
+     *
+     * @param email El correo electrónico del usuario.
+     * @param password La contraseña del usuario.
+     * @param session La sesión del usuario.
+     * @param model El modelo para agregar atributos a la vista.
+     * @return La vista redirigida según el éxito o error del inicio de sesión.
+     */
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         Usuario usuario = usuarioService.findByEmail(email);
@@ -170,15 +272,28 @@ public class HomeController {
         return "redirect:/";
     }
 
+    /**
+     * Método para manejar el registro de un nuevo usuario.
+     *
+     * @param email El correo electrónico del nuevo usuario.
+     * @param password La contraseña del nuevo usuario.
+     * @param nombre El nombre del nuevo usuario.
+     * @param apellidos Los apellidos del nuevo usuario.
+     * @param telefono El número de teléfono del nuevo usuario.
+     * @param dni El DNI del nuevo usuario.
+     * @param session La sesión del usuario.
+     * @param model El modelo para agregar atributos a la vista.
+     * @return La vista redirigida según el éxito o error del registro.
+     */
     @PostMapping("/signUp")
     public String signUp(@RequestParam String email,
-                              @RequestParam String password,
-                              @RequestParam String nombre,
-                              @RequestParam String apellidos,
-                              @RequestParam String telefono,
-                              @RequestParam String dni,
-                              HttpSession session,
-                              Model model) {
+                         @RequestParam String password,
+                         @RequestParam String nombre,
+                         @RequestParam String apellidos,
+                         @RequestParam String telefono,
+                         @RequestParam String dni,
+                         HttpSession session,
+                         Model model) {
 
         if (email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty() ||
@@ -229,6 +344,13 @@ public class HomeController {
         return "redirect:/"; // Redirige a la página de inicio o a la página de bienvenida
     }
 
+    /**
+     * Método para cambiar la vista del usuario entre vista de administrador y vista normal.
+     * Si el usuario es administrador, cambia el estado de "viewAsAdmin" en la sesión.
+     *
+     * @param session La sesión del usuario.
+     * @return Redirige a la página de inicio.
+     */
     @GetMapping("/toggleView")
     public String toggleView(HttpSession session) {
         if (Boolean.TRUE.equals(session.getAttribute("isAdmin"))) {
@@ -238,12 +360,29 @@ public class HomeController {
         return "redirect:/";
     }
 
+    /**
+     * Método para cerrar la sesión del usuario.
+     * Invalida la sesión actual y redirige a la página de inicio.
+     *
+     * @param session La sesión del usuario.
+     * @return Redirige a la página de inicio después de cerrar sesión.
+     */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
 
+    /**
+     * Método para mostrar las reservas de la semana actual.
+     * Verifica que el usuario esté logueado y muestra las reservas disponibles
+     * en función de la pista seleccionada y la semana actual.
+     *
+     * @param campo El nombre de la pista seleccionada.
+     * @param model El modelo para pasar datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "reservar" con los horarios disponibles para la semana actual.
+     */
     @GetMapping("/reservar")
     public String mostrarReservasSemanaActual(@RequestParam("campo") String campo, Model model, HttpSession session) {
         // Verifica que el usuario esté logueado
@@ -303,7 +442,13 @@ public class HomeController {
         return "reservar";
     }
 
-    private Double calculatePrice(String pista){
+    /**
+     * Método para calcular el precio de la reserva dependiendo del tipo de pista seleccionada.
+     *
+     * @param pista El tipo de pista seleccionada.
+     * @return El precio de la reserva según el tipo de pista.
+     */
+    private Double calculatePrice(String pista) {
         Double price = 20.0;
 
         switch (pista) {
@@ -327,6 +472,19 @@ public class HomeController {
         return price;
     }
 
+    /**
+     * Método para crear una nueva reserva.
+     * Verifica que el usuario esté logueado y que la fecha y hora seleccionadas sean válidas.
+     * Si no hay conflicto, guarda la nueva reserva.
+     *
+     * @param pistaNombre El nombre de la pista seleccionada.
+     * @param fecha La fecha de la reserva.
+     * @param horaInicio La hora de inicio de la reserva.
+     * @param horaFin La hora de fin de la reserva.
+     * @param session La sesión del usuario.
+     * @param model El modelo para pasar datos a la vista.
+     * @return La vista redirigida según el éxito o error al crear la reserva.
+     */
     @PostMapping("/nueva")
     public String crearReserva(
             @RequestParam String pistaNombre,
@@ -346,7 +504,7 @@ public class HomeController {
         LocalDate fechaParsed = LocalDate.parse(fecha);
         boolean yaReservado = reservaService.obtenerReservaUsuarioFecha(usuario.getId(), fechaParsed);
 
-        if(yaReservado){
+        if (yaReservado) {
             return "redirect:/falloRsv";
         }
 
@@ -354,7 +512,6 @@ public class HomeController {
         LocalDate fechaActual = LocalDate.now();
         LocalTime horaActual = LocalTime.now();
         LocalTime horaInicioParsed = LocalTime.parse(horaInicio);
-
 
         // Verificar si la fecha del horario es la fecha actual
         if (fechaParsed.equals(fechaActual)) {
@@ -399,6 +556,14 @@ public class HomeController {
         return "redirect:/exitoRsv";
     }
 
+    /**
+     * Método para mostrar las reservas del usuario para la semana actual.
+     * Separa las reservas activas y no activas, y también muestra las reservas fuera de la semana actual.
+     *
+     * @param model El modelo para pasar los datos de reservas a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "misReservas" con las reservas activas y no activas.
+     */
     @GetMapping("/misReservas")
     public String misReservas(Model model, HttpSession session) {
         // Obtener la semana actual
@@ -436,6 +601,15 @@ public class HomeController {
         return "misReservas";
     }
 
+    /**
+     * Método para eliminar una reserva.
+     * Elimina la reserva seleccionada y redirige al usuario a la página de sus reservas.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @param pista El ID de la reserva a eliminar.
+     * @return La vista redirigida a la página de reservas del usuario.
+     */
     @PostMapping("/eliminarReserva")
     public String eliminarReserva(Model model, HttpSession session, @RequestParam("reservaId") Long pista) {
         reservaService.eliminarReserva(pista);
@@ -443,9 +617,16 @@ public class HomeController {
         return "redirect:/misReservas";
     }
 
+    /**
+     * Método para gestionar las pistas. Obtiene todas las pistas y las agrupa por tipo,
+     * pasando los datos al modelo para mostrarlas en la vista "gestionarPistasAdmin".
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "gestionarPistasAdmin" que muestra las pistas agrupadas por tipo.
+     */
     @GetMapping("/gestionarPistas")
     public String mostrarGestionPistas(Model model, HttpSession session) {
-
         // Obtener todas las pistas
         List<Pista> pistas = pistaService.obtenerTodasLasPistas();
 
@@ -463,13 +644,30 @@ public class HomeController {
         return "gestionarPistasAdmin"; // Nombre de la plantilla Thymeleaf
     }
 
+    /**
+     * Método para eliminar una pista seleccionada.
+     * Elimina la pista correspondiente y redirige a la página de gestión de pistas.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @param nombrePista El nombre de la pista a eliminar.
+     * @return Redirige a la página de gestión de pistas después de eliminar la pista.
+     */
     @PostMapping("/gestionarPistas")
     public String eliminarCampo(Model model, HttpSession session, @RequestParam("campoId") String nombrePista) {
-
         pistaService.eliminarPista(nombrePista);
         return("redirect:/gestionarPistas");
     }
 
+    /**
+     * Método para mostrar la vista de creación de una nueva pista.
+     * Obtiene todas las pistas y las agrupa por tipo, pasando los datos al modelo
+     * para mostrar los tipos de pistas disponibles en la vista "newCampo".
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "newCampo" que muestra los tipos de pistas disponibles para crear una nueva pista.
+     */
     @GetMapping("/newCampo")
     public String newCampo(Model model, HttpSession session) {
         // Obtener todas las pistas
@@ -487,9 +685,21 @@ public class HomeController {
         return "newCampo";
     }
 
+    /**
+     * Método para guardar una nueva pista en la base de datos.
+     * Crea una nueva pista con los datos proporcionados y asigna un número de pista basado
+     * en el tipo de pista. Luego, guarda la pista en la base de datos y redirige a la página
+     * de gestión de pistas.
+     *
+     * @param nombre El nombre de la nueva pista.
+     * @param tipo El tipo de la nueva pista.
+     * @param descripcion La descripción de la nueva pista.
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return Redirige a la página de gestión de pistas después de crear la nueva pista.
+     */
     @PostMapping("/newCampo")
-    public String guardarCampo(@RequestParam String nombre, @RequestParam String tipo,  @RequestParam String descripcion, Model model, HttpSession session) {
-
+    public String guardarCampo(@RequestParam String nombre, @RequestParam String tipo, @RequestParam String descripcion, Model model, HttpSession session) {
         Pista newPista = new Pista();
         newPista.setNombre(nombre);
         newPista.setTipo(tipo);
@@ -507,6 +717,21 @@ public class HomeController {
         return "redirect:/gestionarPistas";
     }
 
+    /**
+     * Método para actualizar los datos del usuario.
+     * Permite al usuario modificar su nombre, apellidos, correo electrónico, teléfono y contraseña.
+     * Valida que al menos un campo sea cambiado y que los datos no estén duplicados en la base de datos.
+     *
+     * @param newNombre El nuevo nombre del usuario.
+     * @param newApellidos Los nuevos apellidos del usuario.
+     * @param newDNI El nuevo DNI del usuario.
+     * @param newEmail El nuevo email del usuario.
+     * @param newTelefono El nuevo número de teléfono del usuario.
+     * @param newPassword La nueva contraseña del usuario.
+     * @param session La sesión del usuario.
+     * @param model El modelo para pasar los datos a la vista.
+     * @return Redirige a la página de datos de cuenta después de actualizar los datos.
+     */
     @PostMapping("/NewDatos")
     public String nuevosDatos(
             @RequestParam String newNombre,
@@ -576,6 +801,14 @@ public class HomeController {
         return "redirect:/datosCuenta";
     }
 
+    /**
+     * Método para mostrar todas las clases disponibles.
+     * Obtiene los tipos de clases y las pasa al modelo para mostrarlas en la vista "clases".
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "clases" con los tipos de clases disponibles.
+     */
     @GetMapping("/clases")
     public String clases(Model model, HttpSession session) {
         List<String> tipos = claseService.obtenerTiposDeClases();
@@ -584,6 +817,16 @@ public class HomeController {
         return "clases";
     }
 
+    /**
+     * Método para mostrar las clases disponibles según el tipo seleccionado.
+     * Verifica que el usuario esté logueado y filtra las clases por tipo, mostrando las disponibles
+     * en la vista "reservarClases". Además, filtra los horarios según la fecha y hora actuales.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @param tipoSeleccionado El tipo de clase seleccionada.
+     * @return La vista "reservarClases" que muestra las clases disponibles para el tipo seleccionado.
+     */
     @GetMapping("/clasesReserva")
     public String clasesReserva(Model model, HttpSession session, @RequestParam("tipo") String tipoSeleccionado) {
         // Verificar que el usuario esté logueado
@@ -626,7 +869,15 @@ public class HomeController {
         return "reservarClases";
     }
 
-
+    /**
+     * Método para reservar una clase. Verifica si el usuario ya tiene una reserva en el mismo horario o si
+     * el número máximo de asistentes ya ha sido alcanzado. Si todo está en orden, realiza la reserva.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @param horarioId El ID del horario de la clase que el usuario desea reservar.
+     * @return Redirige a la página de éxito o de fallo según si la reserva fue exitosa o no.
+     */
     @PostMapping("/clasesReserva")
     public String apuntarseClase(Model model, HttpSession session, @RequestParam("horarioId") Long horarioId) {
         Usuario user = (Usuario) session.getAttribute("usuario");
@@ -669,7 +920,14 @@ public class HomeController {
         return "redirect:/exitoRsv";
     }
 
-
+    /**
+     * Método para mostrar las clases reservadas por el usuario. Filtra las clases activas y no activas de la semana
+     * actual y las clases fuera del rango de fechas actual.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "misClases" que muestra las clases activas y no activas.
+     */
     @GetMapping("/verClases")
     public String misClases(Model model, HttpSession session) {
         // Obtener la semana actual
@@ -708,6 +966,14 @@ public class HomeController {
         return "misClases";
     }
 
+    /**
+     * Método para eliminar una clase reservada por el usuario.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @param pista El ID de la clase a eliminar.
+     * @return Redirige a la página de mis reservas después de eliminar la clase.
+     */
     @PostMapping("/eliminarClase")
     public String eliminarClase(Model model, HttpSession session, @RequestParam("claseId") Long pista) {
         reservaClaseService.eliminarClase(pista);
@@ -715,6 +981,14 @@ public class HomeController {
         return "redirect:/misReservas";
     }
 
+    /**
+     * Método para gestionar todas las clases disponibles en el sistema.
+     * Obtiene todas las clases y las pasa al modelo para ser mostradas en la vista "gestionarClasesAdmin".
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param session La sesión del usuario.
+     * @return La vista "gestionarClasesAdmin" que muestra todas las clases disponibles.
+     */
     @GetMapping("/gestionarClases")
     public String gestionarClases(Model model, HttpSession session) {
         List<Clase> clases = claseService.obtenerTodasLasClases();
@@ -722,6 +996,15 @@ public class HomeController {
         return "gestionarClasesAdmin";
     }
 
+    /**
+     * Método para buscar clases por un rango de fechas. Filtra las clases según las fechas de inicio y fin
+     * y pasa los resultados al modelo para ser mostrados en la vista de resultados.
+     *
+     * @param model El modelo para pasar los datos a la vista.
+     * @param fechaInicio La fecha de inicio del rango de búsqueda.
+     * @param fechaFin La fecha de fin del rango de búsqueda.
+     * @return La vista "resultadoClases" que muestra las clases filtradas por el rango de fechas.
+     */
     @GetMapping("/clases/buscar")
     public String buscarClasesPorFechas(
             Model model,
@@ -752,6 +1035,19 @@ public class HomeController {
         return "resultadoClases"; // Página de resultados
     }
 
+    /**
+     * Método para guardar los cambios en los datos de una clase.
+     * Actualiza los detalles de una clase en la base de datos con la nueva información proporcionada por el usuario.
+     *
+     * @param id El ID de la clase que se va a editar.
+     * @param nombre El nuevo nombre de la clase.
+     * @param profesor El nuevo profesor de la clase.
+     * @param tipo El nuevo tipo de la clase.
+     * @param descripcion La nueva descripción de la clase.
+     * @param maxAsistentes El nuevo número máximo de asistentes.
+     * @param precio El nuevo precio de la clase.
+     * @return Redirige a la página de gestión de clases después de guardar los cambios.
+     */
     @PostMapping("/clases/editar/{id}")
     public String guardarEdicionClase(
             @PathVariable Long id,
@@ -768,13 +1064,19 @@ public class HomeController {
         clase.setTipo(tipo);
         clase.setDescripcion(descripcion);
         clase.setMaxAsistentes(maxAsistentes);
-
         clase.setPrecio(BigDecimal.valueOf(precio));
-
         claseService.guardarClase(clase);
         return "redirect:/gestionarClases";
     }
 
+    /**
+     * Método para mostrar el formulario de edición de una clase.
+     * Obtiene los detalles de una clase específica para mostrar en el formulario de edición.
+     *
+     * @param id El ID de la clase que se va a editar.
+     * @param model El modelo para pasar los datos a la vista.
+     * @return La vista "editarClase" con los datos de la clase a editar.
+     */
     @GetMapping("/clases/editar/{id}")
     public String editarClase(@PathVariable Long id, Model model) {
         Clase clase = claseService.obtenerClasePorId(id);
@@ -782,14 +1084,31 @@ public class HomeController {
         return "editarClase"; // Vista para editar una clase
     }
 
-    // Eliminar clase
+    /**
+     * Método para eliminar una clase.
+     * Elimina una clase de la base de datos.
+     *
+     * @param id El ID de la clase que se va a eliminar.
+     * @return Redirige a la página de gestión de clases después de eliminar la clase.
+     */
     @PostMapping("/clases/eliminar/{id}")
     public String eliminarClase(@PathVariable Long id) {
         claseService.eliminarClase(id);
         return "redirect:/gestionarClases";
     }
 
-    // Crear nueva clase
+    /**
+     * Método para crear una nueva clase.
+     * Crea una clase con los datos proporcionados por el usuario y la guarda en la base de datos.
+     *
+     * @param nombre El nombre de la nueva clase.
+     * @param profesor El profesor de la nueva clase.
+     * @param tipo El tipo de la nueva clase.
+     * @param descripcion La descripción de la nueva clase.
+     * @param maxAsistentes El número máximo de asistentes para la clase.
+     * @param precio El precio de la nueva clase.
+     * @return Redirige a la página de gestión de clases después de crear la clase.
+     */
     @PostMapping("/clases/crear")
     public String crearClase(
             @RequestParam String nombre,
@@ -811,6 +1130,17 @@ public class HomeController {
         return "redirect:/gestionarClases";
     }
 
+    /**
+     * Método para crear un nuevo horario para una clase.
+     * Verifica que la clase exista y crea un nuevo horario asociado a esa clase.
+     *
+     * @param claseId El ID de la clase a la que se le asignará el nuevo horario.
+     * @param fecha La fecha del nuevo horario.
+     * @param horaInicio La hora de inicio del nuevo horario.
+     * @param horaFin La hora de fin del nuevo horario.
+     * @param model El modelo para pasar los datos a la vista.
+     * @return Redirige a la página de gestión de clases después de crear el horario.
+     */
     @PostMapping("/clases/horarios/crear")
     public String crearHorario(
             @RequestParam Long claseId,
@@ -839,18 +1169,15 @@ public class HomeController {
         return "redirect:/gestionarClases";
     }
 
-
-    /*@GetMapping("/sendMail")
-    public String sendMail(@RequestParam("email") String email, HttpSession session) {
-
-        mailService.sendMail("{mail Address}", "Title", "Massage");
-        return "mirarCorreo";
-
-    }*/
-
+    /**
+     * Método para enviar un correo de recuperación de contraseña.
+     * Llama al servicio para enviar un correo de recuperación de contraseña al usuario.
+     *
+     * @param email El correo electrónico del usuario al que se le enviará el correo de recuperación.
+     * @return Devuelve una respuesta HTTP con el resultado del envío del correo.
+     */
     @PostMapping("/sendMail")
     public ResponseEntity<String> sendMail(@RequestParam String email) {
-
         String resultado = mailService.sendPasswordRecoveryEmail(email);
         if (resultado.startsWith("Correo enviado")) {
             return ResponseEntity.ok(resultado);
@@ -859,7 +1186,14 @@ public class HomeController {
         }
     }
 
-
+    /**
+     * Método para mostrar el formulario de restablecimiento de contraseña.
+     * Verifica si el token proporcionado es válido y muestra el formulario para restablecer la contraseña.
+     *
+     * @param token El token de restablecimiento de contraseña.
+     * @param model El modelo para pasar los datos a la vista.
+     * @return La vista para ingresar una nueva contraseña si el token es válido.
+     */
     @GetMapping("/restablecer")
     public String mostrarFormularioRestablecer(@RequestParam("token") String token, Model model) {
         Usuario usuario = usuarioService.obtenerUsuarioPorToken(token);
@@ -868,11 +1202,20 @@ public class HomeController {
             return "falloNuevaContrasegna"; // Página de error
         }
 
-        System.out.println("Email enviado al modelo: " + usuario.getEmail());
         model.addAttribute("email", usuario.getEmail());
         return "nuevaContrasegna";
     }
 
+    /**
+     * Método para restablecer la contraseña de un usuario.
+     * Verifica que las contraseñas ingresadas coincidan y actualiza la contraseña del usuario.
+     *
+     * @param email El correo electrónico del usuario.
+     * @param password La nueva contraseña.
+     * @param password2 La confirmación de la nueva contraseña.
+     * @param model El modelo para pasar los datos a la vista.
+     * @return Redirige al inicio de sesión si la contraseña se actualiza correctamente.
+     */
     @PostMapping("/restablecer")
     public String restablecerContrasegna(
             @RequestParam("email") String email,
@@ -880,27 +1223,18 @@ public class HomeController {
             @RequestParam("password2") String password2,
             Model model) {
 
-        System.out.println("Email recibido: " + email);
-        System.out.println("Contraseñas: " + password + " / " + password2);
-
         if (!password.equals(password2)) {
-            System.out.println("Las contraseñas no coinciden.");
             model.addAttribute("error", "Las contraseñas no coinciden.");
             return "nuevaContrasegna";
         }
 
         boolean actualizado = usuarioService.actualizarContrasegnaSinEncriptar(email, password);
-        System.out.println("Contraseña actualizada: " + actualizado);
-
         if (!actualizado) {
             model.addAttribute("error", "No se pudo actualizar la contraseña.");
             return "nuevaContrasegna";
         }
 
-        System.out.println("Redirigiendo a iniciar sesión...");
         return "redirect:/iniciarSesion";
     }
-
-
 
 }
