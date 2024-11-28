@@ -8,32 +8,64 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Servicio para la gestión de pistas deportivas.
+ * Contiene métodos para obtener, crear, actualizar y eliminar pistas, así como para obtener pistas por tipo.
+ */
 @Service
 public class PistaService {
 
     private final PistaRepository pistaRepository;
 
+    /**
+     * Constructor para inicializar el servicio de pistas con el repositorio correspondiente.
+     *
+     * @param pistaRepository El repositorio de pistas para interactuar con la base de datos.
+     */
     @Autowired
     public PistaService(PistaRepository pistaRepository) {
         this.pistaRepository = pistaRepository;
     }
 
-    // Método para obtener todas las pistas
+    /**
+     * Obtiene todas las pistas registradas en la base de datos.
+     *
+     * @return Lista de todas las pistas.
+     */
     public List<Pista> obtenerTodasLasPistas() {
         return pistaRepository.findAll();
     }
 
-    // Método para obtener una pista por su nombre
+    /**
+     * Obtiene una pista por su nombre.
+     *
+     * @param nombre El nombre de la pista a buscar.
+     * @return Un objeto Optional que contiene la pista si existe, o vacío si no se encuentra.
+     */
     public Optional<Pista> obtenerPistaPorNombre(String nombre) {
         return pistaRepository.findById(nombre);
     }
 
-    // Método para crear una nueva pista
+    /**
+     * Crea una nueva pista.
+     *
+     * @param pista La pista a crear.
+     * @return La pista creada.
+     */
     public Pista crearPista(Pista pista) {
         return pistaRepository.save(pista);
     }
 
-    // Método para actualizar una pista existente
+    /**
+     * Actualiza una pista existente.
+     *
+     * Si la pista con el nombre proporcionado no existe, se lanza una excepción.
+     *
+     * @param nombre           El nombre de la pista a actualizar.
+     * @param pistaActualizada La pista con los nuevos datos.
+     * @return La pista actualizada.
+     * @throws RuntimeException Si no se encuentra una pista con el nombre especificado.
+     */
     public Pista actualizarPista(String nombre, Pista pistaActualizada) {
         return pistaRepository.findById(nombre)
                 .map(pista -> {
@@ -43,15 +75,31 @@ public class PistaService {
                 .orElseThrow(() -> new RuntimeException("Pista no encontrada con nombre " + nombre));
     }
 
-    // Método para eliminar una pista por su nombre
+    /**
+     * Elimina una pista por su nombre.
+     *
+     * @param nombre El nombre de la pista a eliminar.
+     */
     public void eliminarPista(String nombre) {
         pistaRepository.deleteById(nombre);
     }
 
+    /**
+     * Obtiene todas las pistas de un tipo específico.
+     *
+     * @param tipo El tipo de las pistas que se desean obtener.
+     * @return Lista de pistas de ese tipo.
+     */
     public List<Pista> obtenerPistasPorTipo(String tipo) {
         return pistaRepository.findByTipo(tipo);
     }
 
+    /**
+     * Obtiene la última pista registrada de un tipo específico, basada en el número de pista más alto.
+     *
+     * @param tipo El tipo de la pista que se desea obtener.
+     * @return La última pista del tipo especificado.
+     */
     public Pista obtenerUltimaPistaPorTipo(String tipo) {
         return pistaRepository.findByTipoOnly(tipo);
     }

@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Servicio para el envío de correos electrónicos relacionados con la gestión de usuarios.
+ * En particular, se encarga de la recuperación de contraseñas mediante el envío de un correo con un enlace de restablecimiento.
+ */
 @Service("MailService")
 public class MailService {
 
@@ -21,10 +25,24 @@ public class MailService {
 
     private final JavaMailSender mailSender;
 
+    /**
+     * Constructor para inicializar el servicio de correo.
+     *
+     * @param mailSender El servicio de envío de correos.
+     */
     public MailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
+    /**
+     * Envia un correo electrónico para la recuperación de contraseña a un usuario.
+     *
+     * Este método genera un token único, lo guarda en la base de datos asociado al usuario, y luego envía un
+     * correo con un enlace para restablecer la contraseña.
+     *
+     * @param email El correo electrónico del usuario al que se enviará el enlace de recuperación.
+     * @return Un mensaje que indica si el correo se ha enviado correctamente o si ha habido algún error.
+     */
     public String sendPasswordRecoveryEmail(String email) {
 
         // Verificar si el usuario existe en la base de datos

@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controlador para gestionar las operaciones relacionadas con las pistas.
+ * Proporciona endpoints para obtener, crear, actualizar y eliminar pistas.
+ */
 @RestController
 @RequestMapping("/api/pistas")
 public class PistaController {
@@ -25,13 +29,22 @@ public class PistaController {
         this.pistaService = pistaService;
     }
 
-    // Endpoint para obtener todas las pistas
+    /**
+     * Obtiene todas las pistas registradas en el sistema.
+     *
+     * @return Lista de todas las pistas.
+     */
     @GetMapping
     public List<Pista> obtenerTodasLasPistas() {
         return pistaService.obtenerTodasLasPistas();
     }
 
-    // Endpoint para obtener una pista por su nombre
+    /**
+     * Obtiene una pista por su nombre.
+     *
+     * @param nombre Nombre de la pista.
+     * @return Respuesta con el estado 200 (OK) y la pista si existe, o 404 (No Encontrado) si no existe.
+     */
     @GetMapping("/{nombre}")
     public ResponseEntity<Pista> obtenerPistaPorNombre(@PathVariable String nombre) {
         return pistaService.obtenerPistaPorNombre(nombre)
@@ -39,14 +52,26 @@ public class PistaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Endpoint para crear una nueva pista
+    /**
+     * Crea una nueva pista en el sistema.
+     *
+     * @param pista Pista a crear.
+     * @return Respuesta con el estado 201 (Creado) y la pista creada.
+     */
     @PostMapping
     public ResponseEntity<Pista> crearPista(@RequestBody Pista pista) {
         Pista nuevaPista = pistaService.crearPista(pista);
         return new ResponseEntity<>(nuevaPista, HttpStatus.CREATED);
     }
 
-    // Endpoint para actualizar una pista existente
+    /**
+     * Actualiza una pista existente en el sistema.
+     *
+     * @param nombre          Nombre de la pista a actualizar.
+     * @param pistaActualizada Datos actualizados de la pista.
+     * @return Respuesta con el estado 200 (OK) y la pista actualizada si la pista existe,
+     *         o 404 (No Encontrado) si no se encuentra la pista.
+     */
     @PutMapping("/{nombre}")
     public ResponseEntity<Pista> actualizarPista(@PathVariable String nombre, @RequestBody Pista pistaActualizada) {
         try {
@@ -57,7 +82,12 @@ public class PistaController {
         }
     }
 
-    // Endpoint para eliminar una pista
+    /**
+     * Elimina una pista por su nombre.
+     *
+     * @param nombre Nombre de la pista a eliminar.
+     * @return Respuesta con el estado 204 (Sin Contenido) si la eliminación fue exitosa.
+     */
     @DeleteMapping("/{nombre}")
     public ResponseEntity<Void> eliminarPista(@PathVariable String nombre) {
         pistaService.eliminarPista(nombre);

@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Servicio encargado de la lógica de negocio relacionada con los horarios de las clases.
+ * Proporciona métodos para gestionar los horarios en el sistema.
+ */
 @Service
 public class HorarioService {
 
@@ -16,7 +20,7 @@ public class HorarioService {
     private HorarioRepository horarioClaseRepository;
 
     /**
-     * Devuelve todos los horarios registrados.
+     * Devuelve todos los horarios registrados en el sistema.
      *
      * @return Lista de horarios.
      */
@@ -25,20 +29,21 @@ public class HorarioService {
     }
 
     /**
-     * Crea un nuevo horario.
+     * Crea un nuevo horario para una clase.
      *
-     * @param horario Horario a crear.
-     * @return Horario creado.
+     * @param horario El horario a crear.
+     * @return El horario creado.
      */
     public Horario crearHorario(Horario horario) {
         return horarioClaseRepository.save(horario);
     }
 
     /**
-     * Actualiza un horario existente.
+     * Actualiza un horario existente en el sistema.
      *
-     * @param horario Horario con datos actualizados.
-     * @return Horario actualizado.
+     * @param horario El horario con los datos actualizados.
+     * @return El horario actualizado.
+     * @throws IllegalArgumentException Si el ID del horario es nulo.
      */
     public Horario actualizarHorario(Horario horario) {
         if (horario.getId() == null) {
@@ -50,13 +55,18 @@ public class HorarioService {
     /**
      * Elimina un horario por su ID.
      *
-     * @param id ID del horario a eliminar.
+     * @param id El ID del horario a eliminar.
      */
     public void eliminarHorario(Long id) {
         horarioClaseRepository.deleteById(id);
     }
 
-
+    /**
+     * Obtiene todos los horarios asociados a una clase específica, ordenados por fecha y hora de inicio.
+     *
+     * @param claseId El ID de la clase.
+     * @return Una lista de horarios para la clase especificada.
+     */
     public List<Horario> obtenerHorariosPorClase(Long claseId) {
         return horarioClaseRepository.findByClaseIdOrderByFechaAndHoraInicio(claseId);
     }
@@ -64,13 +74,18 @@ public class HorarioService {
     /**
      * Obtiene un horario por su ID.
      *
-     * @param id ID del horario.
-     * @return El horario encontrado o null si no existe.
+     * @param id El ID del horario.
+     * @return El horario encontrado o {@code null} si no existe.
      */
     public Horario obtenerHorarioPorId(Long id) {
         return horarioClaseRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Guarda un nuevo horario en el sistema.
+     *
+     * @param nuevoHorario El horario a guardar.
+     */
     public void guardarHorario(Horario nuevoHorario) {
         horarioClaseRepository.save(nuevoHorario);
     }
